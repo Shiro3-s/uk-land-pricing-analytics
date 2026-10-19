@@ -112,8 +112,10 @@ números** en lugar de suponerlo.
 | Resultado del cruce | `data/integrado/*.parquet` + CSV v1 | parquet + CSV | El parquet conserva tipos; el CSV es la salida legible y versionada |
 
 **Muestreo en el repositorio.** El CSV de F1 y el parquet limpio **no** se suben (son
-locales: 2,2 GB y 434 MB). En su lugar se versiona una **muestra con sufijo `_muestra`**
-(primeras 2.000 filas de cada uno), más los CSV completos de las fuentes pequeñas. Los
+locales: 2,2 GB y 434 MB). En su lugar se versionan **muestras con sufijo `_muestra`**:
+las de `db/` traen 2.000 filas, y la muestra limpia de `data/limpia/`
+(`uk_property_price_limpio_muestra.csv`) trae **100.000 filas × 22 columnas (20 MB)**; su
+versión parquet, 2.000 filas. Se añaden los CSV completos de las fuentes pequeñas. Los
 datos completos se descargan de los enlaces de Kaggle del `README.md`.
 
 ## 2.3 Las trampas del CSV que encontramos

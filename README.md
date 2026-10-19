@@ -62,7 +62,8 @@ entender qué es cada cosa:
 
 **Por qué F1 no se sube.** 2,2 GB de transacciones es inviable para un repositorio; y para
 el cruce solo necesitamos su **agregado** por región-año (60 filas). El repositorio
-versiona una **muestra de 2.000 filas** para que se pueda reproducir parcialmente, y los
+versiona **muestras** (2.000 filas por archivo en `db/`, y **100.000 filas** de la versión
+limpia en `data/limpia/`) para que se pueda reproducir parcialmente, y los
 datos completos se descargan de los enlaces de Kaggle (ver *Descarga de los datos*).
 
 ## Fases del proyecto (ciclo KDD + CRISP-DM)
@@ -371,12 +372,14 @@ Trae una bandera `REPRODUCIR_PIPELINE`: en `True` re-ejecuta el pipeline complet
 
 **Sobre los datos (muestras):** el repositorio **no sube los archivos grandes completos**
 (F1: el CSV de 2,22 GB y el parquet limpio de 434 MB son locales). En `db/` y
-`data/limpia/` solo se sube **una muestra con sufijo `_muestra`** (primeras 2.000 filas)
-de cada dataset, para que el repositorio sea liviano y el análisis sea reproducible en
-forma parcial. Las fuentes F2-F4 son pequeñas (archivos Kaggle < 1,5 MB) y se incluyen
-completas en `data/crudo/`. **Los datasets completos se descargan de los enlaces** de la
-sección de fuentes: F1, F2, F3 y F4 (ver más abajo), y `main_limpieza.py` regenera la
-versión limpia de F1 a partir del CSV original.
+`data/limpia/` solo se sube **una muestra con sufijo `_muestra`** de cada dataset, para
+que el repositorio sea liviano y el análisis sea reproducible en forma parcial: las
+muestras de `db/` traen **2.000 filas** y la muestra limpia
+**`uk_property_price_limpio_muestra.csv` trae 100.000 filas × 22 columnas (20 MB)**
+(su parquet versionado, 2.000 filas). Las fuentes F2-F4 son pequeñas (archivos Kaggle
+< 1,5 MB) y se incluyen completas en `data/crudo/`. **Los datasets completos se descargan
+de los enlaces** de la sección de fuentes: F1, F2, F3 y F4 (ver más abajo), y
+`main_limpieza.py` regenera la versión limpia de F1 a partir del CSV original.
 
 ### Descarga de los datos completos
 
@@ -388,8 +391,9 @@ versión limpia de F1 a partir del CSV original.
 | F3 Met Office 1931-2020 | completa en `data/crudo/` | [Kaggle: uk-met-office-weather-data](https://www.kaggle.com/datasets/josephw20/uk-met-office-weather-data) |
 | F4 precios + salario 1975-2020 | completa en `data/crudo/` | [Kaggle: uk-median-house-prices-and-salary-19752020](https://www.kaggle.com/datasets/samuelcortinhas/uk-median-house-prices-and-salary-19752020) |
 
-> Todos los archivos con extensión `_muestra` son **muestras** (primeras 2.000 filas), no
-> los datos completos.
+> Todos los archivos con extensión `_muestra` son **muestras**, no los datos completos:
+> 2.000 filas las de `db/` y el parquet limpio, y **100.000 filas** la muestra limpia en
+> CSV (`data/limpia/uk_property_price_limpio_muestra.csv`, 20 MB).
 
 ## Referencias
 

@@ -11,14 +11,15 @@ Foco: `price`, `latitude`, `longitude`, `town_city`, `county`, `country`
 | `libros/Diagnostico_Limpieza.ipynb` | Diagnóstico ejecutable (recalcula todo en vivo) |
 | `main_limpieza.py` | **Archivo principal**: un solo `.py` que ejecuta todo y muestra las 8 partes (rutas, reglas, IQR, MCAR, validación, bitácora). Uso: `python main_limpieza.py` |
 | `script/limpieza/` (paquete) | Pipeline canónico (mismas reglas), equivalente a `python -m script.limpieza` |
-| `db/` | Datos de entrada (muestra de 100.000 filas de cada CSV: `uk_property_price_muestra.csv`, `uk_property_muestra.csv`, `uk_property_semiorganizado_muestra.csv`); los completos quedan locales |
-| `data/limpia/` | Salida limpia (muestras de 100.000 filas): `uk_property_price_limpio_muestra.csv` y `uk_property_price_limpio_muestra.parquet` |
+| `db/` | Datos de entrada (muestra de 2.000 filas de cada CSV: `uk_property_price_muestra.csv`, `uk_property_muestra.csv`, `uk_property_semiorganizado_muestra.csv`); los completos quedan locales |
+| `data/limpia/` | Salida limpia: `uk_property_price_limpio_muestra.csv` (**100.000 filas**) y `uk_property_price_limpio_muestra.parquet` (2.000 filas) |
 
 > El dataset original completo (11,4 M de filas, 2,22 GB) se descarga de Kaggle:
 > https://www.kaggle.com/datasets/mansiaggarwal88/uk-property-sale-prices-20152026-geo-enriched?select=uk_property_price_paid_geo.csv
 > La carpeta `db/` es **solo local** y no se sube al repositorio (límite de tamaño de
 > GitHub): en las carpetas `db/` y `data/limpia/` el repo trae solo una muestra
-> (100.000 filas, sufijo `_muestra`) de cada archivo y la salida completa se regenera
+> (sufijo `_muestra`): 2.000 filas las de `db/`, y **100.000 filas** la salida limpia en
+> `.csv` (su `.parquet`, 2.000). La salida completa se regenera
 > con `python main_limpieza.py`.
 | `data/limpia/uk_property_price_limpio.parquet` (434 MB) | Dataset limpio generado |
 

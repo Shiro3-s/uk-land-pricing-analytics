@@ -156,3 +156,15 @@ TODAS CONFIRMADAS exactas (tras replicar el método correcto del pipeline):
 - F2 queda como nota informativa (no se toca: la cifra sin barajar se reproduce con ±0,009 y la
   conclusión cualitativa es idéntica).
 - Roadmap reencuadrado hacia el modelo predictivo (fases 7-10).
+
+## [FINDING] 2026-10-19 — Inconsistencia docs↔artefacto en las muestras de F1 (F4)
+
+- `data/limpia/uk_property_price_limpio_muestra.csv` tiene **100.000 × 22 filas (20 MB)**,
+  pero README, memoria, informe de laboratorio y libro 06 lo describ\u00edan como
+  «2.000 filas / 20 columnas / 0,38 MB».
+- Comprobaci\u00f3n del resto: `db/*_muestra.csv` = 2.000 filas; el parquet limpio
+  `uk_property_price_limpio_muestra.parquet` = 2.000 filas; `md/INFORME_DIAGNOSTICO_LIMPIEZA.md`
+  afirmaba 100.000 filas para las de `db/` (falso) y para el parquet limpio (falso).
+- DECISIÓN (usuario): conservar la muestra grande y **alinear los docs a las cifras reales**
+  (no regenerar la muestra). Aplicado en README.md, md/MEMORIA_TECNICA.md,
+  md/README_LABORATORIO.md, md/INFORME_DIAGNOSTICO_LIMPIEZA.md y libros/06 (celda markdown).

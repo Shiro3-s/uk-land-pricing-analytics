@@ -472,7 +472,7 @@ Con la verdad sobre la mesa: **en el comparativo de predicción, no escalar rind
 nuestro escalador elegido.** Elegimos `StandardScaler` a conciencia, y estas son las
 razones — junto con la limitación que asumimos:
 
-| Motivo | Explicación |
+| Motivo | Fundamento |
 |---|---|
 | La regresión —el modelo que va a producción— **no se diferencia** entre escaladores | Da R² = 1,000 con los cuatro, así que el escalador no cambia el resultado final |
 | `StandardScaler` es el **estándar** para regresión, SVM y PCA | Es el que esos métodos asumen en su teoría (media 0, desv 1) |
@@ -821,4 +821,10 @@ Para poder leer el informe sin conocimientos previos de estadística:
 
 ---
 
-*Documento del avance académico local. Nada de este proyecto se publica en GitHub.*
+## Cambios recientes
+
+- **Eliminación de referencias externas.** Se quitó toda mención al repositorio remoto público del repositorio (archivos de configuración, informes técnicos y cuadernos), de modo que nada remita a un alojamiento externo.
+- **Limpieza de terminología.** Se eliminó el término excluido y se reemplazó por "fundamento" en tablas y texto del informe, manteniendo el rigor sin la palabra excluida.
+- **Buena práctica de rutas de acceso.** Se verificó que los scripts y notebooks no usen rutas absolutas hardcodeadas; se mantienen rutas relativas a través de `config.RUTA_*` y `Path(__file__)`, lo que hace el proyecto portable desde cualquier carpeta.
+- **Normas APA 7 en figuras y tablas.** Cada figura del cuaderno consolidado (`Avances/Cuaderno_Avance_1_Completo.ipynb`) cuenta ahora con su bloque estadístico y matemático: fórmula, definición de símbolos, interpretación del coeficiente (r, r², asimetría, curtosis, IQR, cercas de Tukey, PMT) y lectura del resultado, con título de figura arriba en cursiva y nota abajo que explica ejes y unidades.
+- **Seguimiento de cambios.** Esta sección documenta los cambios aplicados al cierre del Avance 1.

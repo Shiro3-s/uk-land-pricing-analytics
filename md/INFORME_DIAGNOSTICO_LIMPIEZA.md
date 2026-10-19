@@ -16,8 +16,8 @@ Foco: `price`, `latitude`, `longitude`, `town_city`, `county`, `country`
 
 > El dataset original completo (11,4 M de filas, 2,22 GB) se descarga de Kaggle:
 > https://www.kaggle.com/datasets/mansiaggarwal88/uk-property-sale-prices-20152026-geo-enriched?select=uk_property_price_paid_geo.csv
-> La carpeta `db/` es **solo local** y no se sube al repositorio (límite de tamaño de
-> GitHub): en las carpetas `db/` y `data/limpia/` el repo trae solo una muestra
+> La carpeta `db/` es **solo local** y no se sube al repositorio (límite de tamaño del
+> repositorio): en las carpetas `db/` y `data/limpia/` el repo trae solo una muestra
 > (sufijo `_muestra`): 2.000 filas las de `db/`, y **100.000 filas** la salida limpia en
 > `.csv` (su `.parquet`, 2.000). La salida completa se regenera
 > con `python main_limpieza.py`.

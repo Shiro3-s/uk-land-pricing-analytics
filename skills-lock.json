@@ -3,7 +3,7 @@
   "skills": {
     "scientific-eda": {
       "source": "ericmjl/skills",
-      "sourceType": "github",
+      "sourceType": "local",
       "skillPath": "skills/scientific-eda/SKILL.md",
       "computedHash": "31a0cb2cb7c91e2b4aa697f601c08476072f4f53bee2b45eb9b108b69adc4855"
     }

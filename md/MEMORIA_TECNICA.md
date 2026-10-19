@@ -433,7 +433,7 @@ artificialmente altas por latitud y altitud) contra las cinco anomalías climát
 variación del precio; un r de 0,145 explica el **2 %**. Es decir, **entre el 84 % y el
 98 %** de lo que mueve el precio año a año **no** está en las variables climáticas.
 
-**Conclusión de H3:** el clima **no es** el motor de la accesibilidad. La explicación la
+**Conclusión de H3:** el clima **no es** el motor de la accesibilidad. El fundamento lo
 da el binomio **salario joven – tasa – precio regional**. El clima es **contexto**, y en
 el modelo su importancia de permutación queda en **≈0**.
 
@@ -600,4 +600,4 @@ Con lo hecho hasta aquí, estas son las limitaciones **conocidas y documentadas*
 
 *Documento generado como parte del proyecto. Las cifras provienen de la ejecución real
 del pipeline (`python main_proyecto.py`, `matriz_xy.py`, `eda.py`, `modelado.py`) con
-semilla 42. Nada de este proyecto se publica en GitHub: es un avance académico local.*
+semilla 42. Es un avance académico local.*

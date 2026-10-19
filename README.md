@@ -140,11 +140,10 @@ y en el `Avances.pdf`:
 - **Fase 6 (modelado comparativo) completa en alcance tabular:** libro 08 compara regresión
   lineal, KNN tuneado, árbol y random forest con **CV-5 barajado** y `drop_first` en
   el one-hot, tras pasar el checklist de 6 ítems de preparación.
-- **Fase 7 (predictores y validación temporal) en curso:** la matriz X·y ya ofrece los
-  9 rasgos estandarizados + 9 dummies; el paso pendiente es añadir predictores temporales
-  y sustituir el CV barajado por validación temporal (entrenar 2015-2018, validar
-  2019-2020), porque los años de una misma región están correlacionados y un fold barajado
-  deja pasar información del futuro.
+- **Fase 7 (en curso) — ingeniería de predictores y validación temporal:** ya se iniciaron los predictores temporales (índice de tensión precio/salario nacional, lags del precio y del esfuerzo, tendencia temporal) y se sustituye el CV barajado por **validación temporal** (entrenar 2015-2018, validar 2019-2020), la única que respeta el orden de los años y evita filtrar información del futuro.
+- **Fase 8 (pendiente) — modelo predictivo final:** tuning (GridSearchCV dentro del pipeline, sin fuga) de los cuatro candidatos de la fase 6 más Gradient Boosting, con validación temporal como veredicto; baseline ingenuo (persistencia del año anterior) como suelo.
+- **Fase 9 (pendiente) — evaluación e interpretación:** métricas fuera de muestra (R², RMSE, MAE) por región y año, importancia de predictores (permutación + coeficientes de la RL) y estabilidad del modelo entre ventanas temporales.
+- **Fase 10 (pendiente) — despliegue e informe final:** modelo congelado como módulo `script/proyecto/`, función de predicción reproducible e informe final para las dos audiencias (técnica y de políticas públicas).
 
 **Resultados del avance (fase 3).**
 

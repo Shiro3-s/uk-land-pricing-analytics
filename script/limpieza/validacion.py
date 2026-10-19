@@ -1,7 +1,7 @@
 """Validacion post-limpieza: criterios reales contra los valores verificados.
 
-Los asserts embebidos por fase cuentan como pruebas automaticas del nivel
-"Excepcional" del curso (D1) y cortan la corrida con mensaje claro.
+Los asserts embebidos por fase cuentan como pruebas automaticas
+y cortan la corrida con mensaje claro.
 """
 from __future__ import annotations
 

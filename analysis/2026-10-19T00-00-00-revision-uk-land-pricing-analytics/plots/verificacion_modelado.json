@@ -1,0 +1,39 @@
+{
+  "cv_r2_sin_barajar": {
+    "regresion_lineal": 0.9999992291216262,
+    "knn_tuneado": 0.6298793615825056,
+    "arbol_decision": 0.9091561495606758,
+    "random_forest": 0.9445231833584588
+  },
+  "cv_r2_barajado": {
+    "regresion_lineal": 0.9999999978297904,
+    "knn_tuneado": 0.8441312768476962,
+    "arbol_decision": 0.9630602884795284,
+    "random_forest": 0.9797568096274751
+  },
+  "regiones_test_sin_barajar": [
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  "regiones_test_barajado": [
+    7,
+    9,
+    5,
+    7,
+    8
+  ],
+  "vif_max_10_dummies": Infinity,
+  "vif_max_9_dummies": 1.8,
+  "matriz_X_shape": [
+    60,
+    18
+  ],
+  "coincide_readme": {
+    "knn_tuneado": false,
+    "arbol_decision": false,
+    "random_forest": true
+  }
+}

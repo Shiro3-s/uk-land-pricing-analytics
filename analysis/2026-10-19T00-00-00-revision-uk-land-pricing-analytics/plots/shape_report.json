@@ -1,0 +1,240 @@
+{
+  "ts": "2026-10-19T00:04:09.049165",
+  "maestro_parquet": {
+    "path": "data/integrado/maestro_joven_uk.parquet",
+    "shape": [
+      60,
+      16
+    ],
+    "columns": [
+      "anio",
+      "region",
+      "n_transacciones",
+      "precio_medio",
+      "precio_mediana",
+      "salario_mediana_real",
+      "salario_joven_nacional",
+      "factor_regional",
+      "salario_joven_region",
+      "tmax_anom",
+      "tmin_anom",
+      "lluvia_anom",
+      "sol_anom",
+      "af_anom",
+      "precio_var_pct",
+      "anos_salario"
+    ],
+    "dtypes": {
+      "anio": "int64",
+      "region": "str",
+      "n_transacciones": "int64",
+      "precio_medio": "float64",
+      "precio_mediana": "float64",
+      "salario_mediana_real": "float64",
+      "salario_joven_nacional": "float64",
+      "factor_regional": "float64",
+      "salario_joven_region": "float64",
+      "tmax_anom": "float64",
+      "tmin_anom": "float64",
+      "lluvia_anom": "float64",
+      "sol_anom": "float64",
+      "af_anom": "float64",
+      "precio_var_pct": "float64",
+      "anos_salario": "float64"
+    },
+    "head": {
+      "index": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "columns": [
+        "anio",
+        "region",
+        "n_transacciones",
+        "precio_medio",
+        "precio_mediana",
+        "salario_mediana_real",
+        "salario_joven_nacional",
+        "factor_regional",
+        "salario_joven_region",
+        "tmax_anom",
+        "tmin_anom",
+        "lluvia_anom",
+        "sol_anom",
+        "af_anom",
+        "precio_var_pct",
+        "anos_salario"
+      ],
+      "data": [
+        [
+          2015,
+          "East Midlands",
+          86170,
+          186686.17555993964,
+          157500.0,
+          31307.83,
+          25208.734207450692,
+          0.92,
+          23192.035470854637,
+          1.0003378378378383,
+          0.7423423423423419,
+          -6.180180180180173,
+          3.1499999999999773,
+          -18.45945945945946,
+          NaN,
+          6.791124487453022
+        ],
+        [
+          2016,
+          "East Midlands",
+          92306,
+          196291.41992936537,
+          165000.0,
+          31420.16,
+          25299.181137612348,
+          0.92,
+          23275.246646603362,
+          0.7253378378378379,
+          0.7673423423423413,
+          3.936486486486487,
+          -3.7916666666666856,
+          -12.45945945945946,
+          4.761904761904767,
+          7.089076326676823
+        ],
+        [
+          2017,
+          "East Midlands",
+          92767,
+          210646.5849925081,
+          178000.0,
+          30939.54,
+          24912.190987391623,
+          0.92,
+          22919.215708400294,
+          0.9420045045045065,
+          1.2590090090090085,
+          -1.8301801801801787,
+          -9.38333333333334,
+          -14.45945945945946,
+          7.878787878787885,
+          7.7664088625318835
+        ],
+        [
+          2018,
+          "East Midlands",
+          91765,
+          219741.54549120035,
+          185500.0,
+          30772.44,
+          24777.64383142249,
+          0.92,
+          22795.432324908692,
+          1.267004504504504,
+          0.9590090090090095,
+          -0.9968468468468501,
+          6.474999999999994,
+          -8.45945945945946,
+          4.2134831460674205,
+          8.137595170647549
+        ],
+        [
+          2019,
+          "East Midlands",
+          89086,
+          222895.28655456525,
+          190000.0,
+          30833.95,
+          24827.171034077553,
+          0.92,
+          22840.99735135135,
+          1.0836711711711722,
+          0.8506756756756753,
+          16.253153153153157,
+          4.533333333333331,
+          -21.45945945945946,
+          2.42587601078168,
+          8.318375816840545
+        ]
+      ]
+    },
+    "nans": {
+      "anio": 0,
+      "region": 0,
+      "n_transacciones": 0,
+      "precio_medio": 0,
+      "precio_mediana": 0,
+      "salario_mediana_real": 0,
+      "salario_joven_nacional": 0,
+      "factor_regional": 0,
+      "salario_joven_region": 0,
+      "tmax_anom": 0,
+      "tmin_anom": 0,
+      "lluvia_anom": 0,
+      "sol_anom": 18,
+      "af_anom": 0,
+      "precio_var_pct": 10,
+      "anos_salario": 0
+    }
+  },
+  "maestro_csv_accesibilidad_vivienda_joven_uk_v1.csv": {
+    "path": "data/integrado/accesibilidad_vivienda_joven_uk_v1.csv",
+    "shape": [
+      60,
+      16
+    ],
+    "columns": [
+      "anio",
+      "region",
+      "n_transacciones",
+      "precio_medio",
+      "precio_mediana",
+      "salario_mediana_real",
+      "salario_joven_nacional",
+      "factor_regional",
+      "salario_joven_region",
+      "tmax_anom",
+      "tmin_anom",
+      "lluvia_anom",
+      "sol_anom",
+      "af_anom",
+      "precio_var_pct",
+      "anos_salario"
+    ],
+    "nans": {
+      "anio": 0,
+      "region": 0,
+      "n_transacciones": 0,
+      "precio_medio": 0,
+      "precio_mediana": 0,
+      "salario_mediana_real": 0,
+      "salario_joven_nacional": 0,
+      "factor_regional": 0,
+      "salario_joven_region": 0,
+      "tmax_anom": 0,
+      "tmin_anom": 0,
+      "lluvia_anom": 0,
+      "sol_anom": 18,
+      "af_anom": 0,
+      "precio_var_pct": 10,
+      "anos_salario": 0
+    }
+  },
+  "hipoteca_2022_parquet": {
+    "path": "data/integrado/hipoteca_2022.parquet",
+    "shape": [
+      10,
+      9
+    ]
+  },
+  "f1_muestra": {
+    "path": "db/uk_property_price_muestra.csv",
+    "shape": [
+      2000,
+      20
+    ]
+  }
+}

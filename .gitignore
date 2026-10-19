@@ -9,7 +9,7 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Referencia local del curso (no se sube)
+# Referencias locales (no se suben)
 contexto/
 
 # Documento del avance y su generador (solo se sube el PDF; el docx no)
@@ -24,6 +24,7 @@ data/limpia/*
 !data/limpia/*_muestra.parquet
 data/integrado/*.parquet
 !data/integrado/*_muestra.parquet
+.agents/*
 
 # Windows
 Thumbs.db

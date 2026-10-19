@@ -1,0 +1,73 @@
+{
+  "anios_salario_min": [
+    "North East",
+    6.2
+  ],
+  "anios_salario_max": [
+    "London",
+    14.2
+  ],
+  "esfuerzo2022_min": [
+    "North East",
+    43.0
+  ],
+  "esfuerzo2022_max": [
+    "London",
+    100.0
+  ],
+  "esfuerzo2022_n_menores_30pct": 0,
+  "esfuerzo_global": {
+    "media": 0.625,
+    "rango": [
+      0.416,
+      1.065
+    ],
+    "n_sobre_1": 4,
+    "pct_sobre_1": 6.7
+  },
+  "tukey_global": {
+    "iqr": 0.284,
+    "cercas": [
+      0.053,
+      1.189
+    ],
+    "n_atipicos": 0
+  },
+  "tukey_regional_n6": {
+    "n_atipicos": 1,
+    "detalle": [
+      [
+        "London",
+        1
+      ]
+    ]
+  },
+  "pearson_esfuerzo": {
+    "precio_mediana": 0.983,
+    "salario_joven_region": 0.913,
+    "anos_salario": 1.0
+  },
+  "tasas": {
+    "n": 7796,
+    "n_iqr": 1695,
+    "pct_iqr": 21.74,
+    "n_zscore_3": 0,
+    "media_antes": 6.11,
+    "media_winsor": 6.11,
+    "limite_sup_iqr": 8.13
+  },
+  "salario_joven_nacional_2022": [
+    "GBP 25.353"
+  ],
+  "factor_regional_2022_minmax": [
+    0.85,
+    1.25
+  ],
+  "pearson_clima_vs_precio_var_pct": {
+    "lluvia_anom": -0.214,
+    "tmax_anom": -0.296,
+    "tmin_anom": -0.357,
+    "af_anom": -0.074,
+    "sol_anom": 0.235
+  }
+}

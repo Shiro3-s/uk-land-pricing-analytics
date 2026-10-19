@@ -15,10 +15,10 @@ Fecha: septiembre de 2026
 
 ### Por qué KDD + CRISP-DM (y no SEMMA)
 
-El curso presenta tres marcos: KDD, CRISP-DM y SEMMA (sesión 1). El equipo integra **dos**:
+El proyecto considera tres marcos: KDD, CRISP-DM y SEMMA. El equipo integra **dos**:
 el ciclo **KDD** por su claridad conceptual del descubrimiento de conocimiento y
-**CRISP-DM** porque arranca en el problema de negocio, es iterativo y es la metodología del
-curso (Avance 1 = negocio · datos · preparación). **SEMMA** se descarta por ser parcial
+**CRISP-DM** porque arranca en el problema de negocio, es iterativo y es la metodología
+del proyecto (negocio · datos · preparación). **SEMMA** se descarta por ser parcial
 (se queda en la parte analítica) y por estar ligado a la herramienta SAS. Cada fase del
 proyecto se reporta con su equivalencia en ambos marcos (tabla 1 del documento APA), lo
 que hace rastreable cada decisión.
@@ -48,7 +48,7 @@ F4 [uk-median-house-prices-and-salary-19752020](https://www.kaggle.com/datasets/
 
 ## 3. Limpieza por fuente (resumen)
 
-Orden del curso: duplicados → categorías → nulos (MCAR/MAR/MNAR) → outliers (IQR).
+Orden: duplicados → categorías → nulos (MCAR/MAR/MNAR) → outliers (IQR).
 
 | Fuente | Problema | Cantidad | Clasificación | Tratamiento |
 |--------|----------|----------|---------------|-------------|
@@ -225,7 +225,7 @@ propuesta generado por los autores desde `md/PROPUESTA_METODOLOGICA.md`.
 
 ## 11. Buenas prácticas de ingeniería y documentación
 
-Criterios aplicados al entregable (rúbrica de código del curso):
+Criterios aplicados al entregable (buenas prácticas de código):
 
 - **Funcionalidad**: el pipeline corre de principio a fin (`python main_proyecto.py`) y
   valida filas, nulos y rangos con asserts antes de exportar (`validacion.py`).

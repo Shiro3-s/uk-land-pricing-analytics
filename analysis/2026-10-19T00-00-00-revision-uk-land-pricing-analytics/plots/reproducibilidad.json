@@ -1,0 +1,25 @@
+{
+  "comparaciones": {
+    "maestro": {
+      "hash_antes": "1bd7a389bd7b18eda9511f12cebd7548",
+      "hash_despues": "f54239bcfdf7b0223cc514bf768c9ce8",
+      "contenido_identico": true,
+      "max_diff_numerica": null,
+      "shape": [
+        60,
+        16
+      ],
+      "nulos": 28
+    },
+    "bitacora": {
+      "hash_antes": "d0c3c12c1ed8a8162d80803a9a076f12",
+      "hash_despues": "dbd87df663ac6103fe629d06ec31353d",
+      "identica": false
+    },
+    "csv_accesibilidad_v1": {
+      "hash_antes": "b8c4ce1581b70f3f927074427a41078a",
+      "hash_despues": "b8c4ce1581b70f3f927074427a41078a",
+      "identico": true
+    }
+  }
+}

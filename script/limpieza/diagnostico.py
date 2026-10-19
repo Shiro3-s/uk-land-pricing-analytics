@@ -95,7 +95,7 @@ def _sin_tildes(texto: str) -> str:
 
 
 def normalizar_texto(serie: pd.Series) -> pd.Series:
-    """Strip + minusculas + sin tildes, segun el orden del caso TelecomUNO."""
+    """Strip + minusculas + sin tildes."""
     return serie.str.strip().str.lower().map(_sin_tildes)
 
 

@@ -1,0 +1,43 @@
+======================================================================
+Modelado de la accesibilidad
+======================================================================
+
+[1] Insumo: 60 filas | 10 regiones | 2015-2020
+    y = esfuerzo: media 0.625 | rango 0.416-1.065
+    X: 9 rasgos numericos + one-hot de region
+
+[2-3] Evaluacion con CV-5 (sin fuga: escalador dentro del pliegue)
+          modelo  r2_media  r2_desv  rmse_media  rmse_desv  mae_media  mae_desv
+regresion_lineal     1.000    0.000       0.000     -0.000      0.000    -0.000
+   random_forest     0.980    0.010       0.024     -0.008      0.016    -0.005
+  arbol_decision     0.963    0.019       0.032     -0.008      0.023    -0.004
+     knn_tuneado     0.844    0.080       0.065     -0.010      0.052    -0.010
+
+    mejor: regresion_lineal (R2 1.000 +/- 0.000)
+    peor:  knn_tuneado (R2 0.844 +/- 0.080)
+
+[4] Importancia de rasgos (que explica el esfuerzo)
+    top 5 por importancia de permutation (random forest):
+                      importancia_permutacion_RF  coef_abs_RL
+anos_salario                              0.5799       0.1811
+precio_mediana                            0.3139       0.0000
+salario_joven_region                      0.0064       0.0002
+region                                    0.0015          NaN
+precio_var_pct                            0.0004       0.0000
+
+    top 5 por coeficiente absoluto (regresion lineal):
+anos_salario            0.1811
+salario_joven_region    0.0002
+London                  0.0002
+South East              0.0000
+East of England         0.0000
+
+[5] Limitaciones
+    - serie temporal: 6 anios por region (2015-2020) no alcanzan para
+      un ARIMA/SARIMA confiable; se documenta como fuera de alcance.
+    - muestra pequena (60 filas): el CV-5 es la validacion mas honesta;
+      no hay set de prueba separado (se reservaria con mas datos).
+    - los coeficientes/ importancias son asociaciones del modelo, no
+      causalidad (el libro 07 dejo la discusion EDA).
+
+[ESTADO] ok=True tiempo=18.4s

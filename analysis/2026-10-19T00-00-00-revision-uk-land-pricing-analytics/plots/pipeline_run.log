@@ -1,0 +1,178 @@
+
+========================================================================
+PARTE 1 · ORIGENES INTOCABLES (fase 2: fuentes y tipos de datos)
+========================================================================
+  uk_property_price_limpio.parquet                 433.9 MB  /home/zafkiel/Documentos/ISUM/8th-semester/uk-land-pricing-analytics/data/limpia/uk_property_price_limpio.parquet
+  UK_Mortgage_Rate.csv                               0.9 MB  /home/zafkiel/Documentos/ISUM/8th-semester/uk-land-pricing-analytics/data/crudo/UK_Mortgage_Rate.csv
+  MET_Office_Weather_Data.csv                        1.5 MB  /home/zafkiel/Documentos/ISUM/8th-semester/uk-land-pricing-analytics/data/crudo/MET_Office_Weather_Data.csv
+  Average_UK_houseprices_and_salary.csv              0.0 MB  /home/zafkiel/Documentos/ISUM/8th-semester/uk-land-pricing-analytics/data/crudo/Average_UK_houseprices_and_salary.csv
+  Income_by_age_and_gender.csv                       0.0 MB  /home/zafkiel/Documentos/ISUM/8th-semester/uk-land-pricing-analytics/data/crudo/Income_by_age_and_gender.csv
+  F1 transacciones : 11,369,413 filas (limpio)
+  F2 hipotecas     : 7,796 productos (2022)
+  F3 clima         : 37,049 filas, 36 estaciones
+  F4 precios/sal   : 46 anios | 12 bandas de edad x genero
+
+========================================================================
+PARTE 2 · LIMPIEZA POR FUENTE (fase 3: limpieza y cruzamiento)
+========================================================================
+  [F2 hipotecas] duplicados por sku+tid: 0 -> keep='first'
+  [F2 hipotecas] productos sin tasa inicial (MNAR): 0 -> eliminar filas
+  [F2 hipotecas] tipos y plazos textuales: 0 -> categoria + int
+  [F3 clima] filas sin fecha (corruptas/footer): 20 -> eliminar fila
+  [F3 clima] filas temporales duplicadas: 0 -> keep='first'
+  [F3 clima] valores NA/*/# en tmax/tmin/af/lluvia/sol: 0 -> NaN numerico
+  [F4 precios/salario] salario 'null' 1975-1998: 24 -> dejar NaN (no imputar)
+  [F4 ingreso por edad] duplicados y tipos: 0 -> clave grupo+genero
+  -> hipotecas 7,796 | clima 37,029 | precios 46
+
+========================================================================
+PARTE 3 · FALTANTES MCAR / MAR / MNAR (fase 3)
+========================================================================
+  [F2 hipotecas    ] tasa_reversion         nulos   328 ( 4.21%) -> MAR
+                 evidencia: la ausencia depende del tipo (observado): discounted=6.1%; fixed=0.8%; tracker=26.0%; variable=39.5%
+                 tratamiento: conservar NaN (la cuota usa tasa_inicial; reversion es informativa)
+  [F3 clima        ] anio/month             nulos    20 ( 0.05%) -> MNAR
+                 evidencia: filas sin fecha (registro corrupto/footer)
+                 tratamiento: eliminar fila (no son mediciones)
+  [F3 clima        ] tmax                   nulos  1599 ( 4.32%) -> MCAR
+                 evidencia: gaps instrumentales de estacion: 1467/1599 con tmax nulo tambien falta tmin (falla conjunta de reporte); no depende del valor
+                 tratamiento: NaN (los agregados anuales y la normal toleran meses faltantes)
+  [F3 clima        ] tmin                   nulos  1522 ( 4.11%) -> MCAR
+                 evidencia: gaps instrumentales de estacion: 1467/1599 con tmax nulo tambien falta tmin (falla conjunta de reporte); no depende del valor
+                 tratamiento: NaN (los agregados anuales y la normal toleran meses faltantes)
+  [F3 clima        ] af                     nulos  2949 ( 7.96%) -> MCAR
+                 evidencia: gaps instrumentales de estacion: 1467/1599 con tmax nulo tambien falta tmin (falla conjunta de reporte); no depende del valor
+                 tratamiento: NaN (los agregados anuales y la normal toleran meses faltantes)
+  [F3 clima        ] lluvia                 nulos  1478 ( 3.99%) -> MCAR
+                 evidencia: gaps instrumentales de estacion: 1467/1599 con tmax nulo tambien falta tmin (falla conjunta de reporte); no depende del valor
+                 tratamiento: NaN (los agregados anuales y la normal toleran meses faltantes)
+  [F3 clima        ] sol                    nulos  9483 ( 25.6%) -> MNAR estructural
+                 evidencia: horas de sol no medidas/publicadas antes de 1931 (4138 de 9483 nulos; decadas 1850-1930 casi vacias), no es azar
+                 tratamiento: NaN (la anomalia de sol se usa aparte, solo donde existe)
+  [F4 precios/salario] salario_mediana_real   nulos    24 (52.17%) -> MNAR estructural
+                 evidencia: mediana salarial no publicada hasta 1999 (serie oficial), ausencia por diseno, no aleatoria
+                 tratamiento: NaN (no se imputa historia inventada)
+  -> figura md/figuras/faltantes_por_fuente.png
+
+========================================================================
+PARTE 4 · OUTLIERS IQR (Tukey) vs Z-SCORE (fase 3: decision)
+========================================================================
+  F2 tasa inicial : n=7,796 | Q1=5.62 mediana=6.1 Q3=6.62 | IQR=1.0
+  IQR -> limite superior 8.13: fuera 762 (9.77 %)  |  z-score (>3): 0 (0.0 %)
+  skew=0.04 -> IQR no supone normalidad y detecta la cola real aun con skew=0.04; el z-score con |z|>3 no detecta nada (0). Se winsoriza al limite superior.
+  -> figura md/figuras/outliers_tasa_iqr.png · bandera es_atipico_tasa
+
+========================================================================
+PARTE 5 · TRANSFORMACIONES (fase 3: agregados + anomalias + salario)
+========================================================================
+  salario joven 18-34 : GBP 25,353 (factor 0.805 vs mediana 2020)
+  precios por region  : 120 filas | ciudad: 14,050
+  anomalias regionales: 1,027 filas
+
+========================================================================
+PARTE 6 · CRUCE maestro_joven_uk (fase 3: anio x region, 2015-2020)
+========================================================================
+ anio          region  n_transacciones  precio_medio  precio_mediana  salario_mediana_real  salario_joven_nacional  factor_regional  salario_joven_region  tmax_anom  tmin_anom  lluvia_anom  sol_anom    af_anom  precio_var_pct  anos_salario
+ 2015   East Midlands            86170 186686.175560        157500.0              31307.83            25208.734207             0.92          23192.035471   1.000338   0.742342    -6.180180  3.150000 -18.459459             NaN      6.791124
+ 2016   East Midlands            92306 196291.419929        165000.0              31420.16            25299.181138             0.92          23275.246647   0.725338   0.767342     3.936486 -3.791667 -12.459459        4.761905      7.089076
+ 2017   East Midlands            92767 210646.584993        178000.0              30939.54            24912.190987             0.92          22919.215708   0.942005   1.259009    -1.830180 -9.383333 -14.459459        7.878788      7.766409
+ 2018   East Midlands            91765 219741.545491        185500.0              30772.44            24777.643831             0.92          22795.432325   1.267005   0.959009    -0.996847  6.475000  -8.459459        4.213483      8.137595
+ 2019   East Midlands            89086 222895.286555        190000.0              30833.95            24827.171034             0.92          22840.997351   1.083671   0.850676    16.253153  4.533333 -21.459459        2.425876      8.318376
+ 2020   East Midlands            78078 236787.872807        202500.0              31487.00            25353.000000             0.92          23324.760000   0.650338  -0.299324   -11.946847 36.691667 -34.459459        6.578947      8.681761
+ 2015 East of England           117960 273149.272542        235000.0              31307.83            25208.734207             1.01          25460.821550   0.885883   0.661608    -5.391098       NaN -17.955113             NaN      9.229867
+ 2016 East of England           119175 292851.133996        255000.0              31420.16            25299.181138             1.01          25552.172949   0.677550   0.428275    -4.332765       NaN -12.455113        8.510638      9.979582
+ 2017 East of England           117041 312592.530814        275000.0              30939.54            24912.190987             1.01          25161.312897   0.685883   0.894941     4.550568       NaN -15.955113        7.843137     10.929477
+ 2018 East of England           112201 318128.037923        280000.0              30772.44            24777.643831             1.01          25025.420270   1.085883   0.594941    -4.399432       NaN -15.455113        1.818182     11.188623
+  -> 60 filas | nulos: 28
+
+========================================================================
+PARTE 7 · INDICADORES DE ACCESIBILIDAD (fase 3: anos_salario + hipoteca)
+========================================================================
+  Anios de salario joven para comprar (promedio 2015-2020):
+region
+North East                   6.2
+North West                   6.7
+Wales                        6.8
+Yorkshire and The Humber     7.0
+East Midlands                7.8
+West Midlands                8.0
+South West                  10.2
+East of England             10.7
+South East                  11.6
+London                      14.2
+
+  Esfuerzo hipotecario 2022 (tasa media winsorizada 6.04 %, 90 % LTV, 25 anios, precio deflactado a GBP 2020):
+    North East                 cuota GBP       772 mes |  43.0 % del salario -> no accesible
+    North West                 cuota GBP     1,002 mes |  52.1 % del salario -> no accesible
+    Yorkshire and The Humber   cuota GBP       977 mes |  52.5 % del salario -> no accesible
+    Wales                      cuota GBP     1,028 mes |  54.0 % del salario -> no accesible
+    West Midlands              cuota GBP     1,207 mes |  62.8 % del salario -> no accesible
+    East Midlands              cuota GBP     1,233 mes |  63.4 % del salario -> no accesible
+    South West                 cuota GBP     1,589 mes |  79.1 % del salario -> no accesible
+    East of England            cuota GBP     1,745 mes |  81.8 % del salario -> no accesible
+    South East                 cuota GBP     1,937 mes |  86.5 % del salario -> no accesible
+    London                     cuota GBP     2,641 mes | 100.0 % del salario -> no accesible
+
+========================================================================
+PARTE 8 · ANALISIS CLIMA vs PRECIOS (fase 3)
+========================================================================
+  Correlacion de Pearson (variacion anual del precio vs anomalias):
+      clima  pearson  n
+lluvia_anom   -0.241 50
+  tmax_anom   -0.388 50
+  tmin_anom   -0.399 50
+    af_anom   -0.145 50
+   sol_anom    0.238 35
+
+  -> anomalia media de lluvia en la ventana: +1.25 mm (signo = mas/menos lluvia que la normal 1931-2020)
+
+========================================================================
+PARTE 9 · VALIDACION POST-CRUCE (fase 3)
+========================================================================
+  maestro   : clave anio+region unica, sin nulos de precio/salario
+  hipoteca  : 10 regiones, cuotas y % positivos
+  outliers  : tasa winsorizada <= limite IQR
+  -> OK, listo para exportar
+
+========================================================================
+PARTE 10 · EXPORTAR FIGURAS + BITACORA (fase 3)
+========================================================================
+  parquet maestro_joven_uk.parquet               16 KB
+  parquet hipoteca_2022.parquet                   7 KB
+  parquet historico_nacional.parquet              4 KB
+  parquet hipotecas_limpio.parquet              111 KB
+  parquet clima_limpio.parquet                  227 KB
+  parquet precios_salario_limpio.parquet          3 KB
+  csv muestra          maestro_joven_uk_muestra.csv        2 KB
+  csv muestra          hipoteca_2022.csv                   1 KB
+  csv muestra          historico_nacional.csv              1 KB
+  figuras PNG -> md/figuras: fases_proyecto, faltantes_por_fuente,
+      outliers_tasa_iqr, historico_precio_salario, precios_por_region,
+      anos_salario_por_region, anomalia_lluvia, clima_precio, hipoteca_2022
+  bitacora -> /home/zafkiel/Documentos/ISUM/8th-semester/uk-land-pricing-analytics/md/BITACORA_DECISIONES.md
+
+========================================================================
+PARTE 11 · BITACORA DE DECISIONES (fase 3: cierre)
+========================================================================
+             fuente                                   problema  cantidad                                                              metodo                                                                                                                               razon                   impacto
+       F2 hipotecas                     duplicados por sku+tid         0                                                        keep='first'                                                                             cada producto unico por escaneo (clave natural sku+tid)                         -
+       F2 hipotecas          productos sin tasa inicial (MNAR)         0                                                      eliminar filas                                                                              sin tasa no hay cuota que estimar; son casos puntuales                         -
+       F2 hipotecas                   tipos y plazos textuales         0                                                     categoria + int                                                                                  contrato de tipos para el cruce por ano de escaneo                         -
+           F3 clima         filas sin fecha (corruptas/footer)        20                                                       eliminar fila                                                                   no son mediciones: no tienen anio ni variables (MNAR de registro)                         -
+           F3 clima                filas temporales duplicadas         0                                                        keep='first'                                                                                                   una medicion mensual por estacion                         -
+           F3 clima  valores NA/*/# en tmax/tmin/af/lluvia/sol         0                                                        NaN numerico                                                                 los simbolos Met Office (---, *, #) se trataron como faltantes MCAR                         -
+ F4 precios/salario                   salario 'null' 1975-1998        24                                              dejar NaN (no imputar)                                                                   el salario solo esta publicado desde 1999; no se inventa historia                         -
+F4 ingreso por edad                         duplicados y tipos         0                                                  clave grupo+genero                                                                                             una mediana salarial por banda y genero                         -
+       F2 hipotecas                  tasa_reversion (faltante)       328 conservar NaN (la cuota usa tasa_inicial; reversion es informativa)                           MAR: la ausencia depende del tipo (observado): discounted=6.1%; fixed=0.8%; tracker=26.0%; variable=39.5%                         -
+           F3 clima                      anio/month (faltante)        20                                   eliminar fila (no son mediciones)                                                                                    MNAR: filas sin fecha (registro corrupto/footer)                         -
+           F3 clima                            tmax (faltante)      1599     NaN (los agregados anuales y la normal toleran meses faltantes) MCAR: gaps instrumentales de estacion: 1467/1599 con tmax nulo tambien falta tmin (falla conjunta de reporte); no depende del valor                         -
+           F3 clima                            tmin (faltante)      1522     NaN (los agregados anuales y la normal toleran meses faltantes) MCAR: gaps instrumentales de estacion: 1467/1599 con tmax nulo tambien falta tmin (falla conjunta de reporte); no depende del valor                         -
+           F3 clima                              af (faltante)      2949     NaN (los agregados anuales y la normal toleran meses faltantes) MCAR: gaps instrumentales de estacion: 1467/1599 con tmax nulo tambien falta tmin (falla conjunta de reporte); no depende del valor                         -
+           F3 clima                          lluvia (faltante)      1478     NaN (los agregados anuales y la normal toleran meses faltantes) MCAR: gaps instrumentales de estacion: 1467/1599 con tmax nulo tambien falta tmin (falla conjunta de reporte); no depende del valor                         -
+           F3 clima                             sol (faltante)      9483           NaN (la anomalia de sol se usa aparte, solo donde existe)  MNAR estructural: horas de sol no medidas/publicadas antes de 1931 (4138 de 9483 nulos; decadas 1850-1930 casi vacias), no es azar                         -
+ F4 precios/salario            salario_mediana_real (faltante)        24                               NaN (no se imputa historia inventada)                       MNAR estructural: mediana salarial no publicada hasta 1999 (serie oficial), ausencia por diseno, no aleatoria                         -
+       F2 hipotecas          outliers de tasa_inicial (metodo)       762                                  winsorizar clip al limite IQR 8.13                                                    IQR vs z-score: IQR detecta 762 y z-score 0 (skew 0.04); IQR no exige normalidad tasa media 6.11 -> 6.04 %
+   F4 salario joven      bandas de edad sin corte exacto en 34         3                                 media de medianas 18-21/22-29/30-39                                                                                la fuente publica bandas; 30-39 cubre 30-34 (aprox.) salario joven = GBP 25353
+       F2 hipotecas precios 2022 nominales vs salario GBP 2020        10                                deflactar por CPI 2020->2022 (1.137)                                                                             homogeneizar moneda entre F1 (nominal) y F4 (real 2020)         cuota en GBP 2020
+
+[ESTADO] ok=True tiempo=28.4s

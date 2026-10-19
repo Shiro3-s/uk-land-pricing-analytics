@@ -1,0 +1,3 @@
+1bd7a389bd7b18eda9511f12cebd7548  data/integrado/maestro_joven_uk.parquet
+d0c3c12c1ed8a8162d80803a9a076f12  md/BITACORA_DECISIONES.md
+b8c4ce1581b70f3f927074427a41078a  data/integrado/accesibilidad_vivienda_joven_uk_v1.csv

@@ -1,0 +1,77 @@
+======================================================================
+EDA · Accesibilidad de vivienda joven
+======================================================================
+
+[1] Insumo: maestro 60 filas | 10 regiones | 2015-2020
+    tasa winsorizada 6.04 % | comisiones GBP 1,116
+    y = esfuerzo: media 0.625 | mediana 0.564 | rango 0.416-1.065
+
+[2] Calidad de datos (herencia libros 01-02)
+    nulos en sol_anom: 18 (imputados a 0)
+    nulos en precio_var_pct: 10 (primer anio, imputados a 0)
+    outliers de tasa por IQR: 9,77 % winsorizados (libro 02)
+
+[3] Univariado: tendencia central, dispersión y forma
+                           media     mediana       desv       rango  asimetria  curtosis  outliers_iqr  pct_outliers
+precio_mediana        222264.417  182747.500  94948.212  355525.000      1.273     0.735           4.0         6.667
+salario_joven_region   24160.719   23022.255   2837.527   10630.253      1.534     1.482           6.0        10.000
+tmax_anom                  0.883       0.910      0.498       2.816     -0.251     1.273           3.0         5.000
+tmin_anom                  0.528       0.693      0.651       2.987     -1.132     1.142           9.0        15.000
+lluvia_anom                1.253      -0.470      7.630      37.089      0.723     0.414           2.0         3.333
+sol_anom                   3.402       0.000     14.782      93.191      2.295     7.226           7.0        11.667
+af_anom                  -12.092     -11.649     10.154      51.749     -0.341     0.535           1.0         1.667
+precio_var_pct             3.482       3.280      2.651       9.434      0.317    -0.877           0.0         0.000
+anos_salario               8.924       8.039      2.614       9.299      0.817    -0.435           0.0         0.000
+esfuerzo                   0.625       0.564      0.182       0.649      0.816    -0.436           0.0         0.000
+
+    asimetria media |skew|: 0.95 | columnas con |skew|>1: 4
+    outliers IQR en esfuerzo: 0 (0.0 %)
+
+[4] Bivariado: precio y salario vs esfuerzo
+    precio_mediana           r = +0.983
+    salario_joven_region     r = +0.913
+    anos_salario             r = +1.000
+
+    Mediana del esfuerzo por region:
+region
+North East                  0.437
+North West                  0.473
+Wales                       0.479
+Yorkshire and The Humber    0.491
+East Midlands               0.558
+West Midlands               0.569
+South West                  0.726
+East of England             0.774
+South East                  0.835
+London                      1.018
+
+[5] Multivariado: heatmap de correlaciones (resumen)
+    top 5 correlaciones entre rasgos (|r|):
+      anos_salario <-> esfuerzo: r = +1.000
+      precio_mediana <-> anos_salario: r = +0.983
+      precio_mediana <-> esfuerzo: r = +0.983
+      precio_mediana <-> salario_joven_region: r = +0.967
+      salario_joven_region <-> anos_salario: r = +0.913
+
+[6] Figuras guardadas en md/figuras/:
+    eda_histograma_esfuerzo.png
+    eda_boxplot_esfuerzo_region.png
+    eda_barras_esfuerzo_region.png
+    eda_dispersion_precio_esfuerzo.png
+    eda_heatmap_correlaciones.png
+    eda_matriz_dispersion.png
+
+[7] Hallazgos (evidencia -> accion)
+  H1: el precio domina el esfuerzo (r = 0.983) frente al
+      salario (r = 0.913): el numerador pesa más.
+      Acción: la política de accesibilidad debe atacar el precio,
+      no solo el salario.
+  H2: la brecha entre la mediana más alta (London,
+      1.02) y la más baja (North East, 0.44)
+      es 2.3×: la región es el predictor categórico clave.
+      Acción: segmentar cualquier intervención por región, no nacional.
+  H3: 4 de 60 filas (6.7 %)
+      superan esfuerzo 1,0 (la cuota se come todo el salario joven).
+      Acción: priorizar esas filas como foco de la fase de modelado.
+
+[ESTADO] ok=True tiempo=11.0s

@@ -5,7 +5,7 @@
 **Proyecto de Minería de Datos · Avance 1**
 
 - **Institución:** UNIMINUTO, Ibagué
-- **Curso:** Minería de Datos — sesión 2026-2
+- **Asignatura:** Minería de Datos
 - **Docente:** Esteban Ernesto Morales Castro
 - **Autores:** _(nombres de los integrantes)_
 - **Fecha:** septiembre de 2026
@@ -59,19 +59,31 @@ CRISP-DM con entregables documentados por fase.
 
 ## 6. Marco metodológico (KDD + CRISP-DM)
 
-El panorama del curso presenta tres marcos: KDD, CRISP-DM y SEMMA. El equipo integra
+El panorama metodológico presenta tres marcos: KDD, CRISP-DM y SEMMA. El equipo integra
 **dos**: el ciclo KDD (claridad conceptual del descubrimiento) y **CRISP-DM** (arranca en el
-negocio, es iterativo y es el estándar industrial del curso). **SEMMA** se descarta por
+negocio, es iterativo y es el estándar industrial). **SEMMA** se descarta por
 parcial y ligado a la herramienta SAS. Cada fase se reporta con su equivalente en ambos marcos.
 
 | Fase | KDD | CRISP-DM | Estado |
 |------|-----|----------|--------|
 | 1. Introducción y objetivos | Selección | Entendimiento del negocio | Completada |
 | 2. Fuentes y tipos de datos | Selección y preprocesamiento I | Entendimiento de los datos | Completada |
-| 3. Limpieza y cruzamiento | Preprocesamiento II | Preparación de los datos | **En curso** |
-| 4. (futura) Análisis y modelado | Minería | Modelado | Pendiente |
+| 3. Limpieza y cruzamiento | Preprocesamiento II | Preparación de los datos | Completada |
+| 4. Transformación y matriz X·y | Transformación | Preparación de los datos | Completada |
+| 5. Análisis exploratorio (EDA) | Interpretación | Exploración | Completada |
+| 6. Modelado comparativo (anticipo) | Minería | Modelado | Completada |
+| 7. Ingeniería de predictores y validación temporal | Transformación + Minería | Preparación + Modelado | **En curso** |
+| 8. Modelo predictivo final | Minería | Modelado | Pendiente |
+| 9. Evaluación e interpretación | Interpretación | Evaluación | Pendiente |
+| 10. Despliegue e informe final | — | Despliegue | Pendiente |
 
-El proyecto replica el ciclo del curso (caso TelecomUNO) aplicado a las 4 fuentes del
+El objetivo final es un **modelo predictivo** del esfuerzo hipotecario por región y año.
+El ciclo se recorre una vez para dejar los datos y el *benchmark* (fases 1-6) y vuelve a
+entrar en «modelado» para el modelo final (fases 7-10), tal como CRISP-DM contempla su
+naturaleza iterativa: la evaluación puede devolver el proyecto a la comprensión del
+negocio o al modelado.
+
+El proyecto aplica el flujo estándar a las 4 fuentes del
 Reino Unido: `deduplicar → categorías → nulos (MCAR/MAR/MNAR) → outliers (IQR) → cruzar`.
 
 Cada faltante se **clasifica con evidencia** (MAR si depende de otra variable observada,

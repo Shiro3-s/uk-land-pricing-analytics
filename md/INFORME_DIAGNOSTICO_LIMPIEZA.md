@@ -121,7 +121,7 @@ a un modelo predictivo → se recorta con `clip()`, conservando la fila.
 | geo (5 cols) | nulos (MCAR) | bandera `es_sin_geo` | MCAR; no inventar coordenadas |
 | `price` | atípicos (IQR) | clip + bandera | 6,32 % cola derecha; price va a modelo |
 
-*Metodología: `presentacion.html` y `codigo/limpieza_telecom.py` del curso, base `propuesta` del PDF.*
+*Metodología: diagnóstico con `isna()`/`duplicated()`/`describe()`, clasificación de faltantes y base `propuesta` del PDF.*
 
 ## 8. Pendiente (siguientes pasos)
 

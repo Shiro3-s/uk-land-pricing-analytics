@@ -5,7 +5,7 @@
 **Proyecto de Minería de Datos · Avance 1**
 
 - **Institución:** UNIMINUTO, Ibagué
-- **Curso:** Minería de Datos — sesión 2026-2
+- **Asignatura:** Minería de Datos
 - **Docente:** Esteban Ernesto Morales Castro
 - **Autores:** _(nombres de los integrantes)_
 - **Fecha:** septiembre de 2026
@@ -59,9 +59,9 @@ CRISP-DM con entregables documentados por fase.
 
 ## 6. Marco metodológico (KDD + CRISP-DM)
 
-El panorama del curso presenta tres marcos: KDD, CRISP-DM y SEMMA. El equipo integra
+El panorama metodológico presenta tres marcos: KDD, CRISP-DM y SEMMA. El equipo integra
 **dos**: el ciclo KDD (claridad conceptual del descubrimiento) y **CRISP-DM** (arranca en el
-negocio, es iterativo y es el estándar industrial del curso). **SEMMA** se descarta por
+negocio, es iterativo y es el estándar industrial). **SEMMA** se descarta por
 parcial y ligado a la herramienta SAS. Cada fase se reporta con su equivalente en ambos marcos.
 
 | Fase | KDD | CRISP-DM | Estado |
@@ -71,7 +71,7 @@ parcial y ligado a la herramienta SAS. Cada fase se reporta con su equivalente e
 | 3. Limpieza y cruzamiento | Preprocesamiento II | Preparación de los datos | **En curso** |
 | 4. (futura) Análisis y modelado | Minería | Modelado | Pendiente |
 
-El proyecto replica el ciclo del curso (caso TelecomUNO) aplicado a las 4 fuentes del
+El proyecto aplica el flujo estándar a las 4 fuentes del
 Reino Unido: `deduplicar → categorías → nulos (MCAR/MAR/MNAR) → outliers (IQR) → cruzar`.
 
 Cada faltante se **clasifica con evidencia** (MAR si depende de otra variable observada,

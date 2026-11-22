@@ -1,0 +1,17 @@
+name: Publicar el simulador en Netlify
+on:
+  push:
+    branches: [deploy/frontend]
+    paths:
+      - 'site/**'
+      - 'netlify.toml'
+      - '.github/workflows/publicar-frontend.yml'
+permissions: {}
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Desplegar la rama en Netlify
+        env:
+          BUILD_HOOK: ${{ secrets.NETLIFY_VIVIENDA_BUILD_HOOK }}
+        run: curl --fail --silent --show-error -X POST --data '{}' "$BUILD_HOOK" --output /dev/null

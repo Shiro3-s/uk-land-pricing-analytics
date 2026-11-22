@@ -23,6 +23,7 @@ body,button,input,select,textarea{font-family:var(--sans)}
 a{color:inherit}
 button,a,summary,input,select,textarea{touch-action:manipulation}
 :focus-visible{outline:3px solid #b2611c;outline-offset:3px}
+.result-title:focus:not(:focus-visible),#data-title:focus:not(:focus-visible),#contenido:focus:not(:focus-visible){outline:none}
 [hidden]{display:none!important}
 .wrap{width:min(1220px,calc(100% - 72px));margin-inline:auto}
 .skip{position:absolute;left:1rem;top:-5rem;background:white;color:var(--pine);padding:1rem;z-index:20}.skip:focus{top:.5rem}

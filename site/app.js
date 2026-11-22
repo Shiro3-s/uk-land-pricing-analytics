@@ -1,8 +1,8 @@
 "use strict";
 
 const byId = (id) => document.getElementById(id);
-const gbpFmt = new Intl.NumberFormat("es-ES", { style: "currency", currency: "GBP", maximumFractionDigits: 0 });
-const copFmt = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
+const gbpFmt = new Intl.NumberFormat("es-ES", { style: "currency", currency: "GBP", maximumFractionDigits: 0, useGrouping: "always" });
+const copFmt = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0, useGrouping: "always" });
 const decFmt = new Intl.NumberFormat("es-ES", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const intFmt = new Intl.NumberFormat("es-ES", { maximumFractionDigits: 0, useGrouping: "always" });
 
@@ -391,6 +391,9 @@ function renderRegionsComparisonSVG(regionsList, userEffort, userLabel) {
       fill: item.isUser ? "#005a9e" : "#30423b",
       "font-size": 11,
       "font-weight": item.isUser ? 700 : 600,
+      stroke: item.isUser ? "#e6f3fc" : "#fffefa",
+      "stroke-width": 3,
+      "paint-order": "stroke",
     }, pctFmt(item.val));
   });
 

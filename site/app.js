@@ -236,7 +236,8 @@ function applyPreset(key) {
 
 async function readApi(path) {
   let failure;
-  for (let attempt = 0; attempt < 3; attempt++) {
+  const delays = [3000, 4000, 5000, 6000];
+  for (let attempt = 0; attempt < 5; attempt++) {
     try {
       const response = await fetch(path, { cache: "no-store", signal: AbortSignal.timeout(35000) });
       if (!response.ok && response.status < 500) {
@@ -249,7 +250,7 @@ async function readApi(path) {
     } catch (error) {
       failure = error;
       if (error.message !== "servidor iniciándose" && error.name !== "TimeoutError" && error.name !== "TypeError") break;
-      if (attempt < 2) await new Promise((resolve) => setTimeout(resolve, 3000));
+      if (attempt < 4) await new Promise((resolve) => setTimeout(resolve, delays[attempt] || 5000));
     }
   }
   throw failure;
@@ -748,9 +749,32 @@ async function downloadExcel(customQuery, triggerButton) {
   const prevText = btn.textContent;
   btn.disabled = true;
   btn.textContent = "Generando Excel (.xlsx)…";
+  const statusEl = byId("data-status");
   try {
-    const response = await fetch("/api/datos/exportar.xlsx" + query, { cache: "no-store", signal: AbortSignal.timeout(45000) });
-    if (!response.ok || !response.headers.get("Content-Type")?.includes("spreadsheetml")) throw new Error("descarga");
+    try {
+      await ensureContext();
+    } catch {
+      // Continúa e intenta la descarga con reintento automático
+    }
+    let response;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      if (attempt > 0) {
+        btn.textContent = "Despertando servidor para generar Excel…";
+        await new Promise((resolve) => setTimeout(resolve, 4000));
+      }
+      try {
+        response = await fetch("/api/datos/exportar.xlsx" + query, {
+          cache: "no-store",
+          signal: AbortSignal.timeout(45000),
+        });
+        if (response.ok && response.headers.get("Content-Type")?.includes("spreadsheetml")) break;
+        if (response.status >= 500 && attempt < 2) continue;
+        throw new Error("descarga");
+      } catch (err) {
+        if (attempt === 2) throw err;
+      }
+    }
+    if (!response?.ok || !response.headers.get("Content-Type")?.includes("spreadsheetml")) throw new Error("descarga");
     const url = URL.createObjectURL(await response.blob());
     const link = document.createElement("a");
     link.href = url;
@@ -761,7 +785,7 @@ async function downloadExcel(customQuery, triggerButton) {
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 30000);
   } catch {
-    byId("data-status").textContent = "No se pudo descargar el Excel. Inténtalo de nuevo.";
+    if (statusEl) statusEl.textContent = "No se pudo descargar el Excel. Inténtalo de nuevo en unos segundos.";
   } finally {
     btn.disabled = false;
     btn.textContent = prevText;

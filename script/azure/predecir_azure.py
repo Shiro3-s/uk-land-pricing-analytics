@@ -181,6 +181,8 @@ def interpretar_consulta_escrita(texto: str) -> dict[str, Any]:
     precio_gbp = None
     m_precio = re.search(r"(?:vivienda|casa|precio|propiedad|valor)\s*(?:de\s*)?£?\s*(\d{5,7})", t_low)
     if not m_precio:
+        m_precio = re.search(r"\b(\d{4,8})\s*(?:libras|gbp)\b", t_low)
+    if not m_precio:
         m_precio = re.search(r"£\s*(\d{5,7})", t_low)
     if m_precio:
         precio_gbp = float(m_precio.group(1))
@@ -191,9 +193,9 @@ def interpretar_consulta_escrita(texto: str) -> dict[str, Any]:
 
     # 5. Detectar LTV (%) o entrada
     ltv_pct = 90.0
-    m_ltv = re.search(r"ltv\s*(?:de\s*|del\s*)?(\d{2})(?:\.\d+)?\s*%", t_low)
+    m_ltv = re.search(r"ltv\s*(?:de\s*|del\s*)?(\d{1,3}(?:[.,]\d+)?)\s*%", t_low)
     if m_ltv:
-        ltv_pct = float(m_ltv.group(1))
+        ltv_pct = float(m_ltv.group(1).replace(",", "."))
     else:
         m_ent = re.search(r"entrada\s*(?:de\s*|del\s*)?(\d{1,2})\s*%", t_low)
         if m_ent:
@@ -296,6 +298,8 @@ def ejecutar_prediccion_integral(
         if parsed_txt["precio_var_pct"] is not None:
             precio_var_pct = parsed_txt["precio_var_pct"]
         ltv_pct = parsed_txt["ltv_pct"]
+        if not (0 < ltv_pct <= 100):
+            raise ValueError("La financiación debe ser mayor que cero y como máximo del 100 %.")
         plazo_anios = parsed_txt["plazo_anios"]
         comisiones = parsed_txt["comisiones"]
         meses = parsed_txt["meses"]

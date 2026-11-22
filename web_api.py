@@ -88,7 +88,10 @@ def prediccion():
     for key, allowed in [("tipo",meta["tipos_validos"]), ("subtitulo",meta["subtitulos_validos"])]:
         if key in opciones and opciones[key] not in allowed:
             abort(400, f"Opción desconocida para {key}.")
-    return predecir_azure.ejecutar_prediccion_integral(**opciones, registrar=request.method == "POST")
+    try:
+        return predecir_azure.ejecutar_prediccion_integral(**opciones, registrar=request.method == "POST")
+    except ValueError as error:
+        abort(400, str(error))
 
 
 def datos_filtrados():

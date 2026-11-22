@@ -1,0 +1,21 @@
+name: Desplegar API en Render
+on:
+  workflow_dispatch:
+  push:
+    branches: [deploy/backend]
+    paths:
+      - 'web_api.py'
+      - 'requirements.txt'
+      - 'render.yaml'
+      - 'script/**'
+      - 'data/**'
+      - '.github/workflows/desplegar-backend-render.yml'
+permissions: {}
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar Deploy Hook en Render
+        env:
+          DEPLOY_HOOK: ${{ secrets.RENDER_VIVIENDA_DEPLOY_HOOK }}
+        run: curl --fail --silent --show-error -X POST "$DEPLOY_HOOK" --output /dev/null

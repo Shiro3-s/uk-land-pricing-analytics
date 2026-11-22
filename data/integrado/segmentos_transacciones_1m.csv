@@ -1,0 +1,5 @@
+cluster,segmento_f1,n_transacciones,pct_mercado,precio_medio_gbp,latitud_media,longitud_media,pct_freehold,pct_obra_nueva,pct_flat,pct_london
+0,Casas Freehold del Norte y Midlands (Mas Asequible),3896367,34.3,177798.0,53.37,-2.0,86.5,0.0,0.3,0.4
+1,Apartamentos Leasehold Urbanos (Foco London y Sur),2038211,18.0,271047.0,51.91,-0.94,1.0,17.5,99.9,32.5
+2,Obra Nueva Residencial,868448,7.7,318972.0,52.56,-1.43,94.3,100.0,0.4,1.3
+3,"Casas Freehold del Sur, Este y London (Alta Presion)",4543474,40.0,402200.0,51.64,-0.95,97.6,0.0,0.1,12.8

@@ -1,0 +1,4 @@
+cluster,segmento_hipoteca,n_productos,tasa_inicial_media,apr_media,comisiones_media,meses_inicial_media,pct_first_time_buyer,pct_atipico_tasa
+0,"Plazo Completo 25 Anios (Tasa Baja, Comision Alta)",328,5.058231707317073,5.323170731707317,2053.859756097561,300.0,29.6,0.0
+1,Oferta Estandar Competitiva (Foco Primer Comprador),5636,5.580047906316537,5.941039744499645,904.7539034776437,42.650638750887154,40.7,0.0
+2,Credito Costoso / Tasa y Comisiones Elevadas,1832,7.643185043668122,7.814410480349345,1597.0278384279477,46.34061135371179,30.0,41.6

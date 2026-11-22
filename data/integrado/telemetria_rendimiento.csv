@@ -1,0 +1,14 @@
+etapa,categoria,perfil,filas_procesadas,tiempo_s,pico_ram_mb,limite_ram_mb,salida_kb,estado,detalle
+01. Carga y validacion base,Datos,local,11414298,0.074,1.13,220,21.89,OK,"Maestro 60 + F2 7.796 + F3 37.029 + metadatos F1 11,37M"
+02. Transformacion Matriz X·y,Datos,local,60,0.102,1.47,220,18.39,OK,Matriz X·y 60x18 (StandardScaler + OneHot drop_first)
+03. EDA Exploratorio,Exploracion,local,60,0.06,0.26,220,106.96,OK,10 variables univariadas + correlaciones bivariadas/multivariadas
+04. Regresion Tabular CV-5,Supervisado,local,60,18.555,1.48,220,15.34,OK,"4 familias CV-5 barajado (mejor: regresion_lineal, R2=1.000)"
+05. Arbol CART (Clasif. I),Supervisado,local,60,1.151,0.39,220,196.01,OK,"CART d=4 (test=0,944, CV-5=0,783, invarianza 4 escaladores)"
+06. Torneo NB vs KNN vs CART,Supervisado,local,7856,3.023,5.5,220,12.0,OK,"Maestro 60 + F2 7.796 (ganador: Arbol CART 1,35 KB)"
+07. Clustering A+B (Reg+F2),Clustering,local,3059,1.648,28.99,220,14.2,OK,"Regiones 60 + Hipotecas 2,999 (Ward=60)"
+08. Clustering F1 · 10k,Clustering,local,9979,0.419,40.95,220,0.55,OK,MiniBatchKMeans k=4 | silueta=0.272
+09. Clustering F1 · 100k,Clustering,local,99820,1.639,45.83,220,0.55,OK,MiniBatchKMeans k=4 | silueta=0.295
+10. Clustering F1 · ~1M,Clustering,local,998058,14.666,45.84,220,0.55,OK,"Streaming float32 (lotes 100,000) | silueta=0.297"
+11. Reglas Asociacion Apriori,Asociacion,local,4999,1.187,6.93,220,81.22,OK,Apriori puro: 195 reglas F1 + 481 reglas F2
+12. Evaluacion y Umbrales,Evaluacion,local,7916,85.436,8.3,220,8.51,OK,3 escenarios desbalance/balance + CV-5 Pipeline + 3 umbrales + simulador 10 regiones
+13. Auditoria de Datos (38+),Auditoria,local,11369413,19.155,137.79,220,10.31,OK,39 archivos CSV/Parquet verificados + streaming IDs

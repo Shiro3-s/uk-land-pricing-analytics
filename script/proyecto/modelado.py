@@ -69,7 +69,7 @@ def cv_barajado() -> KFold:
     """KFold con barajado y semilla fija.
 
     El cuadro maestro esta ordenado por (region, anio). Sin barajar, los
-    pliegues serian contiguos y no representativos: el fold 1 receberia solo
+    pliegues serian contiguos y no representativos: el fold 1 recibiria solo
     la primera region y el ultimo solo la ultima. El barajado con semilla
     hace el CV reproducible (mismo split en cada corrida) y representativo.
     """
@@ -81,7 +81,7 @@ def construir_preprocesador() -> ColumnTransformer:
     DENTRO de cada pliegue del CV (el pipeline lo garantiza, sin fuga).
 
     `drop="first"` elimina una de las 10 columnas dummy: sin el, las 10
-    indicadores de region suman siempre 1 y quedan linealmenteDEPENDientes
+    indicadores de region suman siempre 1 y quedan linealmente dependientes
     (VIF infinito, la "trampa de variables mudas"). Con 9 columnas la
     referencia es implicita y los coeficientes de la regresion se pueden
     interpretar. El libro 06 mide ese contraste: VIF infinito con 10 dummies

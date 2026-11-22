@@ -1,0 +1,480 @@
+{
+  "proyecto": "Accesibilidad de vivienda para jovenes (18-34) en el Reino Unido",
+  "modelo_ganador": "Arbol (max_depth=4)",
+  "clase_sklearn": "DecisionTreeClassifier",
+  "semilla": 42,
+  "peso_serializado_kb": 1.35,
+  "objetivo": {
+    "nombre": "clase_esfuerzo_alto",
+    "definicion": "1 (Alto) si esfuerzo >= 0.5636, 0 (Moderado) en caso contrario",
+    "umbral_mediana": 0.5636,
+    "clases": {
+      "0": "Moderado",
+      "1": "Alto"
+    }
+  },
+  "columnas_modelo_X": [
+    "n_transacciones",
+    "tmax_anom",
+    "tmin_anom",
+    "lluvia_anom",
+    "sol_anom",
+    "af_anom",
+    "precio_var_pct",
+    "region_East of England",
+    "region_London",
+    "region_North East",
+    "region_North West",
+    "region_South East",
+    "region_South West",
+    "region_Wales",
+    "region_West Midlands",
+    "region_Yorkshire and The Humber"
+  ],
+  "entradas_numericas": {
+    "n_transacciones": {
+      "min": 41222.0,
+      "mediana": 99951.5,
+      "max": 174701.0
+    },
+    "tmax_anom": {
+      "min": -0.7238,
+      "mediana": 0.9095,
+      "max": 2.0924
+    },
+    "tmin_anom": {
+      "min": -1.2291,
+      "mediana": 0.6931,
+      "max": 1.7584
+    },
+    "lluvia_anom": {
+      "min": -14.5175,
+      "mediana": -0.4702,
+      "max": 22.5717
+    },
+    "sol_anom": {
+      "min": -20.5457,
+      "mediana": 0.0,
+      "max": 72.6457
+    },
+    "af_anom": {
+      "min": -43.0071,
+      "mediana": -11.6494,
+      "max": 8.7419
+    },
+    "precio_var_pct": {
+      "min": 0.0,
+      "mediana": 3.2796,
+      "max": 9.434
+    }
+  },
+  "regiones_validas": [
+    "East Midlands",
+    "East of England",
+    "London",
+    "North East",
+    "North West",
+    "South East",
+    "South West",
+    "Wales",
+    "West Midlands",
+    "Yorkshire and The Humber"
+  ],
+  "region_referencia_drop_first": "East Midlands",
+  "metricas_evaluacion": {
+    "maestro_acc_test": 0.9444,
+    "maestro_cv5_acc": 0.7833,
+    "maestro_f1_test": 0.9412,
+    "maestro_roc_auc": 0.9444,
+    "hipotecas_acc_test": 0.9261,
+    "hipotecas_predict_ms": 0.5693,
+    "hipotecas_peso_kb": 1.73
+  },
+  "justificacion_seleccion": "Mejor equilibrio entre desempeno predictivo, interpretabilidad directa mediante reglas explicables para el usuario final, latencia sub-milisegundo en prediccion, huella minima en memoria/disco e invarianza ante escalamiento.",
+  "reglas_interpretables": "|--- n_transacciones <= 98370.00\n|   |--- sol_anom <= 4.19\n|   |   |--- class: 0\n|   |--- sol_anom >  4.19\n|   |   |--- af_anom <= -26.49\n|   |   |   |--- class: 1\n|   |   |--- af_anom >  -26.49\n|   |   |   |--- tmin_anom <= 0.77\n|   |   |   |   |--- class: 0\n|   |   |   |--- tmin_anom >  0.77\n|   |   |   |   |--- class: 1\n|--- n_transacciones >  98370.00\n|   |--- region_North West <= 0.50\n|   |   |--- region_Yorkshire and The Humber <= 0.50\n|   |   |   |--- region_West Midlands <= 0.50\n|   |   |   |   |--- class: 1\n|   |   |   |--- region_West Midlands >  0.50\n|   |   |   |   |--- class: 1\n|   |   |--- region_Yorkshire and The Humber >  0.50\n|   |   |   |--- class: 0\n|   |--- region_North West >  0.50\n|   |   |--- class: 0\n",
+  "umbrales_operativos_atipico_f2": {
+    "alerta_temprana": {
+      "umbral": 0.05,
+      "uso": "Alerta informativa web de bajo costo (prioriza Recall para no dejar pasar ofertas riesgosas).",
+      "precision": 0.4358,
+      "recall": 1.0,
+      "f1": 0.607,
+      "TP": 190,
+      "FP": 246
+    },
+    "equilibrado_f1": {
+      "umbral": 0.3,
+      "uso": "Operacion general y tablero ejecutivo (maximiza F1 armonica equilibrando Precision y Recall).",
+      "precision": 0.4508,
+      "recall": 0.9895,
+      "f1": 0.6194,
+      "TP": 188,
+      "FP": 229
+    },
+    "alta_precision": {
+      "umbral": 0.4,
+      "uso": "Asignacion de subsidios o revisiones costosas (prioriza Precision para minimizar falsas alarmas).",
+      "precision": 1.0,
+      "recall": 0.3105,
+      "f1": 0.4739,
+      "TP": 59,
+      "FP": 0
+    }
+  },
+  "perfiles_regionales_referencia": {
+    "London": {
+      "n_transacciones": 112911.0,
+      "tmax_anom": 1.1205,
+      "tmin_anom": 0.9644,
+      "lluvia_anom": -2.4268,
+      "sol_anom": -2.4836,
+      "af_anom": -12.6986,
+      "precio_var_pct": 2.3363
+    },
+    "South East": {
+      "n_transacciones": 167270.5,
+      "tmax_anom": 1.4309,
+      "tmin_anom": 0.8098,
+      "lluvia_anom": -4.045,
+      "sol_anom": -2.3673,
+      "af_anom": -10.9996,
+      "precio_var_pct": 4.3725
+    },
+    "East of England": {
+      "n_transacciones": 114621.0,
+      "tmax_anom": 0.7859,
+      "tmin_anom": 0.5116,
+      "lluvia_anom": -4.3661,
+      "sol_anom": 0.0,
+      "af_anom": -15.7051,
+      "precio_var_pct": 3.5407
+    },
+    "South West": {
+      "n_transacciones": 114791.5,
+      "tmax_anom": 0.6101,
+      "tmin_anom": 0.5331,
+      "lluvia_anom": -0.0859,
+      "sol_anom": -6.6595,
+      "af_anom": -5.2837,
+      "precio_var_pct": 4.8306
+    },
+    "West Midlands": {
+      "n_transacciones": 97888.5,
+      "tmax_anom": 0.884,
+      "tmin_anom": 0.7285,
+      "lluvia_anom": 1.2761,
+      "sol_anom": 6.0208,
+      "af_anom": -3.6002,
+      "precio_var_pct": 4.2679
+    },
+    "East Midlands": {
+      "n_transacciones": 90425.5,
+      "tmax_anom": 0.9712,
+      "tmin_anom": 0.809,
+      "lluvia_anom": -1.4135,
+      "sol_anom": 3.8417,
+      "af_anom": -16.4595,
+      "precio_var_pct": 4.4877
+    },
+    "Yorkshire and The Humber": {
+      "n_transacciones": 96190.0,
+      "tmax_anom": 1.2275,
+      "tmin_anom": 0.7593,
+      "lluvia_anom": 4.0505,
+      "sol_anom": 6.5692,
+      "af_anom": -12.2094,
+      "precio_var_pct": 3.5107
+    },
+    "Wales": {
+      "n_transacciones": 53343.5,
+      "tmax_anom": 0.6594,
+      "tmin_anom": 0.5321,
+      "lluvia_anom": 1.2263,
+      "sol_anom": 0.1895,
+      "af_anom": -6.7096,
+      "precio_var_pct": 3.0196
+    },
+    "North West": {
+      "n_transacciones": 130997.0,
+      "tmax_anom": 0.4285,
+      "tmin_anom": 0.2947,
+      "lluvia_anom": 8.7634,
+      "sol_anom": 0.0,
+      "af_anom": 3.2419,
+      "precio_var_pct": 3.3908
+    },
+    "North East": {
+      "n_transacciones": 45262.5,
+      "tmax_anom": 1.0152,
+      "tmin_anom": 0.9743,
+      "lluvia_anom": 1.3226,
+      "sol_anom": 0.0,
+      "af_anom": -18.0071,
+      "precio_var_pct": 1.5143
+    }
+  },
+  "resumen_semaforo_modelos": [
+    {
+      "Algoritmo / Familia": "Arbol de Decision CART (max_depth=4)",
+      "Estado": "GANADOR PRINCIPAL",
+      "Veredicto practico": "Mejor balance global: explicable con reglas, liviano (1,4 KB), sin dependencia de escalado y alto AUC."
+    },
+    {
+      "Algoritmo / Familia": "Random Forest (ensamble 200 arboles)",
+      "Estado": "MEJOR ENSAMBLE (CHALLENGER)",
+      "Veredicto practico": "Maxima robustez en desbalance y probabilidades muy calibradas, pero pierde reglas simples y pesa mucho mas."
+    },
+    {
+      "Algoritmo / Familia": "KNN escalado (k=5, Pipeline)",
+      "Estado": "CHALLENGER LOCAL",
+      "Veredicto practico": "Excelente precision local, pero lento en predict(), almacena datos en RAM y falla si se olvida escalar."
+    },
+    {
+      "Algoritmo / Familia": "KNN escalado (k=15, Pipeline)",
+      "Estado": "ESTABLE / SUBAJUSTE EN MINORITARIA",
+      "Veredicto practico": "Suaviza fronteras, pero con 9,8 % de positivos tiende a diluirse frente a k=5."
+    },
+    {
+      "Algoritmo / Familia": "Naive Bayes (GaussianNB)",
+      "Estado": "DESCARTADO (SOLO BASELINE)",
+      "Veredicto practico": "Muy veloz, pero viola normalidad e independencia en variables financieras (calibracion pobre)."
+    },
+    {
+      "Algoritmo / Familia": "Modelo Ingenuo (clase mayoritaria)",
+      "Estado": "CONTROL NEGATIVO (NO USAR)",
+      "Veredicto practico": "Exhibe 90,2 % accuracy en F2 detectando 0 % de casos atipicos (prueba de la trampa del accuracy)."
+    },
+    {
+      "Algoritmo / Familia": "Clustering (K-Means + Ward + MiniBatchKMeans 1M)",
+      "Estado": "ACTIVO (NO SUPERVISADO)",
+      "Veredicto practico": "Ideal para segmentar mercados, hipotecas y 1M+ ventas sin etiquetas."
+    },
+    {
+      "Algoritmo / Familia": "Reglas de Asociacion (Apriori puro)",
+      "Estado": "ACTIVO (PATRONES)",
+      "Veredicto practico": "Ideal para alertas de combinaciones de riesgo y orientacion al comprador joven."
+    }
+  ],
+  "tipos_de_prediccion_implementados": {
+    "tipo_1_regresion_continua": {
+      "descripcion": "Estima un valor numerico exacto (esfuerzo salarial % o tasa hipotecaria %) con banda de error MAE.",
+      "esfuerzo_regional_sin_fuga": {
+        "modelo": "Ridge (alpha=1.0, Pipeline StandardScaler)",
+        "columnas_X": [
+          "n_transacciones",
+          "tmax_anom",
+          "tmin_anom",
+          "lluvia_anom",
+          "sol_anom",
+          "af_anom",
+          "precio_var_pct",
+          "region_East of England",
+          "region_London",
+          "region_North East",
+          "region_North West",
+          "region_South East",
+          "region_South West",
+          "region_Wales",
+          "region_West Midlands",
+          "region_Yorkshire and The Humber"
+        ],
+        "r2_cv5": 0.9094,
+        "rmse_cv5": 0.0508,
+        "mae_cv5": 0.0421,
+        "interpretacion": "Estima el esfuerzo hipotecario continuo exacto (sin usar precio ni salario en X) con error medio de +/- 4,2 puntos porcentuales."
+      },
+      "tasa_hipotecaria_f2": {
+        "modelo": "RandomForestRegressor (n_estimators=200, max_depth=10)",
+        "columnas_X": [
+          "comisiones_total",
+          "meses_inicial",
+          "tipo_fixed",
+          "tipo_tracker",
+          "tipo_variable",
+          "subtitulo_First time buyer",
+          "subtitulo_Home Purchase",
+          "subtitulo_Remortgage"
+        ],
+        "r2_test": 0.9642,
+        "rmse_test_pp": 0.2514,
+        "mae_test_pp": 0.1692,
+        "tipos_validos": [
+          "discounted",
+          "fixed",
+          "tracker",
+          "variable"
+        ],
+        "subtitulos_validos": [
+          "Buy to let",
+          "First time buyer",
+          "Home Purchase",
+          "Remortgage"
+        ],
+        "interpretacion": "Predice la tasa hipotecaria inicial exacta (%) de un producto con error medio de +/- 0,17 puntos porcentuales."
+      }
+    },
+    "tipo_2_clasificacion_probabilistica": {
+      "descripcion": "Predice una categoria de riesgo/alerta + probabilidad + explicacion por reglas y 3 umbrales operativos.",
+      "regional_alto_vs_moderado": "Arbol (max_depth=4)",
+      "hipoteca_atipica_f2": "DecisionTreeClassifier (max_depth=4) + 3 umbrales (0.05 / 0.30 / 0.40)"
+    }
+  },
+  "modelos_serializados": {
+    "clasificacion_regional": "data/modelos/modelo_ganador_clasificacion.joblib",
+    "regresion_esfuerzo_regional": "data/modelos/modelo_regresion_esfuerzo.joblib",
+    "clasificacion_tasa_atipica_f2": "data/modelos/modelo_clasificacion_tasa_f2.joblib",
+    "regresion_tasa_f2": "data/modelos/modelo_regresion_tasa_f2.joblib"
+  },
+  "capa_datos_futura_bd": {
+    "esquema_sql": "data/modelos/esquema_bd.sql",
+    "peso_total_tablas_nivel1_kb": 1872.94,
+    "tablas_nivel1": [
+      {
+        "tabla_sql": "maestro_regional",
+        "archivo_csv": "data/integrado/accesibilidad_vivienda_joven_uk_v1.csv",
+        "tamano_kb": 13.31
+      },
+      {
+        "tabla_sql": "precios_ciudad",
+        "archivo_csv": "data/integrado/precios_ciudad_limpio.csv",
+        "tamano_kb": 806.97
+      },
+      {
+        "tabla_sql": "hipotecas_catalogo",
+        "archivo_csv": "data/integrado/hipotecas_catalogo_limpio.csv",
+        "tamano_kb": 934.74
+      },
+      {
+        "tabla_sql": "hipoteca_2022",
+        "archivo_csv": "data/integrado/hipoteca_2022.csv",
+        "tamano_kb": 1.35
+      },
+      {
+        "tabla_sql": "historico_nacional",
+        "archivo_csv": "data/integrado/historico_nacional.csv",
+        "tamano_kb": 0.93
+      },
+      {
+        "tabla_sql": "torneo_clasificadores",
+        "archivo_csv": "data/integrado/torneo_clasificadores_resumen.csv",
+        "tamano_kb": 2.31
+      },
+      {
+        "tabla_sql": "comparativa_regresion_dual",
+        "archivo_csv": "data/integrado/comparativa_regresion_dual.csv",
+        "tamano_kb": 0.97
+      },
+      {
+        "tabla_sql": "segmentos_territoriales",
+        "archivo_csv": "data/integrado/segmentos_territoriales.csv",
+        "tamano_kb": 13.68
+      },
+      {
+        "tabla_sql": "segmentos_hipotecas",
+        "archivo_csv": "data/integrado/segmentos_hipotecas_muestra.csv",
+        "tamano_kb": 0.54
+      },
+      {
+        "tabla_sql": "segmentos_transacciones_f1",
+        "archivo_csv": "data/integrado/segmentos_transacciones_1m.csv",
+        "tamano_kb": 0.53
+      },
+      {
+        "tabla_sql": "clustering_benchmark_24gb",
+        "archivo_csv": "data/integrado/clustering_benchmark_24gb.csv",
+        "tamano_kb": 0.38
+      },
+      {
+        "tabla_sql": "reglas_asociacion_inmobiliario",
+        "archivo_csv": "data/integrado/reglas_asociacion_inmobiliario.csv",
+        "tamano_kb": 27.74
+      },
+      {
+        "tabla_sql": "reglas_asociacion_hipotecas",
+        "archivo_csv": "data/integrado/reglas_asociacion_hipotecas.csv",
+        "tamano_kb": 53.48
+      },
+      {
+        "tabla_sql": "evaluacion_umbrales",
+        "archivo_csv": "data/integrado/evaluacion_umbrales_resumen.csv",
+        "tamano_kb": 0.78
+      },
+      {
+        "tabla_sql": "comparativa_global_modelos",
+        "archivo_csv": "data/integrado/comparativa_global_modelos.csv",
+        "tamano_kb": 1.98
+      },
+      {
+        "tabla_sql": "telemetria_rendimiento",
+        "archivo_csv": "data/integrado/telemetria_rendimiento.csv",
+        "tamano_kb": 1.73
+      },
+      {
+        "tabla_sql": "auditoria_fuentes_calidad",
+        "archivo_csv": "data/integrado/auditoria_fuentes_calidad.csv",
+        "tamano_kb": 11.52
+      }
+    ],
+    "tabla_nivel2_opcional_11m": "data/limpia/uk_property_price_limpio.parquet (11.369.413 filas, carga por lotes COPY)"
+  },
+  "endpoints_futuros_api": {
+    "regional_dual": "POST /api/predecir/region -> Clasificacion (Alto/Moderado + Reglas) + Regresion (esfuerzo % +/- MAE)",
+    "hipoteca_dual": "POST /api/predecir/hipoteca -> Regresion (tasa % +/- MAE) + Clasificacion (P atipica + 3 umbrales)"
+  },
+  "taxonomia_con_y_sin_etiqueta": [
+    {
+      "aprendizaje": "CON ETIQUETA (Supervisado)",
+      "tipo": "Tipo 1A · Regresion Continua Regional (sin fuga)",
+      "etiqueta_y": "esfuerzo continuo (ratio cuota PMT / salario joven)",
+      "metodo_ganador": "Ridge (alpha=1.0, Pipeline StandardScaler)",
+      "aciertos_y_precision": "R2 CV-5 = 0.9094 (+/- 0.037) | Error medio MAE = +/- 4.21 puntos porcentuales",
+      "alternativas_comparadas": "Supera a RandomForestRegressor (R2=0.761), KNNRegressor k=5 (R2=0.759) y DecisionTreeRegressor d=4 (R2=0.706). Regresion Lineal con anos_salario da R2=1.000 por identidad contable.",
+      "cuando_utilizar": "Cuando se necesita estimar el porcentaje exacto de salario joven que consumira la hipoteca en una region."
+    },
+    {
+      "aprendizaje": "CON ETIQUETA (Supervisado)",
+      "tipo": "Tipo 1B · Regresion Continua Hipotecaria F2",
+      "etiqueta_y": "tasa_inicial_pct continua (% anual en 7.796 hipotecas)",
+      "metodo_ganador": "RandomForestRegressor (200 arboles, max_depth=10)",
+      "aciertos_y_precision": "R2 Test = 0.9642 | Error medio MAE = +/- 0.169 puntos porcentuales (RMSE = 0.251 pp)",
+      "alternativas_comparadas": "Supera a KNNRegressor k=5 (R2=0.941), DecisionTreeRegressor d=6 (R2=0.899) y LinearRegression (R2=0.632).",
+      "cuando_utilizar": "Cuando un comprador joven desea estimar la tasa inicial exacta (%) de una oferta hipotecaria segun comision, plazo, tipo y perfil."
+    },
+    {
+      "aprendizaje": "CON ETIQUETA (Supervisado)",
+      "tipo": "Tipo 2A · Clasificacion Categorica Regional (sin fuga)",
+      "etiqueta_y": "clase_esfuerzo_alto: 1 = Alto (>= 0.5636), 0 = Moderado (< 0.5636)",
+      "metodo_ganador": "Arbol de Decision CART (max_depth=4) [GANADOR 4.82/5.00]",
+      "aciertos_y_precision": "17/18 aciertos en Test (94.44%, F1=0.9412) | 47/60 en CV-5 (78.33%, sube a 48/60 = 80.00% con cluster K-Means) | 9/10 regiones reales acertadas (90.0%)",
+      "alternativas_comparadas": "KNN escalado k=5 acierta 17/18 en Test (94.44%), 54/60 en CV-5 (90.00%) y 9/10 regiones (retador de precision bruta, pero 11x mas lento y 48x mas pesado). Random Forest acierta 9/10 regiones (caja negra). Naive Bayes cae a 8/18 en Test (44.44%). KNN sin escalar cae a 12/18 (66.67%, -27.7 pp).",
+      "cuando_utilizar": "Metodo principal recomendado para clasificar si una region tiene riesgo Alto o Moderado con explicacion paso a paso mediante reglas."
+    },
+    {
+      "aprendizaje": "CON ETIQUETA (Supervisado)",
+      "tipo": "Tipo 2B · Clasificacion Hipotecaria F2 + 3 Umbrales Operativos",
+      "etiqueta_y": "Tasa elevada (>= Q3 = 6.62%, 25% pos.) y Tasa atipica Tukey (> 8.13%, 9.77% pos., 190 casos en test n=1.949)",
+      "metodo_ganador": "Arbol CART (max_depth=4) con umbral calibrado (0.05 / 0.30 / 0.40) + KNN k=5 como retador",
+      "aciertos_y_precision": "En tasa >= Q3: CART acierta 1.805/1.949 (92.61%, AUC=0.943) y KNN k=5 acierta 1.842/1.949 (94.51%, AUC=0.975). En tasa atipica (>8.13%): CART con umbral 0.30 detecta 188/190 atipicas (98.95% recall, Youden J=0.859); con umbral 0.05 detecta 190/190 (100% recall); con umbral 0.40 logra 100% precision (0 falsas alarmas). KNN k=5 detecta 158/190 (83.16% recall, F1=0.825).",
+      "alternativas_comparadas": "Modelo Ingenuo saca 90.25% accuracy pero detecta 0/190 atipicas (0% recall). Naive Bayes genera 1.247 falsas alarmas (precision 13.2%, Brier=0.505).",
+      "cuando_utilizar": "Para alertar si un credito hipotecario tiene tasa excesiva o atipica ajustando el umbral segun el costo de falsas alarmas vs. casos perdidos."
+    },
+    {
+      "aprendizaje": "SIN ETIQUETA (No Supervisado)",
+      "tipo": "Tipo 3 · Agrupamiento / Clustering Multi-escala",
+      "etiqueta_y": "SIN etiqueta en X (esfuerzo se excluye de X y solo valida post-hoc)",
+      "metodo_ganador": "K-Means (k=3 en Regiones n=60 y F2 n=7.796) + MiniBatchKMeans Streaming float32 (k=4 en 11.35M ventas F1) + Jerarquico Ward",
+      "aciertos_y_precision": "Separa 3 niveles territoriales reales (esfuerzo post-hoc 0.50 -> 0.60 -> 0.90; 100% Alto en London/South East) y mejora al Arbol CART en CV-5 de 78.3% a 80.0%. En F2 silueta=0.479. En F1 procesa 11.346.500 ventas con silueta=0.333 usando solo 49.87 MB de RAM (0.20% de 24 GB).",
+      "alternativas_comparadas": "K-Means sin escalar colapsa por tirania de unidades. Jerarquico Ward O(n^2) confirma estructura en muestras (n=60..250, ARI=0.253) pero en 11.37M requeriria ~517 TB de RAM.",
+      "cuando_utilizar": "Cuando no se tiene etiqueta previa y se desea segmentar mercados regionales, productos hipotecarios o millones de viviendas por similitud."
+    },
+    {
+      "aprendizaje": "SIN ETIQUETA (No Supervisado)",
+      "tipo": "Tipo 4 · Reglas de Asociacion (Patrones Co-ocurrentes)",
+      "etiqueta_y": "SIN etiqueta fija (descubre implicaciones Antecedente -> Consecuente)",
+      "metodo_ganador": "Apriori puro con indice invertido (tidsets) y filtro de negocio (score = lift * soporte)",
+      "aciertos_y_precision": "10/10 tickets verificados manualmente con assert (100% exactitud matematica). Descubre 195 reglas en F1 (ej. Detached+Freehold -> Acceso Extremo >100% con confianza=68.0%, lift=2.00) y 481 reglas en F2 (ej. Tipo:discounted -> Tasa:Baja_Q1 con confianza=99.1%, lift=3.96) en 23.58 MB RAM.",
+      "alternativas_comparadas": "Sin filtro de negocio dominan trivialidades legales britanicas (Flat -> Leasehold, confianza 100%). Comparado con FP-Growth (2 barridos sin candidatos para bases hiper-densas).",
+      "cuando_utilizar": "Para recomendar combinaciones de vivienda o credito (que atributos co-ocurren con tasas bajas o con sobre-esfuerzo extremo)."
+    }
+  ]
+}

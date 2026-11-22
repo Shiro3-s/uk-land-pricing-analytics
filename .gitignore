@@ -12,7 +12,7 @@ __pycache__/
 # Referencias locales (no se suben)
 contexto/
 
-# Documento del avance y su generador (solo se sube el PDF; el docx no)
+# Documentos Word editables y generador APA
 *.docx
 script/documentacion/
 
@@ -28,3 +28,11 @@ data/integrado/*.parquet
 # Windows
 Thumbs.db
 Desktop.ini
+
+# Credenciales locales de Azure / Base de datos (no se suben)
+.env
+.env.*
+!.env.example
+
+!data/limpia/hipotecas_limpio.parquet
+!data/integrado/maestro_joven_uk.parquet

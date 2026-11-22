@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: uk-vivienda-api
+    runtime: python
+    plan: free
+    region: ohio
+    branch: deploy/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: python web_api.py
+    healthCheckPath: /healthz
+    envVars:
+      - key: DATABASE_URL_READONLY
+        sync: false
+      - key: DATABASE_URL_APP
+        sync: false
+      - key: OPENBLAS_NUM_THREADS
+        value: "1"
+      - key: OMP_NUM_THREADS
+        value: "1"

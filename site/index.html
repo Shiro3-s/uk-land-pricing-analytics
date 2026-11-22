@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183f39">
+  <meta name="description" content="Explora la accesibilidad de la vivienda joven en Reino Unido. Simula una hipoteca y consulta los datos regionales del proyecto.">
+  <title>Vivienda UK · Simulador de vivienda</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+<a href="#contenido" class="skip">Saltar al contenido</a>
+<header class="masthead"><div class="wrap mast-inner">
+  <a class="brand" href="#simulador" aria-label="Vivienda UK, inicio"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>Vivienda <b>UK</b></a>
+  <nav aria-label="Navegación principal"><a href="#simulador" id="nav-sim" aria-current="page">Simulador</a><a href="#datos" id="nav-data">Datos de Azure</a><a href="metodologia.html">Metodología <span aria-hidden="true">↗</span></a></nav>
+</div></header>
+<main id="contenido" class="wrap" tabindex="-1">
+<section id="simulador">
+  <div class="intro"><p class="eyebrow"><span class="accent-rule"></span>Reino Unido · Vivienda joven</p>
+    <h1>Simulador de vivienda</h1>
+    <p>Estima la cuota de una hipoteca y descubre qué parte del salario joven representa en cada región.</p>
+  </div>
+  <div class="dashboard">
+    <section class="panel form-panel" aria-labelledby="escenario">
+      <div class="panel-head"><h2 id="escenario">Tu escenario</h2><span class="motif" aria-hidden="true">≋</span></div>
+      <div class="mode-switch" role="group" aria-label="Modo de entrada"><button type="button" id="mode-options" aria-pressed="true">Por opciones</button><button type="button" id="mode-text" aria-pressed="false">Escribir mi caso</button></div>
+      <form id="prediction-form">
+        <fieldset id="option-fields">
+          <div class="form-grid">
+            <label>Región<select id="region" name="region" required><option>London</option></select></label>
+            <label>Ciudad<select id="city" name="ciudad"><option value="">Referencia regional</option></select></label>
+            <label class="wide">Precio de la vivienda <span class="optional">opcional</span><span class="input-unit"><span>£</span><input id="price" name="precio_gbp" type="number" inputmode="decimal" min="1" max="100000000" step="any" placeholder="Usar la mediana de la zona"></span></label>
+            <label>Financiación<span class="input-unit trailing"><input type="number" name="ltv_pct" min="1" max="100" step="any" value="90" required><span>%</span></span></label>
+            <label>Plazo<span class="input-unit trailing"><input type="number" name="plazo_anios" min="1" max="50" step="1" value="25" required><span>años</span></span></label>
+          </div>
+          <details class="form-more"><summary>Condiciones de la hipoteca</summary>
+            <div class="form-grid">
+              <label>Tipo de interés<select name="tipo"><option value="fixed">Fijo</option><option value="variable">Variable</option><option value="tracker">Indexado</option><option value="discounted">Con descuento</option></select></label>
+              <label>Periodo inicial<span class="input-unit trailing"><input name="meses" type="number" min="1" max="600" value="24" required><span>meses</span></span></label>
+              <label>Comisiones<span class="input-unit"><span>£</span><input name="comisiones" type="number" min="0" max="1000000" step="any" value="999" required></span></label>
+              <label>Perfil<select name="subtitulo"><option value="First time buyer">Primera compra</option><option value="Home Purchase">Compra de vivienda</option><option value="Remortgage">Refinanciación</option><option value="Buy to let">Compra para alquilar</option></select></label>
+            </div>
+          </details>
+        </fieldset>
+        <fieldset id="text-fields" hidden disabled>
+          <label for="free-text">Describe tu caso</label>
+          <textarea id="free-text" name="texto" rows="6" required maxlength="1000" placeholder="Quiero comprar en Manchester por 250000 libras, con LTV 85 % a 30 años."></textarea>
+          <p class="hint">Puedes incluir la ciudad, el precio en libras, el porcentaje financiado y el plazo.</p>
+        </fieldset>
+        <button class="primary" id="predict" type="submit">Predecir <span aria-hidden="true">→</span></button>
+        <p id="prediction-status" class="status" role="status"></p>
+      </form>
+    </section>
+    <div class="output-column">
+      <section class="feature" id="overview" aria-labelledby="overview-title">
+        <div class="feature-overline"><span class="tiny-dot"></span>Contexto regional</div>
+        <h2 id="overview-title">Mercado de <span id="overview-region">London</span></h2>
+        <p class="feature-label">Precio mediano de la vivienda</p><strong class="big-number" id="overview-price">—</strong>
+        <div id="history-chart" class="history-chart" aria-live="polite">Cargando la serie histórica…</div>
+        <div class="feature-foot"><span id="overview-source">Consultando datos regionales</span><a id="overview-link" href="#datos">Ver datos <span aria-hidden="true">↗</span></a></div>
+      </section>
+      <section id="result" class="result" hidden aria-labelledby="result-title">
+        <div class="feature">
+          <div class="feature-overline"><span class="tiny-dot"></span>Resultado de la predicción</div>
+          <h2 id="result-title" tabindex="-1">Cuota mensual estimada</h2>
+          <p class="result-location" id="result-place"></p><strong class="big-number" id="monthly"></strong>
+          <div class="effort-label"><span>Proporción del salario mensual</span><strong id="effort-value"></strong></div>
+          <div class="effort-chart" role="img" id="effort-chart"><div id="effort-bar"></div><i id="reference"></i></div>
+          <div class="axis"><span>0 %</span><span id="max-scale"></span></div>
+          <p class="threshold"><span aria-hidden="true"></span>Referencia de accesibilidad del proyecto: 30 %</p>
+          <div class="feature-foot"><span id="effort-summary"></span></div>
+        </div>
+        <div class="result-details panel">
+          <div class="panel-head"><h2>Contexto del cálculo</h2></div><dl class="context-grid" id="result-context"></dl>
+          <a id="result-data" class="text-link" href="#datos">Ver datos de Azure de esta región <span aria-hidden="true">↗</span></a>
+          <details class="model-details"><summary>Cómo se calculó</summary><div id="explanation"></div></details>
+        </div>
+      </section>
+      <div class="source-line" id="source-line"><span class="source-icon" aria-hidden="true">▥</span><div><strong>Datos regionales abiertos</strong><p>Consulta los registros por región y año, o descarga tu selección en Excel.</p></div><a href="#datos" aria-label="Explorar datos de Azure">↗</a></div>
+    </div>
+  </div>
+</section>
+<section id="data-view" hidden>
+  <div class="intro"><p class="eyebrow"><span class="accent-rule"></span>Reino Unido · Datos regionales</p><h1 id="data-title" tabindex="-1">Datos de Azure</h1><p>Explora los precios, los salarios jóvenes y las transacciones de cada región entre 2015 y 2020.</p></div>
+  <div class="panel data-panel">
+    <div class="filter-row"><div class="filter-controls">
+      <label>Región<select id="data-region"><option value="">Todas las regiones</option></select></label>
+      <label>Año<select id="data-year"><option value="">Todos los años</option></select></label>
+    </div><button type="button" class="download" id="download" disabled>Descargar Excel (.xlsx) <span aria-hidden="true">↓</span></button></div>
+    <p class="data-status" role="status" id="data-status">Cargando registros…</p>
+    <div class="table-scroll" role="region" aria-label="Datos regionales filtrados" tabindex="0"><table class="data-table"><thead><tr><th scope="col">Año</th><th scope="col">Región</th><th scope="col">Transacciones</th><th scope="col">Precio mediano</th><th scope="col">Salario joven anual</th><th scope="col">Años de salario</th></tr></thead><tbody id="data-rows"></tbody></table></div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap footer-inner"><span>Vivienda UK</span><span>Proyecto de accesibilidad de vivienda joven</span><a href="metodologia.html">Metodología ↗</a></div></footer>
+</body></html>

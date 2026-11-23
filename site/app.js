@@ -882,7 +882,35 @@ for (const id of ["city", "price", "ltv", "term-input", "tasa-cop"]) {
   byId(id).addEventListener("input", updateFormHelpers);
   byId(id).addEventListener("change", updateFormHelpers);
 }
+function resetSimulator() {
+  if (waitingForPrediction) return;
+  byId("tasa-cop").value = String(exchangeRate || 5100);
+  byId("price").value = "";
+  setCurrency("GBP");
+  byId("region").value = "London";
+  populateCities();
+  byId("city").value = "";
+  byId("ltv").value = "90";
+  setTermUnit("years");
+  byId("term-input").value = "25";
+  byId("tipo").value = "fixed";
+  byId("meses-inicial").value = "24";
+  byId("comisiones").value = "999";
+  byId("subtitulo").value = "First time buyer";
+  byId("free-text").value = "";
+  const status = byId("prediction-status");
+  status.classList.remove("error");
+  status.textContent = "";
+  currentResult = null;
+  byId("result").hidden = true;
+  byId("overview").hidden = false;
+  byId("source-line").hidden = false;
+  updateFormHelpers();
+  showRegionalChart();
+}
+
 byId("prediction-form").addEventListener("submit", predict);
+byId("reset-btn").addEventListener("click", resetSimulator);
 
 for (const btn of document.querySelectorAll(".tab-btn")) {
   btn.addEventListener("click", () => {

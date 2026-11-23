@@ -152,7 +152,9 @@ summary::marker{color:#627d6d}
 .example-btn strong{font-size:.81rem;color:var(--pine)}
 .example-btn span{font-size:.74rem;color:var(--muted)}
 
-/* PRIMARY CTA */
+/* PRIMARY & SECONDARY CTA */
+.form-actions{display:flex;gap:10px;margin-top:20px;align-items:stretch}
+.form-actions .primary{flex:1;margin-top:0;width:auto}
 .primary{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   width:100%;margin-top:20px;padding:13px 18px;
@@ -160,6 +162,13 @@ summary::marker{color:#627d6d}
   font-weight:700;font-size:1rem;transition:background .15s,transform .1s;
 }
 .primary:hover:not(:disabled){background:#113931;transform:translateY(-1px)}
+.secondary{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:13px 16px;border:1px solid #b9c5ba;border-radius:9px;
+  background:#f4f7f0;color:var(--pine);font-weight:700;font-size:.95rem;
+  white-space:nowrap;transition:background .15s,border-color .15s,transform .1s;
+}
+.secondary:hover:not(:disabled){background:#e4eee0;border-color:var(--pine);transform:translateY(-1px)}
 .status{min-height:1.4em;margin-top:11px;font-size:.87rem}
 .status.error{color:var(--danger);font-weight:600}
 
@@ -361,5 +370,7 @@ footer{margin-top:clamp(40px,6vw,74px);border-top:1px solid var(--border)}
   .back-sim-link{width:100%;text-align:center}
   .result-actions{flex-direction:column;align-items:stretch}
   .azure-inline-btn,.excel-inline-btn{justify-content:center;width:100%}
+  .form-actions{gap:8px}
+  .form-actions .primary,.form-actions .secondary{padding:12px 12px;font-size:.93rem}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}

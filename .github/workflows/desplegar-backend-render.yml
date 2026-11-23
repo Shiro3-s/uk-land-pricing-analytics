@@ -4,6 +4,7 @@ on:
   push:
     branches: [deploy/backend]
     paths:
+      - 'backend/**'
       - 'web_api.py'
       - 'requirements.txt'
       - 'render.yaml'

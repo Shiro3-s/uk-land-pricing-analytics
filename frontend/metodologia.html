@@ -472,7 +472,7 @@
       min-height: 100dvh;
       display: block;
       overflow: visible;
-      padding: 14px 14px 124px;
+      padding: 108px 14px 72px;
     }
     .stage {
       width: 100%;
@@ -487,7 +487,7 @@
     section.slide {
       width: 100%;
       height: auto;
-      min-height: calc(100dvh - 144px);
+      min-height: calc(100dvh - 180px);
       padding: 28px 26px 22px;
       border-radius: 10px;
       overflow: visible;
@@ -515,6 +515,10 @@
       gap: 18px;
       align-items: stretch;
     }
+    .split > *, .split-even > *, .dual-tables > *, .dual-figs > *, .body-fill > *, .plain-col, .fig-wrap {
+      min-width: 0;
+      max-width: 100%;
+    }
     .kpi-row { grid-template-columns: repeat(3, 1fr); gap: 12px; }
     .kpi-box { padding: 14px 15px; }
     .kpi-box .val { font-size: 30px; }
@@ -522,7 +526,10 @@
     .plain-col h3, .tbl-title { font-size: 15px; margin-bottom: 8px; }
     .plain-col p, .plain-col li { font-size: 14.5px; line-height: 1.5; }
     .note-strip { font-size: 13.5px; padding: 10px 14px; line-height: 1.45; }
-    .formula { overflow-x: auto; white-space: nowrap; font-size: 12.5px; padding: 8px 12px; }
+    .formula { max-width: 100%; overflow-x: auto; white-space: nowrap; font-size: 12.5px; padding: 8px 12px; }
+    .tbl-scroll { max-width: 100%; }
+    table.ptbl th { font-size: 12.4px; }
+    table.ptbl.compact th, table.ptbl.compact td { font-size: 12.4px; }
 
     .fig-wrap { padding: 10px; }
     .fig-side img, .fig-wide img, .fig-compact img, .fig-dual-item img {
@@ -545,14 +552,17 @@
       gap: 8px;
     }
 
-    /* BARRA INFERIOR FIJA EN 2 FILAS */
+    /* BARRA SUPERIOR FIJA EN 2 FILAS (DESPEJA BADGE NETLIFY Y BARRA TACTIL INFERIOR) */
     footer.dock {
       position: fixed;
-      bottom: 0;
+      top: 0;
+      bottom: auto;
       left: 0;
       right: 0;
       height: auto;
-      padding: 9px 14px calc(9px + env(safe-area-inset-bottom, 0px));
+      border-top: none;
+      border-bottom: 1px solid #cbd2d9;
+      padding: calc(8px + env(safe-area-inset-top, 0px)) 14px 9px;
       display: grid;
       grid-template-columns: 1fr auto;
       grid-template-areas:
@@ -561,7 +571,7 @@
       align-items: center;
       gap: 8px;
       z-index: 900;
-      box-shadow: 0 -4px 18px rgba(17, 29, 26, 0.10);
+      box-shadow: 0 4px 16px rgba(17, 29, 26, 0.08);
     }
     .dock-main { grid-area: main; justify-content: space-between; min-width: 0; width: 100%; }
     .dock-actions { grid-area: actions; margin-left: 0; }
@@ -583,17 +593,17 @@
     .lbl-short { display: inline; }
     .dock-full { display: none; }
 
-    .viewport { padding: 10px 10px 118px; }
+    .viewport { padding: 104px 10px 72px; }
     section.slide {
-      min-height: calc(100dvh - 134px);
+      min-height: calc(100dvh - 176px);
       padding: 22px 16px 18px;
     }
     section.slide-cover {
       padding: 32px 20px 26px;
       gap: 26px;
     }
-    .cover-top { gap: 10px; font-size: 11px; letter-spacing: 1.4px; }
-    .cover-top span.rule { width: 26px; flex-shrink: 0; }
+    .cover-top { gap: 10px; font-size: 12px; letter-spacing: 1.2px; }
+    .cover-top span.rule { width: 24px; flex-shrink: 0; }
     .cover-body { border-left-width: 4px; padding-left: 16px; }
     .cover-body h1 { font-size: clamp(25px, 6.8vw, 36px); line-height: 1.16; margin-bottom: 14px; }
     .cover-body p { font-size: 15.5px; line-height: 1.48; }
@@ -601,7 +611,7 @@
     .cover-meta { text-align: left !important; }
 
     .s-head { flex-wrap: wrap; gap: 6px 12px; padding-bottom: 10px; margin-bottom: 14px; }
-    .s-kicker { font-size: 10.8px; letter-spacing: 1px; }
+    .s-kicker { font-size: 11.5px; letter-spacing: 0.9px; }
     .s-head h2 { font-size: clamp(19px, 5.2vw, 24px); }
     .s-num { font-size: 12px; }
 
@@ -610,7 +620,9 @@
     .kpi-box .lbl { font-size: 14px; }
     .kpi-box .sub { font-size: 13px; }
 
-    .tbl-hint { display: block; }
+    .formula { white-space: normal; overflow-wrap: break-word; font-size: 12.2px; line-height: 1.45; }
+
+    .tbl-hint { display: block; font-size: 12px; }
     .tbl-scroll {
       border: 1px solid #e4e8e2;
       border-radius: 6px;
@@ -618,13 +630,14 @@
       scrollbar-width: thin;
     }
     table.ptbl { font-size: 12.8px; }
+    table.ptbl th { font-size: 12.4px; }
     table.ptbl th, table.ptbl td { padding: 7px 9px; }
     table.ptbl.compact th, table.ptbl.compact td { padding: 6px 8px; font-size: 12.4px; }
     .tbl-wide table.ptbl { min-width: 580px; }
 
-    .s-foot { flex-direction: column; align-items: flex-start; gap: 3px; font-size: 11.5px; }
+    .s-foot { flex-direction: column; align-items: flex-start; gap: 3px; font-size: 12px; }
 
-    footer.dock { padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px)); gap: 7px; }
+    footer.dock { padding: calc(8px + env(safe-area-inset-top, 0px)) 10px 8px; gap: 7px; }
     .dock-group, .dock-stepper { gap: 6px; }
     .dock-btn, .dock-link { height: 36px; padding: 0 10px; font-size: 12.8px; }
     .dock-stepper .dock-btn { min-width: 38px; padding: 0 10px; font-size: 15px; }

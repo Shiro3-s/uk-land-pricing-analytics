@@ -9,10 +9,10 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Referencia local del curso (no se sube)
+# Referencias locales (no se suben)
 contexto/
 
-# Documento del avance y su generador (solo se sube el PDF; el docx no)
+# Documentos Word editables y generador APA
 *.docx
 script/documentacion/
 
@@ -25,6 +25,12 @@ data/limpia/*
 data/integrado/*.parquet
 !data/integrado/*_muestra.parquet
 
-# Windows
+# Windows / macOS
 Thumbs.db
 Desktop.ini
+.DS_Store
+
+# Credenciales locales de Azure / Base de datos (no se suben)
+.env
+.env.*
+!.env.example

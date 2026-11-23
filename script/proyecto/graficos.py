@@ -1,13 +1,18 @@
 """Figuras del analisis (una figura por archivo, guardadas en md/figuras)."""
 from __future__ import annotations
 
+import os
 from pathlib import Path
+import sys
 
+import matplotlib
+
+if "ipykernel" not in sys.modules and not os.environ.get("MPLBACKEND"):
+    matplotlib.use("Agg", force=False)
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-plt.switch_backend("Agg")
 plt.rcParams["figure.dpi"] = 140
 
 
@@ -152,33 +157,39 @@ def fig_outliers_tasa(serie_ori: pd.Series, serie_winsor: pd.Series,
 
 
 def fig_fases() -> plt.Figure:
-    """Mapa de fases KDD + CRISP-DM (fase 3 en curso), para informe y notebooks."""
+    """Mapa completo de fases KDD + CRISP-DM del proyecto analitico."""
     fases = [
-        ("1", "Introduccion y objetivos", "Seleccion de datos", "Comprension del negocio", "Completada"),
-        ("2", "Fuentes y tipos de datos", "Seleccion + preprocesamiento I", "Comprension de datos", "Completada"),
-        ("3", "Limpieza y cruzamiento", "Preprocesamiento II", "Preparacion de datos", "EN CURSO"),
-        ("4", "Analisis y modelado", "Mineria", "Modelado", "Pendiente"),
+        ("1", "Problema, objetivos y marcos", "Seleccion", "Comprension del negocio", "Completada"),
+        ("2", "Ingesta y contratos de datos (5 fuentes)", "Seleccion + prep. I", "Comprension de datos", "Completada"),
+        ("3", "Limpieza (MCAR/MAR/MNAR, IQR, bitacora)", "Preprocesamiento II", "Preparacion de datos", "Completada"),
+        ("4", "Integracion, PMT y anomalias climaticas", "Preprocesamiento II", "Preparacion de datos", "Completada"),
+        ("5", "Transformacion, escalado, VIF y matriz X-y", "Transformacion", "Preparacion de datos", "Completada"),
+        ("6", "Analisis exploratorio (EDA) y hallazgos", "Interpretacion I", "Exploracion", "Completada"),
+        ("7", "Regresion tabular comparativa (CV-5)", "Mineria (supervisada)", "Modelado", "Completada"),
+        ("8", "Clasificacion I: Arbol CART interpretativo", "Mineria (supervisada)", "Modelado y evaluacion", "Completada"),
+        ("9", "Torneo: Arbol vs Naive Bayes vs KNN", "Mineria (supervisada)", "Evaluacion y seleccion", "Completada"),
+        ("10", "Clustering (K-Means + Ward + 1M) y Apriori", "Mineria (no supervisada)", "Modelado y patrones", "Completada"),
+        ("11", "Evaluacion forense, CV-5 y umbrales", "Evaluacion avanzada", "Evaluacion", "Completada"),
+        ("12", "Despliegue Web (Front + Back + BD)", "Operacionalizacion", "Despliegue", "Proxima etapa"),
     ]
-    fig, ax = plt.subplots(figsize=(9.6, 2.6))
+    fig, ax = plt.subplots(figsize=(10.5, 4.9))
     ax.axis("off")
     tabla = ax.table(
         cellText=[list(f) for f in fases],
-        colLabels=["#", "Fase", "KDD", "CRISP-DM", "Estado"],
+        colLabels=["#", "Fase del proyecto", "KDD", "CRISP-DM", "Estado"],
         loc="center", cellLoc="left")
     tabla.auto_set_font_size(False)
-    tabla.set_fontsize(9)
-    tabla.scale(1, 1.5)
+    tabla.set_fontsize(8.5)
+    tabla.scale(1, 1.38)
     for i, fila in enumerate(fases):
         estado = fila[4]
         celda = tabla[i + 1, 4]
-        if estado == "EN CURSO":
-            celda.set_facecolor("#f1c40f")
-            celda.set_text_props(weight="bold")
-        elif estado == "Completada":
+        if estado == "Completada":
             celda.set_facecolor("#27ae60")
-            celda.set_text_props(color="white")
+            celda.set_text_props(color="white", weight="bold")
         else:
-            celda.set_facecolor("#ecf0f1")
-    ax.set_title("Fases del proyecto (ciclo KDD + CRISP-DM) · fase 3 en curso",
-                 fontsize=10, pad=12)
+            celda.set_facecolor("#2980b9")
+            celda.set_text_props(color="white", weight="bold")
+    ax.set_title("Mapa de fases del proyecto (ciclo integrado KDD + CRISP-DM)",
+                 fontsize=10.5, pad=12)
     return fig

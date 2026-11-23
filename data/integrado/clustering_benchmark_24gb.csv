@@ -1,0 +1,6 @@
+n_transacciones,silueta_muestral,inercia_media_por_obs,desplazamiento_centroides_pct,tiempo_s,pico_ram_mb,rss_proceso_mb,pct_presupuesto_ram
+9979,0.272,3.256,,1.25,40.95,234.61,0.95
+99820,0.295,2.945,133.77,5.29,45.83,258.05,1.05
+998058,0.326,2.738,99.87,43.39,54.79,297.57,1.21
+4989986,0.257,3.02,27.33,235.19,54.82,297.57,1.21
+11346500,0.333,2.696,22.96,372.77,49.87,297.57,1.21

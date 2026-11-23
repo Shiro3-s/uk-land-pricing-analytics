@@ -15,8 +15,23 @@ def anos_salario(precio: pd.Series, salario: pd.Series) -> pd.Series:
 
 def cuota_mensual_pmt(precio: float, tasa_pct: float, plazo_anios: int = config.PLAZO_ANIOS,
                       ltv: float = config.LTV, comisiones: float = 0.0) -> float:
-    """Cuota mensual francesa de un prestamo LTV sobre el precio, con el plazo y
-    la tasa inicial promedio del producto (comisiones prorrateadas)."""
+    """Cuota mensual francesa de un prestamo LTV sobre el precio.
+
+    Formula de anualidad constante (amortizacion francesa):
+
+        C = P · r / (1 − (1 + r)^(−n))
+
+    con P = precio × LTV (capital prestado), r = (tasa_pct / 100) / 12 (tasa
+    mensual) y n = plazo_anios × 12 (numero de cuotas). Si r = 0 el caso se
+    reduce a la amortizacion lineal C = P / n.
+
+    Nota sobre las comisiones: se suman FUERA de la formula, prorrateadas de
+    forma lineal (comisiones / n). Es una aproximacion al cuadro de
+    amortizacion, no un recargo compuesto: las comisiones reales de una
+    hipoteca britanica pueden financiarse y por tanto pagar interes. La
+    diferencia es pequena frente a la cuota (GBP 1.116 sobre 300 meses = GBP
+    3,72 al mes) y se documenta como limitacion conocida, no como error.
+    """
     principal = precio * ltv
     if principal <= 0 or plazo_anios <= 0:
         return np.nan

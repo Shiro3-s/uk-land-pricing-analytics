@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183f39">
+  <meta name="description" content="Simulador interactivo de accesibilidad de vivienda joven en el Reino Unido (GBP y Pesos COP, LTV/TLV, plazo hasta 480 meses) conectado en vivo a Azure PostgreSQL.">
+  <title>Vivienda UK · Simulador de vivienda joven</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+<a href="#contenido" class="skip">Saltar al contenido</a>
+
+<header class="masthead">
+  <div class="wrap mast-inner">
+    <a class="brand" href="#simulador" aria-label="Vivienda UK, inicio">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      Vivienda <b>UK</b>
+    </a>
+    <nav aria-label="Navegación principal">
+      <a href="#simulador" id="nav-sim" aria-current="page">Simulador</a>
+      <a href="#datos" id="nav-data" class="azure-nav-btn" title="Ver base de datos en vivo en Microsoft Azure PostgreSQL y descargar Excel (.xlsx)">
+        <svg class="azure-logo" viewBox="0 0 96 96" aria-hidden="true">
+          <defs>
+            <linearGradient id="az-a" x1="42.9" y1="7.8" x2="22.1" y2="83.9" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#114a8b"/>
+              <stop offset="1" stop-color="#0669bc"/>
+            </linearGradient>
+            <linearGradient id="az-b" x1="55.3" y1="45.8" x2="46.2" y2="50.4" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#000" stop-opacity=".3"/>
+              <stop offset="1" stop-color="#000" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="az-c" x1="48.8" y1="9.9" x2="71.2" y2="86.1" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#3ccbf4"/>
+              <stop offset="1" stop-color="#2892df"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#az-a)" d="M33.3 6.5h26.1L32.3 86.7a4.2 4.2 0 0 1-3.9 2.8H8.1a4.1 4.1 0 0 1-3.9-5.5L29.4 9.3a4.2 4.2 0 0 1 3.9-2.8Z"/>
+          <path fill="#0078d4" d="M71.2 60.3H29.9a1.9 1.9 0 0 0-1.3 3.3l26.5 24.8a4.2 4.2 0 0 0 2.9 1.1h23.4Z"/>
+          <path fill="url(#az-b)" d="M33.3 6.5a4.1 4.1 0 0 0-4 2.9L4.2 83.9a4.1 4.1 0 0 0 3.9 5.6h20.7a4.4 4.4 0 0 0 3.5-2.9l5-14.7 17.8 16.6a4.2 4.2 0 0 0 2.8 1.1h23.3l-10.2-29.2-29.8.1L59.5 6.5Z"/>
+          <path fill="url(#az-c)" d="M66.6 9.3a4.2 4.2 0 0 0-3.9-2.8H33.6a4.2 4.2 0 0 1 3.9 2.8l25.2 74.7a4.1 4.1 0 0 1-3.9 5.5h29.1a4.1 4.1 0 0 0 3.9-5.5Z"/>
+        </svg>
+        <span>Azure BD · Excel</span>
+      </a>
+      <a href="metodologia.html">Metodología <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="wrap" tabindex="-1">
+  <!-- ===================== SIMULADOR ===================== -->
+  <section id="simulador">
+    <div class="intro">
+      <div class="intro-top">
+        <p class="eyebrow"><span class="accent-rule"></span>Reino Unido · Vivienda joven · ML + Azure PostgreSQL</p>
+        <div class="azure-live-pill" id="azure-pill" title="Conexión en tiempo real a Azure PostgreSQL Flexible Server">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span id="azure-pill-text">Azure PostgreSQL · pg-actividad-db-uk26</span>
+        </div>
+      </div>
+      <h1>Simulador de vivienda</h1>
+      <p>Estima la cuota mensual de tu hipoteca en <strong>Libras (£ GBP)</strong> y <strong>Pesos Colombianos ($ COP)</strong>, configura <strong>LTV / TLV</strong> y plazo de hasta <strong>480 meses (40 años)</strong>, o escribe tu caso libremente en español o inglés.</p>
+    </div>
+
+    <div class="dashboard">
+      <!-- PANEL IZQUIERDO: FORMULARIO -->
+      <section class="panel form-panel" aria-labelledby="escenario">
+        <div class="panel-head">
+          <h2 id="escenario">Tu escenario</h2>
+          <span class="motif" aria-hidden="true">≋</span>
+        </div>
+
+        <div class="mode-switch" role="group" aria-label="Modo de entrada">
+          <button type="button" id="mode-options" aria-pressed="true">Por opciones</button>
+          <button type="button" id="mode-text" aria-pressed="false">Escribir mi caso (ES / EN)</button>
+        </div>
+
+        <form id="prediction-form" novalidate>
+          <!-- MODO 1: POR OPCIONES -->
+          <fieldset id="option-fields">
+            <div class="presets-block">
+              <span class="presets-label">Escenarios rápidos</span>
+              <div class="preset-chips" id="option-presets">
+                <button type="button" class="chip" data-preset="london">Londres · 25 años</button>
+                <button type="button" class="chip" data-preset="manchester">Manchester · 30 años</button>
+                <button type="button" class="chip" data-preset="cop">En Pesos COP · 360 m</button>
+                <button type="button" class="chip" data-preset="northeast40">North East · 480 m máx.</button>
+              </div>
+            </div>
+
+            <div class="currency-bar">
+              <span class="field-caption">Moneda del precio</span>
+              <div class="seg-toggle" role="group" aria-label="Moneda del precio">
+                <button type="button" id="curr-gbp" aria-pressed="true">£ Libras (GBP)</button>
+                <button type="button" id="curr-cop" aria-pressed="false">$ Pesos (COP)</button>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <label>
+                Región
+                <select id="region" name="region" required>
+                  <option>London</option>
+                </select>
+              </label>
+
+              <label>
+                Ciudad
+                <select id="city" name="ciudad">
+                  <option value="">Referencia regional</option>
+                </select>
+              </label>
+
+              <label class="wide">
+                <span class="label-row">
+                  <span>Precio de la vivienda <span class="optional">opcional</span></span>
+                  <span class="live-badge" id="price-conversion">Mediana histórica de la zona</span>
+                </span>
+                <span class="input-unit" id="price-unit-box">
+                  <span id="price-prefix">£</span>
+                  <input id="price" name="precio_gbp" type="number" inputmode="decimal" min="1" max="100000000" step="any" placeholder="Usar la mediana histórica de la zona">
+                </span>
+              </label>
+
+              <label>
+                <span class="label-row">
+                  <span>Financiación (LTV / TLV)</span>
+                </span>
+                <span class="input-unit trailing">
+                  <input id="ltv" type="number" name="ltv_pct" min="5" max="100" step="any" value="90" required>
+                  <span>%</span>
+                </span>
+                <span class="micro-help" id="downpayment-help">Cuota inicial: 10 %</span>
+              </label>
+
+              <label>
+                <span class="label-row">
+                  <span>Plazo del crédito</span>
+                  <span class="unit-mini" role="group" aria-label="Unidad del plazo">
+                    <button type="button" id="term-years-btn" aria-pressed="true">Años</button>
+                    <button type="button" id="term-months-btn" aria-pressed="false">Meses</button>
+                  </span>
+                </span>
+                <span class="input-unit trailing">
+                  <input id="term-input" type="number" min="5" max="40" step="1" value="25" required>
+                  <span id="term-unit-label">años</span>
+                </span>
+                <span class="micro-help" id="term-help">300 meses · Máx. 40 años (480 m)</span>
+              </label>
+            </div>
+
+            <details class="form-more">
+              <summary>Condiciones de la hipoteca y tasa de cambio</summary>
+              <div class="form-grid">
+                <label>
+                  Tipo de interés
+                  <select id="tipo" name="tipo">
+                    <option value="fixed">Fijo (Fixed)</option>
+                    <option value="discounted">Con descuento (Discounted)</option>
+                    <option value="tracker">Indexado (Tracker)</option>
+                    <option value="variable">Variable (SVR)</option>
+                  </select>
+                </label>
+
+                <label>
+                  Periodo tasa inicial (F2)
+                  <span class="input-unit trailing">
+                    <input id="meses-inicial" name="meses" type="number" min="12" max="300" step="1" value="24" required>
+                    <span>meses</span>
+                  </span>
+                  <span class="micro-help">Rango real catálogo F2: 12–300 m</span>
+                </label>
+
+                <label>
+                  Comisiones bancarias
+                  <span class="input-unit">
+                    <span>£</span>
+                    <input id="comisiones" name="comisiones" type="number" min="0" max="1000000" step="any" value="999" required>
+                  </span>
+                </label>
+
+                <label>
+                  Perfil comprador
+                  <select id="subtitulo" name="subtitulo">
+                    <option value="First time buyer">Primera compra (FTB)</option>
+                    <option value="Home Purchase">Compra de vivienda</option>
+                    <option value="Remortgage">Refinanciación (Remortgage)</option>
+                    <option value="Buy to let">Compra para alquilar (BTL)</option>
+                  </select>
+                </label>
+
+                <label class="wide">
+                  <span class="label-row">
+                    <span>Tasa de cambio referencia (COP por 1 £)</span>
+                    <span class="optional">Editable</span>
+                  </span>
+                  <span class="input-unit">
+                    <span>COP</span>
+                    <input id="tasa-cop" name="tasa_cop" type="number" min="1000" max="20000" step="50" value="5100" required>
+                  </span>
+                </label>
+              </div>
+            </details>
+          </fieldset>
+
+          <!-- MODO 2: ESCRIBIR MI CASO (ESPAÑOL + INGLÉS + COP) -->
+          <fieldset id="text-fields" hidden disabled>
+            <label for="free-text">Describe tu caso en Español o Inglés (GBP o Pesos COP)</label>
+            <textarea id="free-text" name="texto" rows="5" required maxlength="1200" placeholder="Ej: Quiero comprar casa en Londres de 1.800 millones de pesos con cuota inicial del 15 % a 360 meses&#10;Or: I want to buy a house in Oxford for 420k pounds as a first time buyer with 15% deposit for 30 years fixed 24 months"></textarea>
+            <p class="hint">Entiende ciudades/regiones UK, precios en <strong>libras (£ / k)</strong> o <strong>pesos colombianos (COP / millones)</strong>, <strong>LTV / TLV / entrada / deposit</strong> y plazos hasta <strong>480 meses (40 años)</strong>.</p>
+
+            <div class="examples-box">
+              <span class="presets-label">Ejemplos listos para probar (clic para calcular)</span>
+              <div class="example-grid" id="text-examples">
+                <button type="button" class="example-btn" data-example="Quiero comprar en Manchester por 250.000 libras con TLV 85 % a 30 años fijo (24 meses)">
+                  <strong>ES · Manchester (£250k)</strong>
+                  <span>TLV 85 % · 30 años · Fijo 24 m</span>
+                </button>
+                <button type="button" class="example-btn" data-example="Quiero comprar casa en Londres de 1.800 millones de pesos con cuota inicial del 15 % a 360 meses">
+                  <strong>COP · Londres ($1.800M)</strong>
+                  <span>15 % entrada · 360 meses</span>
+                </button>
+                <button type="button" class="example-btn" data-example="I want to buy a house in Oxford for 420k pounds as a first time buyer with 15% deposit for 30 years fixed 24 months">
+                  <strong>EN · Oxford (£420k FTB)</strong>
+                  <span>15% deposit · 30 yrs · Fixed 24m</span>
+                </button>
+                <button type="button" class="example-btn" data-example="Affordable home in Newcastle North East for 165000 GBP, 90% LTV, 480 months (40 years), 60 months fixed, zero fee">
+                  <strong>EN · Newcastle (480 m máx.)</strong>
+                  <span>£165k · 90% LTV · 40 yrs · £0 fee</span>
+                </button>
+                <button type="button" class="example-btn" data-example="Remortgage en South East de 380.000 libras a 24 meses fixed con comisión 1.999 libras">
+                  <strong>ES · Remortgage South East</strong>
+                  <span>£380k · Fixed 24 m · £1.999 fee</span>
+                </button>
+                <button type="button" class="example-btn" data-example="Primer comprador en Cardiff (Wales) por 195.000 libras con hipoteca discounted a 24 meses y comisión 499">
+                  <strong>ES · Cardiff / Wales</strong>
+                  <span>£195k · Discounted · £499 fee</span>
+                </button>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button class="primary" id="predict" type="submit">Predecir escenario <span aria-hidden="true">→</span></button>
+            <button class="secondary" id="reset-btn" type="button" title="Restablecer valores por defecto y limpiar resultado">Restablecer</button>
+          </div>
+          <p id="prediction-status" class="status" role="status"></p>
+        </form>
+      </section>
+
+      <!-- COLUMNA DERECHA: CONTEXTO INICIAL Y RESULTADOS -->
+      <div class="output-column">
+        <!-- VISTA INICIAL ANTES DE PREDECIR -->
+        <section class="feature" id="overview" aria-labelledby="overview-title">
+          <div class="feature-overline"><span class="tiny-dot"></span>Contexto regional histórico</div>
+          <h2 id="overview-title"><span id="overview-region">London</span></h2>
+          <p class="feature-label">Precio mediano histórico de referencia</p>
+          <strong class="big-number" id="overview-price">—</strong>
+          <p class="cop-sub" id="overview-price-cop">Calculando equivalente en pesos colombianos…</p>
+          <div id="history-chart" class="history-chart">Cargando la serie histórica…</div>
+          <div class="feature-foot">
+            <span id="overview-source">Consultando Azure PostgreSQL</span>
+            <a href="#datos" id="overview-link">Abrir tabla en Azure →</a>
+          </div>
+        </section>
+
+        <div class="source-line" id="source-line">
+          <span class="source-icon azure-badge-icon" aria-hidden="true">
+            <svg class="azure-logo" viewBox="0 0 96 96">
+              <path fill="#0078d4" d="M33.3 6.5h26.1L32.3 86.7a4.2 4.2 0 0 1-3.9 2.8H8.1a4.1 4.1 0 0 1-3.9-5.5L29.4 9.3a4.2 4.2 0 0 1 3.9-2.8Z"/>
+              <path fill="#2892df" d="M71.2 60.3H29.9a1.9 1.9 0 0 0-1.3 3.3l26.5 24.8a4.2 4.2 0 0 0 2.9 1.1h23.4Z"/>
+              <path fill="#3ccbf4" d="M66.6 9.3a4.2 4.2 0 0 0-3.9-2.8H33.6a4.2 4.2 0 0 1 3.9 2.8l25.2 74.7a4.1 4.1 0 0 1-3.9 5.5h29.1a4.1 4.1 0 0 0 3.9-5.5Z"/>
+            </svg>
+          </span>
+          <div>
+            <strong>Azure PostgreSQL · db_actividad_mineria</strong>
+            <p>Servidor <code>pg-actividad-db-uk26</code> · consulta en vivo y descarga Excel multi-hoja.</p>
+          </div>
+          <a href="#datos" aria-label="Abrir datos de Azure y Excel">→</a>
+        </div>
+
+        <!-- RESULTADO DE PREDICCIÓN -->
+        <section id="result" class="result" hidden aria-labelledby="result-title">
+          <!-- TARJETA 1: RESULTADO PRINCIPAL + GRÁFICA 1 (PRESUPUESTO MENSUAL) -->
+          <div class="feature result-hero">
+            <div class="result-top-row">
+              <div class="feature-overline"><span class="tiny-dot"></span>Resultado de la predicción</div>
+              <span class="risk-pill" id="risk-pill">Evaluando</span>
+            </div>
+
+            <h2 id="result-title" class="result-title" tabindex="-1">Cuota mensual estimada</h2>
+            <p class="result-location" id="result-place"></p>
+
+            <div class="hero-money">
+              <strong class="big-number" id="monthly">—</strong>
+              <span class="cop-hero" id="monthly-cop">—</span>
+            </div>
+
+            <p class="plain-diagnosis" id="plain-diagnosis"></p>
+
+            <!-- GRÁFICA 1: ¿CÓMO QUEDA TU SALARIO MENSUAL? -->
+            <div class="chart-card-dark" aria-labelledby="g1-title">
+              <div class="chart-dark-head">
+                <span id="g1-title">Gráfica 1 · ¿Cómo queda tu salario mensual?</span>
+                <strong id="effort-value">0 %</strong>
+              </div>
+
+              <div class="budget-track" id="effort-chart" role="img" aria-label="Proporción del salario mensual">
+                <div class="budget-quota" id="effort-bar"></div>
+                <div class="budget-free" id="free-bar"></div>
+                <i class="marker-30" id="reference" title="30 % límite bancario recomendado"></i>
+                <i class="marker-cart" id="reference-cart" title="56,4 % frontera mediana CART"></i>
+              </div>
+
+              <div class="axis">
+                <span>0 %</span>
+                <span id="axis-mid-label">30 % ideal · 56,4 % CART</span>
+                <span id="max-scale">100 %</span>
+              </div>
+
+              <div class="budget-split-cards">
+                <div class="mini-kpi">
+                  <span>Salario joven / mes</span>
+                  <strong id="kpi-salary-gbp">—</strong>
+                  <small id="kpi-salary-cop">—</small>
+                </div>
+                <div class="mini-kpi" id="kpi-balance-box">
+                  <span id="kpi-balance-label">Te queda libre / mes</span>
+                  <strong id="kpi-balance-gbp">—</strong>
+                  <small id="kpi-balance-cop">—</small>
+                </div>
+                <div class="mini-kpi">
+                  <span id="kpi-down-label">Cuota inicial (10 %)</span>
+                  <strong id="kpi-down-gbp">—</strong>
+                  <small id="kpi-down-cop">—</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="feature-foot result-actions">
+              <a class="azure-inline-btn" id="result-data" href="#datos">
+                <svg class="azure-logo" viewBox="0 0 96 96" aria-hidden="true">
+                  <path fill="#50e6ff" d="M33.3 6.5h26.1L32.3 86.7a4.2 4.2 0 0 1-3.9 2.8H8.1a4.1 4.1 0 0 1-3.9-5.5L29.4 9.3a4.2 4.2 0 0 1 3.9-2.8Z"/>
+                  <path fill="#1b9de2" d="M71.2 60.3H29.9a1.9 1.9 0 0 0-1.3 3.3l26.5 24.8a4.2 4.2 0 0 0 2.9 1.1h23.4Z"/>
+                  <path fill="#9cebff" d="M66.6 9.3a4.2 4.2 0 0 0-3.9-2.8H33.6a4.2 4.2 0 0 1 3.9 2.8l25.2 74.7a4.1 4.1 0 0 1-3.9 5.5h29.1a4.1 4.1 0 0 0 3.9-5.5Z"/>
+                </svg>
+                <span>Ver datos en Azure</span>
+              </a>
+              <button type="button" class="excel-inline-btn" id="result-excel">Descargar Excel (.xlsx) ↓</button>
+            </div>
+          </div>
+
+          <!-- TARJETA 2: GRÁFICA 2 (COMPARATIVA 10 REGIONES UK) -->
+          <section class="panel chart-panel" aria-labelledby="g2-title">
+            <div class="chart-panel-head">
+              <div>
+                <p class="chart-kicker">Gráfica 2 · Comparativa territorial</p>
+                <h3 id="g2-title">Tu escenario frente a las 10 regiones del Reino Unido</h3>
+              </div>
+              <span class="chart-legend-mini"><span><i class="dot-user"></i>Tu caso</span><span><i class="dot-30"></i>30 % ideal</span></span>
+            </div>
+            <div id="regions-chart" class="regions-chart"></div>
+            <p class="chart-takeaway" id="regions-takeaway"></p>
+          </section>
+
+          <!-- TARJETA 3: GRÁFICA 3 (CAPITAL VS INTERESES + TERMÓMETRO TASA F2) -->
+          <section class="panel chart-panel" aria-labelledby="g3-title">
+            <p class="chart-kicker">Gráfica 3 · Costo real del crédito y tasa hipotecaria</p>
+            <h3 id="g3-title">Capital vs. Intereses en todo el plazo + Termómetro de tasa</h3>
+
+            <div class="cost-block">
+              <div class="cost-head">
+                <span>¿A dónde va tu dinero en <strong id="cost-term-label">300 meses</strong>?</span>
+                <strong id="cost-total-label">—</strong>
+              </div>
+              <div class="stacked-bar" id="cost-stacked-bar" role="img" aria-label="Capital prestado frente a intereses totales">
+                <div class="seg-principal" id="seg-principal"></div>
+                <div class="seg-interest" id="seg-interest"></div>
+              </div>
+              <div class="cost-legend">
+                <div class="cost-item">
+                  <span class="swatch-principal"></span>
+                  <div>
+                    <small>Capital del préstamo (<span id="pct-principal-label">0 %</span>)</small>
+                    <strong id="val-principal-gbp">—</strong>
+                    <span class="sub-cop" id="val-principal-cop">—</span>
+                  </div>
+                </div>
+                <div class="cost-item">
+                  <span class="swatch-interest"></span>
+                  <div>
+                    <small>Intereses acumulados (<span id="pct-interest-label">0 %</span>)</small>
+                    <strong id="val-interest-gbp">—</strong>
+                    <span class="sub-cop" id="val-interest-cop">—</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rate-block">
+              <div class="cost-head">
+                <span>Termómetro de tasa inicial F2 (Random Forest)</span>
+                <strong id="rate-pred-badge">—</strong>
+              </div>
+              <div class="rate-scale" id="rate-scale" role="img" aria-label="Posición de la tasa estimada frente al mercado UK">
+                <div class="rate-iqr" title="Rango típico bancario Q1 5,62 % – Q3 6,62 %"></div>
+                <i class="rate-median" title="Mediana del mercado 6,10 %"></i>
+                <i class="rate-outlier" title="Umbral atípico Tukey 8,13 %"></i>
+                <span class="rate-pin" id="rate-pin"></span>
+              </div>
+              <div class="rate-axis">
+                <span>2,5 %</span>
+                <span>Q1 5,62 % · Med 6,10 % · Q3 6,62 %</span>
+                <span>Atípica ≥ 8,13 %</span>
+              </div>
+              <p class="chart-takeaway" id="rate-takeaway"></p>
+            </div>
+          </section>
+
+          <!-- TARJETA 4: SERIE HISTÓRICA 2015-2020 (SIEMPRE VISIBLE) -->
+          <section class="panel chart-panel compact-history" aria-labelledby="g4-title">
+            <div class="chart-panel-head">
+              <div>
+                <p class="chart-kicker">Evolución histórica 2015–2020</p>
+                <h3 id="g4-title">Precio mediano histórico en <span id="res-hist-region">London</span></h3>
+              </div>
+              <span class="live-badge" id="res-hist-source">Azure PostgreSQL</span>
+            </div>
+            <div id="result-history-chart" class="history-chart light-history">Cargando serie histórica…</div>
+          </section>
+
+          <!-- TARJETA 5: DETALLES FINANCIEROS + INTERPRETACIÓN + COMPARATIVA DE MÉTODOS -->
+          <div class="panel result-details">
+            <div id="parsed-summary" class="parsed-banner" hidden></div>
+
+            <h3>Resumen financiero en GBP (£) y Pesos Colombianos (COP)</h3>
+            <dl class="context-grid" id="result-context"></dl>
+
+            <div class="methods-box">
+              <h3>Comparativa de modelos de minería de datos para tu caso</h3>
+              <p class="methods-note">Cada algoritmo aporta una mirada distinta (con etiqueta y sin etiqueta) validada sobre los datos reales del Reino Unido.</p>
+              <div class="table-scroll">
+                <table class="mini-table">
+                  <thead>
+                    <tr>
+                      <th>Método</th>
+                      <th>Resultado para tu caso</th>
+                      <th>Exactitud / Aciertos</th>
+                    </tr>
+                  </thead>
+                  <tbody id="methods-rows"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <details class="model-details">
+              <summary>Ver 5 vecinos históricos (KNN), reglas Apriori y explicación técnica</summary>
+              <div id="explanation"></div>
+            </details>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== VISTA DE DATOS DE AZURE ===================== -->
+  <section id="data-view" hidden aria-labelledby="data-title">
+    <div class="intro data-intro">
+      <p class="eyebrow"><span class="accent-rule"></span>Microsoft Azure · PostgreSQL Flexible Server</p>
+      <h1 id="data-title" tabindex="-1">Datos en vivo de Azure</h1>
+      <p>Consulta directamente las tablas cargadas en <strong><code>pg-actividad-db-uk26</code></strong> (base de datos <strong><code>db_actividad_mineria</code></strong>) y descarga el libro Excel multi-hoja (<code>.xlsx</code> con 5 hojas).</p>
+    </div>
+
+    <div class="azure-hero-banner">
+      <div class="azure-banner-left">
+        <svg class="azure-logo-lg" viewBox="0 0 96 96" aria-hidden="true">
+          <path fill="#114a8b" d="M33.3 6.5h26.1L32.3 86.7a4.2 4.2 0 0 1-3.9 2.8H8.1a4.1 4.1 0 0 1-3.9-5.5L29.4 9.3a4.2 4.2 0 0 1 3.9-2.8Z"/>
+          <path fill="#0078d4" d="M71.2 60.3H29.9a1.9 1.9 0 0 0-1.3 3.3l26.5 24.8a4.2 4.2 0 0 0 2.9 1.1h23.4Z"/>
+          <path fill="#3ccbf4" d="M66.6 9.3a4.2 4.2 0 0 0-3.9-2.8H33.6a4.2 4.2 0 0 1 3.9 2.8l25.2 74.7a4.1 4.1 0 0 1-3.9 5.5h29.1a4.1 4.1 0 0 0 3.9-5.5Z"/>
+        </svg>
+        <div>
+          <strong>Microsoft Azure Database for PostgreSQL</strong>
+          <p>Servidor <code>pg-actividad-db-uk26.postgres.database.azure.com</code> · BD <code>db_actividad_mineria</code></p>
+        </div>
+      </div>
+      <a class="back-sim-link" href="#simulador">← Volver al Simulador</a>
+    </div>
+
+    <div class="panel data-panel">
+      <div class="table-tabs" role="tablist" aria-label="Tablas de Azure">
+        <button type="button" class="tab-btn" data-tabla="regional" aria-selected="true">Datos Regionales</button>
+        <button type="button" class="tab-btn" data-tabla="ciudades" aria-selected="false">Ciudades UK (Top 100)</button>
+        <button type="button" class="tab-btn" data-tabla="hipoteca_2022" aria-selected="false">Corte Hipotecario 2022</button>
+        <button type="button" class="tab-btn" data-tabla="metodos" aria-selected="false">Métodos y Aciertos ML</button>
+      </div>
+
+      <div class="filter-row">
+        <div class="filter-controls">
+          <label>
+            Región
+            <select id="data-region">
+              <option value="">Todas las regiones</option>
+            </select>
+          </label>
+          <label id="year-filter-wrap">
+            Año
+            <select id="data-year">
+              <option value="">Todos los años</option>
+            </select>
+          </label>
+        </div>
+        <button class="primary download" id="download" type="button" disabled>
+          Descargar Excel Multi-Hoja (.xlsx · 5 hojas) <span aria-hidden="true">↓</span>
+        </button>
+      </div>
+
+      <p id="data-status" class="data-status" role="status">Cargando registros desde Azure…</p>
+
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead id="data-head">
+            <tr>
+              <th>Año</th>
+              <th>Región</th>
+              <th>Transacciones</th>
+              <th>Precio mediano (£)</th>
+              <th>Salario joven anual (£)</th>
+              <th>Años de salario</th>
+            </tr>
+          </thead>
+          <tbody id="data-rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>Vivienda UK</span>
+    <span>Minería de Datos · Azure PostgreSQL + Render API + Netlify · 10 regiones y 1.153 ciudades del Reino Unido</span>
+    <a href="metodologia.html" class="text-link">Metodología y presentación ↗</a>
+  </div>
+</footer>
+</body>
+</html>

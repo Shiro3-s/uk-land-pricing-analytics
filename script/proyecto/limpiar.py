@@ -1,6 +1,6 @@
 """Limpieza por fuente (F2 hipotecas, F3 clima, F4 precios/salario).
 
-Sigue el orden del curso (sesion 3): duplicados -> tipos/categorias -> nulos 
+Sigue el orden: duplicados -> tipos/categorias -> nulos 
 (MCAR/MAR/MNAR) -> outliers. F1 ya fue limpiada por el modulo ``limpieza``.
 Devuelve (df_limpio, decisiones) donde decisiones es una lista de dicts de la
 bitacora: (fuente, problema, cantidad, metodo, razon).

@@ -13,7 +13,7 @@ def winsorizar_price(price: pd.Series, limite_superior: float) -> pd.Series:
 
 
 def crear_bandera_sin_geo(df: pd.DataFrame, bitacora: Bitacora | None = None) -> pd.DataFrame:
-    """Copia con ``es_sin_geo``: nulos geo MCAR marcados, nunca imputados (regla B5)."""
+    """Copia con ``es_sin_geo``: nulos geo MCAR marcados, nunca imputados."""
     limpio = df.copy()
     bitacora = bitacora or Bitacora()
     limpio["es_sin_geo"] = limpio[config.COLUMNAS_GEO[0]].isna()

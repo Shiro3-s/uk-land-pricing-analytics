@@ -1,7 +1,7 @@
 """Configuracion unica del proyecto: rutas relativas, dtypes y reglas de negocio.
 
 Rutas resueltas desde este archivo (config.py) hacia la raiz del proyecto, por lo
-que el pipeline corre desde cualquier carpeta (regla D5: rutas relativas).
+que el pipeline corre desde cualquier carpeta (rutas relativas portables).
 """
 from __future__ import annotations
 

@@ -1,7 +1,7 @@
 """Diagnostico de fase 3: faltantes (MCAR/MAR/MNAR) y outliers (IQR vs z-score).
 
 Fase 3 · Limpieza y cruzamiento (KDD etapa 2 · CRISP-DM preparacion de datos).
-Metodologia del curso (sesion 3): clasificar el ORIGEN del faltante y elegir el
+Metodologia: clasificar el ORIGEN del faltante y elegir el
 metodo de atipicos segun la forma de la distribucion, no por el numero.
 """
 from __future__ import annotations

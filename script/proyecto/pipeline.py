@@ -1,10 +1,10 @@
-"""Pipeline 4 fuentes -> cruce maestro_joven_uk en 11 partes (estado real por clase).
+"""Pipeline 4 fuentes -> cruce maestro_joven_uk en 11 partes (flujo integrado).
 
-El flujo materializa las fases de la guia del curso (caso TelecomUNO):
+El flujo materializa las primeras fases del ciclo KDD + CRISP-DM:
   Fase 2 · Fuentes y tipos de datos   -> parte 1 (carga de origenes intocables).
-  Fase 3 · Limpieza y cruzamiento      -> partes 2 a 11 (entregable de este avance).
-  Fase 4 · Analisis y modelado         -> pendiente (no cubierta por este pipeline).
-Orden del curso: orígenes -> duplicados -> tipos/categorias -> nulos (MCAR/MAR/MNAR)
+  Fase 3 · Limpieza y cruzamiento      -> partes 2 a 11 (cuadro maestro e indicadores).
+  Fases 4-10 · Transformacion, EDA, Modelado, Clustering y Asociacion -> modulos dedicados.
+Orden del flujo: orígenes -> duplicados -> tipos/categorias -> nulos (MCAR/MAR/MNAR)
 -> outliers (IQR vs z-score) -> transformaciones -> cruce -> indicadores ->
 clima vs precios -> validacion -> exportar (figuras + bitacora).
 

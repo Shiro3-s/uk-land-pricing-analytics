@@ -1,7 +1,7 @@
-"""Bitacora de decisiones: registro structurado de cada transformacion.
+"""Bitacora de decisiones: registro estructurado de cada transformacion.
 
-Clase con estado real (A4): acumula registros y los devuelve como tabla o JSON,
-que es lo que el pipeline entrega como evidencia de cada ejecución.
+Registro con estado: acumula decisiones y las devuelve como tabla o JSON,
+que es lo que el pipeline entrega como evidencia de cada ejecucion.
 """
 from __future__ import annotations
 

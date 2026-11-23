@@ -1,0 +1,196 @@
+antecedente,consecuente,tam_itemset,soporte,soporte_A,soporte_B,confianza,lift,leverage,conviccion,score,categoria_analitica
+Prop:Flat/Maisonette,Tenencia:Leasehold,2,0.192,0.1955,0.2395,0.9821,4.101,0.1452,42.479,0.7873,Trivial / estructural
+Tenencia:Leasehold,Prop:Flat/Maisonette,2,0.192,0.2395,0.1955,0.8017,4.101,0.1452,4.056,0.7873,Trivial / estructural
+Obra:Usada + Prop:Flat/Maisonette,Tenencia:Leasehold,3,0.1615,0.165,0.2395,0.9788,4.087,0.122,35.852,0.66,Trivial / estructural
+Tenencia:Leasehold,Obra:Usada + Prop:Flat/Maisonette,3,0.1615,0.2395,0.165,0.6743,4.087,0.122,2.564,0.66,Trivial / estructural
+Prop:Flat/Maisonette,Obra:Usada + Tenencia:Leasehold,3,0.1615,0.1955,0.208,0.8261,3.972,0.1208,4.554,0.6414,Trivial / estructural
+Obra:Usada + Tenencia:Leasehold,Prop:Flat/Maisonette,3,0.1615,0.208,0.1955,0.7764,3.972,0.1208,3.599,0.6414,Trivial / estructural
+Tenencia:Leasehold + Zona:Sur_y_Este,Prop:Flat/Maisonette,3,0.0815,0.0895,0.1955,0.9106,4.658,0.064,9.0,0.3796,Trivial / estructural
+Prop:Detached,Acceso:Extremo_>100% + Tenencia:Freehold,3,0.166,0.2505,0.293,0.6627,2.262,0.0926,2.096,0.3754,Trivial / estructural
+Acceso:Extremo_>100% + Tenencia:Freehold,Prop:Detached,3,0.166,0.293,0.2505,0.5666,2.262,0.0926,1.729,0.3754,Accionable (accesibilidad/territorio)
+Tenencia:Leasehold + Zona:Sur_y_Este,Obra:Usada + Prop:Flat/Maisonette,4,0.0725,0.0895,0.165,0.8101,4.909,0.0577,4.396,0.3559,Trivial / estructural
+Obra:Usada + Tenencia:Leasehold + Zona:Sur_y_Este,Prop:Flat/Maisonette,4,0.0725,0.0795,0.1955,0.9119,4.665,0.057,9.137,0.3382,Trivial / estructural
+Prop:Flat/Maisonette + Zona:Sur_y_Este,Tenencia:Leasehold,3,0.0815,0.082,0.2395,0.9939,4.15,0.0619,124.722,0.3382,Trivial / estructural
+Prop:Detached,Acceso:Extremo_>100%,2,0.1685,0.2505,0.3405,0.6727,1.975,0.0832,2.015,0.3329,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100%,Prop:Detached,2,0.1685,0.3405,0.2505,0.4949,1.975,0.0832,1.484,0.3329,Accionable (accesibilidad/territorio)
+Prop:Detached + Tenencia:Freehold,Acceso:Extremo_>100%,3,0.166,0.244,0.3405,0.6803,1.998,0.0829,2.063,0.3317,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100%,Prop:Detached + Tenencia:Freehold,3,0.166,0.3405,0.244,0.4875,1.998,0.0829,1.475,0.3317,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100%,Tenencia:Freehold,2,0.293,0.3405,0.7605,0.8605,1.131,0.034,1.717,0.3315,Accionable (accesibilidad/territorio)
+Prop:Detached,Tenencia:Freehold,2,0.244,0.2505,0.7605,0.9741,1.281,0.0535,9.23,0.3125,Trivial / estructural
+Prop:Flat/Maisonette + Zona:Sur_y_Este,Obra:Usada + Tenencia:Leasehold,4,0.0725,0.082,0.208,0.8841,4.251,0.0554,6.836,0.3082,Trivial / estructural
+Acceso:Moderado_<=50% + Tenencia:Leasehold,Obra:Usada + Prop:Flat/Maisonette,4,0.066,0.087,0.165,0.7586,4.598,0.0516,3.459,0.3034,Trivial / estructural
+Obra:Usada + Prop:Flat/Maisonette + Zona:Sur_y_Este,Tenencia:Leasehold,4,0.0725,0.073,0.2395,0.9932,4.147,0.055,111.033,0.3006,Trivial / estructural
+Prop:Terraced,Obra:Usada + Tenencia:Freehold,3,0.226,0.26,0.66,0.8692,1.317,0.0544,2.6,0.2976,Informativa
+Obra:Usada + Prop:Detached,Acceso:Extremo_>100% + Tenencia:Freehold,4,0.132,0.202,0.293,0.6535,2.23,0.0728,2.04,0.2944,Trivial / estructural
+Acceso:Extremo_>100% + Tenencia:Freehold,Obra:Usada + Prop:Detached,4,0.132,0.293,0.202,0.4505,2.23,0.0728,1.452,0.2944,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Flat/Maisonette,Obra:Usada + Tenencia:Leasehold,4,0.066,0.0715,0.208,0.9231,4.438,0.0511,10.296,0.2929,Trivial / estructural
+Prop:Terraced,Tenencia:Freehold,2,0.2395,0.26,0.7605,0.9212,1.211,0.0418,3.038,0.2901,Informativa
+Prop:Semi-Detached,Tenencia:Freehold,2,0.233,0.2475,0.7605,0.9414,1.238,0.0448,4.088,0.2884,Trivial / estructural
+Acceso:Extremo_>100% + Obra:Usada + Tenencia:Freehold,Prop:Detached,4,0.132,0.2445,0.2505,0.5399,2.155,0.0708,1.629,0.2845,Accionable (accesibilidad/territorio)
+Prop:Detached,Acceso:Extremo_>100% + Obra:Usada + Tenencia:Freehold,4,0.132,0.2505,0.2445,0.5269,2.155,0.0708,1.597,0.2845,Trivial / estructural
+Tenencia:Leasehold + Zona:London,Prop:Flat/Maisonette,3,0.057,0.059,0.1955,0.9661,4.942,0.0455,23.733,0.2817,Trivial / estructural
+Acceso:Extremo_>100% + Obra:Usada,Tenencia:Freehold,3,0.2445,0.279,0.7605,0.8763,1.152,0.0323,1.937,0.2817,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Tenencia:Leasehold,Prop:Flat/Maisonette,3,0.069,0.087,0.1955,0.7931,4.057,0.052,3.888,0.2799,Trivial / estructural
+Acceso:Moderado_<=50% + Prop:Flat/Maisonette,Tenencia:Leasehold,3,0.069,0.0715,0.2395,0.965,4.029,0.0519,21.75,0.278,Trivial / estructural
+Obra:Usada + Prop:Terraced,Tenencia:Freehold,3,0.226,0.246,0.7605,0.9187,1.208,0.0389,2.946,0.273,Informativa
+Acceso:Moderado_<=50% + Obra:Usada + Tenencia:Leasehold,Prop:Flat/Maisonette,4,0.066,0.083,0.1955,0.7952,4.067,0.0498,3.928,0.2684,Trivial / estructural
+Prop:Terraced,Obra:Usada,2,0.246,0.26,0.868,0.9462,1.09,0.0203,2.451,0.2681,Informativa
+Acceso:Extremo_>100%,Obra:Usada + Tenencia:Freehold,3,0.2445,0.3405,0.66,0.7181,1.088,0.0198,1.206,0.266,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Obra:Usada + Prop:Flat/Maisonette,Tenencia:Leasehold,4,0.066,0.0685,0.2395,0.9635,4.023,0.0496,20.838,0.2655,Trivial / estructural
+Obra:Usada + Prop:Detached,Acceso:Extremo_>100%,3,0.1345,0.202,0.3405,0.6658,1.955,0.0657,1.974,0.263,Accionable (accesibilidad/territorio)
+Obra:Usada + Prop:Detached + Tenencia:Freehold,Acceso:Extremo_>100%,4,0.132,0.1955,0.3405,0.6752,1.983,0.0654,2.03,0.2617,Accionable (accesibilidad/territorio)
+Prop:Detached,Acceso:Extremo_>100% + Obra:Usada,3,0.1345,0.2505,0.279,0.5369,1.924,0.0646,1.557,0.2588,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Obra:Usada,Prop:Detached,3,0.1345,0.279,0.2505,0.4821,1.924,0.0646,1.447,0.2588,Accionable (accesibilidad/territorio)
+Prop:Detached + Tenencia:Freehold,Acceso:Extremo_>100% + Obra:Usada,4,0.132,0.244,0.279,0.541,1.939,0.0639,1.571,0.2559,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Obra:Usada,Prop:Detached + Tenencia:Freehold,4,0.132,0.279,0.244,0.4731,1.939,0.0639,1.435,0.2559,Accionable (accesibilidad/territorio)
+Precio:Atipico_IQR,Acceso:Extremo_>100% + Obra:Usada,3,0.074,0.078,0.279,0.9487,3.4,0.0522,14.059,0.2516,Accionable (accesibilidad/territorio)
+Obra:Usada + Prop:Detached,Tenencia:Freehold,3,0.1955,0.202,0.7605,0.9678,1.273,0.0419,7.443,0.2488,Trivial / estructural
+Prop:Terraced + Zona:Norte_y_Gales,Acceso:Moderado_<=50% + Tenencia:Freehold,4,0.0605,0.1025,0.144,0.5902,4.099,0.0457,2.089,0.248,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50%,Obra:Usada,2,0.222,0.231,0.868,0.961,1.107,0.0215,3.388,0.2458,Accionable (accesibilidad/territorio)
+Prop:Terraced + Tenencia:Freehold,Obra:Usada,3,0.226,0.2395,0.868,0.9436,1.087,0.0181,2.342,0.2457,Informativa
+Obra:Usada + Prop:Semi-Detached,Tenencia:Freehold,3,0.1965,0.211,0.7605,0.9313,1.225,0.036,3.485,0.2406,Trivial / estructural
+Acceso:Moderado_<=50%,Obra:Usada + Zona:Norte_y_Gales,3,0.1245,0.231,0.28,0.539,1.925,0.0598,1.562,0.2396,Accionable (accesibilidad/territorio)
+Acceso:Alto_50_80% + Prop:Flat/Maisonette,Tenencia:Leasehold,3,0.058,0.059,0.2395,0.9831,4.105,0.0439,44.87,0.2381,Trivial / estructural
+Prop:Semi-Detached,Obra:Usada + Tenencia:Freehold,3,0.1965,0.2475,0.66,0.7939,1.203,0.0332,1.65,0.2364,Trivial / estructural
+Prop:Flat/Maisonette + Zona:London,Tenencia:Leasehold,3,0.057,0.0575,0.2395,0.9913,4.139,0.0432,87.457,0.2359,Trivial / estructural
+Precio:Atipico_IQR + Tenencia:Freehold,Acceso:Extremo_>100% + Obra:Usada,4,0.0655,0.066,0.279,0.9924,3.557,0.0471,95.172,0.233,Accionable (accesibilidad/territorio)
+Prop:Detached,Obra:Usada + Tenencia:Freehold,3,0.1955,0.2505,0.66,0.7804,1.182,0.0302,1.549,0.2312,Trivial / estructural
+Acceso:Alto_50_80% + Tenencia:Leasehold,Prop:Flat/Maisonette,3,0.058,0.0745,0.1955,0.7785,3.982,0.0434,3.632,0.231,Trivial / estructural
+Precio:Atipico_IQR,Acceso:Extremo_>100%,2,0.078,0.078,0.3405,1.0,2.937,0.0514,999.0,0.2291,Accionable (accesibilidad/territorio)
+Precio:Atipico_IQR,Acceso:Extremo_>100% + Obra:Usada + Tenencia:Freehold,4,0.0655,0.078,0.2445,0.8397,3.435,0.0464,4.714,0.225,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50%,Zona:Norte_y_Gales,2,0.129,0.231,0.3205,0.5584,1.742,0.055,1.539,0.2248,Accionable (accesibilidad/territorio)
+Prop:Detached + Zona:Sur_y_Este,Acceso:Extremo_>100% + Tenencia:Freehold,4,0.085,0.111,0.293,0.7658,2.614,0.0525,3.018,0.2222,Trivial / estructural
+Tenencia:Freehold + Zona:Sur_y_Este,Acceso:Extremo_>100%,3,0.151,0.3025,0.3405,0.4992,1.466,0.048,1.317,0.2214,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Obra:Usada,Zona:Norte_y_Gales,3,0.1245,0.222,0.3205,0.5608,1.75,0.0533,1.547,0.2179,Accionable (accesibilidad/territorio)
+Obra:Usada + Prop:Terraced + Zona:Norte_y_Gales,Acceso:Moderado_<=50%,4,0.07,0.0975,0.231,0.7179,3.108,0.0475,2.726,0.2176,Accionable (accesibilidad/territorio)
+Obra:Usada + Precio:Atipico_IQR,Acceso:Extremo_>100%,3,0.074,0.074,0.3405,1.0,2.937,0.0488,999.0,0.2173,Accionable (accesibilidad/territorio)
+Prop:Terraced + Zona:Norte_y_Gales,Acceso:Moderado_<=50% + Obra:Usada,4,0.07,0.1025,0.222,0.6829,3.076,0.0472,2.454,0.2153,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Prop:Detached,Tenencia:Freehold,3,0.166,0.1685,0.7605,0.9852,1.295,0.0379,16.142,0.215,Trivial / estructural
+Acceso:Moderado_<=50% + Tenencia:Freehold,Obra:Usada + Zona:Norte_y_Gales,4,0.093,0.144,0.28,0.6458,2.307,0.0527,2.033,0.2145,Accionable (accesibilidad/territorio)
+Prop:Terraced + Zona:Norte_y_Gales,Acceso:Moderado_<=50%,3,0.0705,0.1025,0.231,0.6878,2.978,0.0468,2.463,0.2099,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100%,Zona:Sur_y_Este,2,0.165,0.3405,0.392,0.4846,1.236,0.0315,1.18,0.204,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Tenencia:Freehold,Zona:Norte_y_Gales,3,0.0965,0.144,0.3205,0.6701,2.091,0.0503,2.06,0.2018,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Tenencia:Freehold,Zona:Sur_y_Este,3,0.151,0.293,0.392,0.5154,1.315,0.0361,1.255,0.1985,Accionable (accesibilidad/territorio)
+Obra:Usada + Precio:Atipico_IQR,Acceso:Extremo_>100% + Tenencia:Freehold,4,0.0655,0.074,0.293,0.8851,3.021,0.0438,6.155,0.1979,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Obra:Usada + Tenencia:Freehold,Zona:Norte_y_Gales,4,0.093,0.139,0.3205,0.6691,2.088,0.0485,2.053,0.1941,Accionable (accesibilidad/territorio)
+Precio:Atipico_IQR + Tenencia:Freehold,Acceso:Extremo_>100%,3,0.066,0.066,0.3405,1.0,2.937,0.0435,999.0,0.1938,Accionable (accesibilidad/territorio)
+Obra:Usada + Precio:Atipico_IQR + Tenencia:Freehold,Acceso:Extremo_>100%,4,0.0655,0.0655,0.3405,1.0,2.937,0.0432,999.0,0.1924,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Tenencia:Freehold,Obra:Usada + Prop:Terraced,4,0.0825,0.144,0.246,0.5729,2.329,0.0471,1.765,0.1921,Accionable (accesibilidad/territorio)
+Prop:Detached + Zona:Sur_y_Este,Acceso:Extremo_>100%,3,0.085,0.111,0.3405,0.7658,2.249,0.0472,2.816,0.1912,Accionable (accesibilidad/territorio)
+Prop:Detached + Tenencia:Freehold + Zona:Sur_y_Este,Acceso:Extremo_>100%,4,0.085,0.111,0.3405,0.7658,2.249,0.0472,2.816,0.1912,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Tenencia:Freehold + Zona:Sur_y_Este,Prop:Detached,4,0.085,0.151,0.2505,0.5629,2.247,0.0472,1.715,0.191,Accionable (accesibilidad/territorio)
+Precio:Atipico_IQR,Acceso:Extremo_>100% + Tenencia:Freehold,3,0.066,0.078,0.293,0.8462,2.888,0.0431,4.596,0.1906,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Obra:Usada + Tenencia:Freehold,Prop:Terraced,4,0.0825,0.139,0.26,0.5935,2.283,0.0464,1.821,0.1883,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Tenencia:Freehold,Prop:Terraced,3,0.0835,0.144,0.26,0.5799,2.23,0.0461,1.761,0.1862,Accionable (accesibilidad/territorio)
+Zona:Midlands,Tenencia:Freehold,2,0.1595,0.1815,0.7605,0.8788,1.156,0.0215,1.976,0.1843,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Terraced,Obra:Usada + Zona:Norte_y_Gales,4,0.07,0.0955,0.28,0.733,2.618,0.0433,2.696,0.1832,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Zona:Sur_y_Este,Tenencia:Freehold,3,0.151,0.165,0.7605,0.9152,1.203,0.0255,2.823,0.1817,Accionable (accesibilidad/territorio)
+Prop:Terraced + Tenencia:Freehold + Zona:Norte_y_Gales,Acceso:Moderado_<=50%,4,0.0605,0.088,0.231,0.6875,2.976,0.0402,2.461,0.1801,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Zona:Sur_y_Este,Prop:Detached + Tenencia:Freehold,4,0.085,0.165,0.244,0.5152,2.111,0.0447,1.559,0.1795,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Zona:Sur_y_Este,Prop:Detached,3,0.085,0.165,0.2505,0.5152,2.056,0.0437,1.546,0.1748,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Obra:Usada + Prop:Detached,Tenencia:Freehold,4,0.132,0.1345,0.7605,0.9814,1.29,0.0297,12.885,0.1703,Trivial / estructural
+Obra:Usada + Tenencia:Freehold + Zona:Sur_y_Este,Acceso:Extremo_>100%,4,0.1215,0.2555,0.3405,0.4755,1.397,0.0345,1.257,0.1697,Accionable (accesibilidad/territorio)
+Zona:Midlands,Obra:Usada + Tenencia:Freehold,3,0.14,0.1815,0.66,0.7713,1.169,0.0202,1.487,0.1636,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Obra:Usada + Prop:Terraced,Zona:Norte_y_Gales,4,0.07,0.094,0.3205,0.7447,2.323,0.0399,2.661,0.1626,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Terraced,Zona:Norte_y_Gales,3,0.0705,0.0955,0.3205,0.7382,2.303,0.0399,2.596,0.1624,Accionable (accesibilidad/territorio)
+Obra:Usada + Zona:Midlands,Tenencia:Freehold,3,0.14,0.1605,0.7605,0.8723,1.147,0.0179,1.875,0.1606,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Obra:Usada,Zona:Sur_y_Este,3,0.1325,0.279,0.392,0.4749,1.212,0.0231,1.158,0.1605,Accionable (accesibilidad/territorio)
+Zona:London,Prop:Flat/Maisonette + Tenencia:Leasehold,3,0.057,0.106,0.192,0.5377,2.801,0.0366,1.748,0.1596,Accionable (accesibilidad/territorio)
+Zona:London,Prop:Flat/Maisonette,2,0.0575,0.106,0.1955,0.5425,2.775,0.0368,1.758,0.1595,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Prop:Detached,Obra:Usada + Tenencia:Freehold,4,0.132,0.1685,0.66,0.7834,1.187,0.0208,1.57,0.1567,Trivial / estructural
+Acceso:Moderado_<=50% + Tenencia:Freehold,Obra:Usada,3,0.139,0.144,0.868,0.9653,1.112,0.014,3.802,0.1546,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Zona:Norte_y_Gales,Obra:Usada + Prop:Terraced,4,0.07,0.129,0.246,0.5426,2.206,0.0383,1.649,0.1544,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Obra:Usada + Tenencia:Freehold,Zona:Sur_y_Este,4,0.1215,0.2445,0.392,0.4969,1.268,0.0257,1.209,0.154,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Terraced,Tenencia:Freehold + Zona:Norte_y_Gales,4,0.0605,0.0955,0.2515,0.6335,2.519,0.0365,2.042,0.1524,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Obra:Usada + Zona:Norte_y_Gales,Prop:Terraced,4,0.07,0.1245,0.26,0.5622,2.162,0.0376,1.69,0.1514,Accionable (accesibilidad/territorio)
+Obra:Usada + Prop:Detached + Zona:Sur_y_Este,Acceso:Extremo_>100%,4,0.0675,0.0895,0.3405,0.7542,2.215,0.037,2.683,0.1495,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Zona:Norte_y_Gales,Prop:Terraced,3,0.0705,0.129,0.26,0.5465,2.102,0.037,1.632,0.1482,Accionable (accesibilidad/territorio)
+Prop:Detached + Zona:Sur_y_Este,Acceso:Extremo_>100% + Obra:Usada,4,0.0675,0.111,0.279,0.6081,2.18,0.0365,1.84,0.1471,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Obra:Usada + Zona:Sur_y_Este,Tenencia:Freehold,4,0.1215,0.1325,0.7605,0.917,1.206,0.0207,2.885,0.1465,Accionable (accesibilidad/territorio)
+Prop:Detached + Zona:Sur_y_Este,Tenencia:Freehold,3,0.111,0.111,0.7605,1.0,1.315,0.0266,999.0,0.146,Trivial / estructural
+Acceso:Moderado_<=50% + Tenencia:Freehold + Zona:Norte_y_Gales,Prop:Terraced,4,0.0605,0.0965,0.26,0.6269,2.411,0.0354,1.984,0.1459,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Prop:Detached,Tenencia:Freehold + Zona:Sur_y_Este,4,0.085,0.1685,0.3025,0.5045,1.668,0.034,1.408,0.1417,Trivial / estructural
+Acceso:Moderado_<=50% + Zona:Norte_y_Gales,Obra:Usada,3,0.1245,0.129,0.868,0.9651,1.112,0.0125,3.784,0.1384,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Obra:Usada + Zona:Sur_y_Este,Prop:Detached,4,0.0675,0.1325,0.2505,0.5094,2.034,0.0343,1.528,0.1373,Accionable (accesibilidad/territorio)
+Zona:London,Tenencia:Leasehold,2,0.059,0.106,0.2395,0.5566,2.324,0.0336,1.715,0.1371,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Terraced + Tenencia:Freehold,Zona:Norte_y_Gales,4,0.0605,0.0835,0.3205,0.7246,2.261,0.0337,2.467,0.1368,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Zona:Sur_y_Este,Obra:Usada + Tenencia:Freehold,4,0.1215,0.165,0.66,0.7364,1.116,0.0126,1.29,0.1356,Accionable (accesibilidad/territorio)
+Prop:Detached + Tenencia:Freehold,Zona:Sur_y_Este,3,0.111,0.244,0.392,0.4549,1.161,0.0154,1.115,0.1288,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Zona:Norte_y_Gales,Prop:Terraced + Tenencia:Freehold,4,0.0605,0.129,0.2395,0.469,1.958,0.0296,1.432,0.1185,Accionable (accesibilidad/territorio)
+Obra:Usada + Prop:Detached + Zona:Sur_y_Este,Tenencia:Freehold,4,0.0895,0.0895,0.7605,1.0,1.315,0.0214,999.0,0.1177,Trivial / estructural
+Prop:Semi-Detached + Zona:Sur_y_Este,Tenencia:Freehold,3,0.0885,0.09,0.7605,0.9833,1.293,0.0201,14.37,0.1144,Trivial / estructural
+Acceso:Extremo_>100% + Prop:Detached + Zona:Sur_y_Este,Tenencia:Freehold,4,0.085,0.085,0.7605,1.0,1.315,0.0204,999.0,0.1118,Trivial / estructural
+Acceso:Extremo_>100% + Prop:Detached + Tenencia:Freehold,Zona:Sur_y_Este,4,0.085,0.166,0.392,0.512,1.306,0.0199,1.246,0.111,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Prop:Detached,Zona:Sur_y_Este,3,0.085,0.1685,0.392,0.5045,1.287,0.0189,1.227,0.1094,Accionable (accesibilidad/territorio)
+Prop:Detached + Zona:Sur_y_Este,Obra:Usada + Tenencia:Freehold,4,0.0895,0.111,0.66,0.8063,1.222,0.0162,1.755,0.1093,Trivial / estructural
+Acceso:Moderado_<=50% + Prop:Terraced,Obra:Usada + Tenencia:Freehold,4,0.0825,0.0955,0.66,0.8639,1.309,0.0195,2.498,0.108,Accionable (accesibilidad/territorio)
+Prop:Terraced + Zona:Norte_y_Gales,Obra:Usada,3,0.0975,0.1025,0.868,0.9512,1.096,0.0085,2.706,0.1068,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Terraced,Obra:Usada,3,0.094,0.0955,0.868,0.9843,1.134,0.0111,8.404,0.1066,Accionable (accesibilidad/territorio)
+Zona:London,Acceso:Extremo_>100%,2,0.062,0.106,0.3405,0.5849,1.718,0.0259,1.589,0.1065,Accionable (accesibilidad/territorio)
+Prop:Terraced + Zona:Sur_y_Este,Tenencia:Freehold,3,0.0835,0.087,0.7605,0.9598,1.262,0.0173,5.953,0.1054,Accionable (accesibilidad/territorio)
+Obra:Usada + Prop:Detached + Tenencia:Freehold,Zona:Sur_y_Este,4,0.0895,0.1955,0.392,0.4578,1.168,0.0129,1.121,0.1045,Accionable (accesibilidad/territorio)
+Prop:Terraced + Zona:Sur_y_Este,Obra:Usada + Tenencia:Freehold,4,0.077,0.087,0.66,0.8851,1.341,0.0196,2.958,0.1033,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Tenencia:Freehold + Zona:Norte_y_Gales,Obra:Usada,4,0.093,0.0965,0.868,0.9637,1.11,0.0092,3.639,0.1033,Accionable (accesibilidad/territorio)
+Prop:Terraced + Zona:Norte_y_Gales,Obra:Usada + Tenencia:Freehold,4,0.083,0.1025,0.66,0.8098,1.227,0.0154,1.787,0.1018,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Zona:Norte_y_Gales,Obra:Usada + Tenencia:Freehold,4,0.093,0.129,0.66,0.7209,1.092,0.0079,1.218,0.1016,Accionable (accesibilidad/territorio)
+Acceso:Alto_50_80% + Zona:Sur_y_Este,Obra:Usada,3,0.095,0.1025,0.868,0.9268,1.068,0.006,1.804,0.1014,Trivial / estructural
+Acceso:Alto_50_80% + Prop:Semi-Detached,Tenencia:Freehold,3,0.0855,0.095,0.7605,0.9,1.183,0.0133,2.395,0.1012,Trivial / estructural
+Zona:London,Acceso:Extremo_>100% + Obra:Usada,3,0.0545,0.106,0.279,0.5142,1.843,0.0249,1.484,0.1004,Accionable (accesibilidad/territorio)
+Acceso:Alto_50_80% + Prop:Terraced,Tenencia:Freehold,3,0.08,0.0845,0.7605,0.9467,1.245,0.0157,4.497,0.0996,Accionable (accesibilidad/territorio)
+Acceso:Alto_50_80% + Prop:Terraced,Obra:Usada + Tenencia:Freehold,4,0.0745,0.0845,0.66,0.8817,1.336,0.0187,2.873,0.0995,Accionable (accesibilidad/territorio)
+Prop:Terraced + Zona:Norte_y_Gales,Tenencia:Freehold,3,0.088,0.1025,0.7605,0.8585,1.129,0.01,1.693,0.0993,Accionable (accesibilidad/territorio)
+Obra:Usada + Prop:Terraced + Zona:Sur_y_Este,Tenencia:Freehold,4,0.077,0.08,0.7605,0.9625,1.266,0.0162,6.387,0.0975,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Terraced,Tenencia:Freehold,3,0.0835,0.0955,0.7605,0.8743,1.15,0.0109,1.906,0.096,Accionable (accesibilidad/territorio)
+Acceso:Critico_80_100%,Zona:Sur_y_Este,2,0.073,0.1425,0.392,0.5123,1.307,0.0171,1.247,0.0954,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Obra:Usada + Prop:Terraced,Tenencia:Freehold,4,0.0825,0.094,0.7605,0.8777,1.154,0.011,1.958,0.0952,Accionable (accesibilidad/territorio)
+Obra:Usada + Zona:London,Acceso:Extremo_>100%,3,0.0545,0.0925,0.3405,0.5892,1.73,0.023,1.605,0.0943,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Terraced + Tenencia:Freehold,Obra:Usada,4,0.0825,0.0835,0.868,0.988,1.138,0.01,11.022,0.0939,Accionable (accesibilidad/territorio)
+Obra:Usada + Prop:Terraced + Zona:Norte_y_Gales,Tenencia:Freehold,4,0.083,0.0975,0.7605,0.8513,1.119,0.0089,1.61,0.0929,Accionable (accesibilidad/territorio)
+Prop:Semi-Detached + Zona:Norte_y_Gales,Tenencia:Freehold,3,0.08,0.091,0.7605,0.8791,1.156,0.0108,1.981,0.0925,Trivial / estructural
+Acceso:Alto_50_80% + Obra:Usada + Prop:Terraced,Tenencia:Freehold,4,0.0745,0.079,0.7605,0.943,1.24,0.0144,4.205,0.0924,Accionable (accesibilidad/territorio)
+Obra:Usada + Prop:Semi-Detached + Zona:Sur_y_Este,Tenencia:Freehold,4,0.071,0.0725,0.7605,0.9793,1.288,0.0159,11.576,0.0914,Trivial / estructural
+Acceso:Moderado_<=50% + Tenencia:Leasehold,Obra:Usada,3,0.083,0.087,0.868,0.954,1.099,0.0075,2.871,0.0912,Accionable (accesibilidad/territorio)
+Prop:Terraced + Tenencia:Freehold + Zona:Norte_y_Gales,Obra:Usada,4,0.083,0.088,0.868,0.9432,1.087,0.0066,2.323,0.0902,Accionable (accesibilidad/territorio)
+Acceso:Critico_80_100% + Tenencia:Freehold,Zona:Sur_y_Este,3,0.062,0.112,0.392,0.5536,1.412,0.0181,1.362,0.0876,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Obra:Usada + Prop:Detached,Zona:Sur_y_Este,4,0.0675,0.1345,0.392,0.5019,1.28,0.0148,1.221,0.0864,Accionable (accesibilidad/territorio)
+Acceso:Alto_50_80% + Prop:Semi-Detached,Obra:Usada + Tenencia:Freehold,4,0.0735,0.095,0.66,0.7737,1.172,0.0108,1.502,0.0862,Trivial / estructural
+Acceso:Alto_50_80% + Obra:Usada + Prop:Semi-Detached,Tenencia:Freehold,4,0.0735,0.083,0.7605,0.8855,1.164,0.0104,2.092,0.0856,Trivial / estructural
+Acceso:Alto_50_80% + Prop:Terraced,Obra:Usada,3,0.079,0.0845,0.868,0.9349,1.077,0.0057,2.028,0.0851,Trivial / estructural
+Prop:Semi-Detached + Zona:Sur_y_Este,Obra:Usada + Tenencia:Freehold,4,0.071,0.09,0.66,0.7889,1.195,0.0116,1.611,0.0849,Trivial / estructural
+Prop:Terraced + Zona:Sur_y_Este,Obra:Usada,3,0.08,0.087,0.868,0.9195,1.059,0.0045,1.641,0.0848,Trivial / estructural
+Obra:Nueva,Acceso:Extremo_>100%,2,0.0615,0.132,0.3405,0.4659,1.368,0.0166,1.235,0.0842,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Prop:Semi-Detached,Tenencia:Freehold,3,0.065,0.066,0.7605,0.9848,1.295,0.0148,15.807,0.0842,Trivial / estructural
+Precio:Atipico_IQR,Obra:Usada + Tenencia:Freehold,3,0.0655,0.078,0.66,0.8397,1.272,0.014,2.122,0.0833,Informativa
+Acceso:Extremo_>100% + Precio:Atipico_IQR,Obra:Usada + Tenencia:Freehold,4,0.0655,0.078,0.66,0.8397,1.272,0.014,2.122,0.0833,Accionable (accesibilidad/territorio)
+Prop:Detached + Zona:Norte_y_Gales,Tenencia:Freehold,3,0.069,0.0755,0.7605,0.9139,1.202,0.0116,2.782,0.0829,Trivial / estructural
+Prop:Terraced + Tenencia:Freehold + Zona:Sur_y_Este,Obra:Usada,4,0.077,0.0835,0.868,0.9222,1.062,0.0045,1.696,0.0818,Trivial / estructural
+Prop:Semi-Detached + Zona:Norte_y_Gales,Obra:Usada + Tenencia:Freehold,4,0.07,0.091,0.66,0.7692,1.166,0.0099,1.473,0.0816,Trivial / estructural
+Precio:Atipico_IQR,Obra:Usada,2,0.074,0.078,0.868,0.9487,1.093,0.0063,2.574,0.0809,Informativa
+Acceso:Extremo_>100% + Precio:Atipico_IQR,Obra:Usada,3,0.074,0.078,0.868,0.9487,1.093,0.0063,2.574,0.0809,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Terraced + Zona:Norte_y_Gales,Obra:Usada,4,0.07,0.0705,0.868,0.9929,1.144,0.0088,18.612,0.0801,Accionable (accesibilidad/territorio)
+Acceso:Alto_50_80% + Prop:Terraced + Tenencia:Freehold,Obra:Usada,4,0.0745,0.08,0.868,0.9312,1.073,0.0051,1.92,0.0799,Trivial / estructural
+Obra:Usada + Prop:Semi-Detached + Zona:Norte_y_Gales,Tenencia:Freehold,4,0.07,0.081,0.7605,0.8642,1.136,0.0084,1.764,0.0795,Trivial / estructural
+Acceso:Critico_80_100% + Obra:Usada,Zona:Sur_y_Este,3,0.059,0.114,0.392,0.5175,1.32,0.0143,1.26,0.0779,Accionable (accesibilidad/territorio)
+Prop:Detached + Zona:Midlands,Tenencia:Freehold,3,0.0585,0.0585,0.7605,1.0,1.315,0.014,999.0,0.0769,Trivial / estructural
+Obra:Usada + Precio:Atipico_IQR,Tenencia:Freehold,3,0.0655,0.074,0.7605,0.8851,1.164,0.0092,2.085,0.0762,Informativa
+Acceso:Extremo_>100% + Obra:Usada + Precio:Atipico_IQR,Tenencia:Freehold,4,0.0655,0.074,0.7605,0.8851,1.164,0.0092,2.085,0.0762,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Flat/Maisonette,Obra:Usada,3,0.0685,0.0715,0.868,0.958,1.104,0.0064,3.146,0.0756,Accionable (accesibilidad/territorio)
+Precio:Atipico_IQR + Tenencia:Freehold,Obra:Usada,3,0.0655,0.066,0.868,0.9924,1.143,0.0082,17.424,0.0749,Informativa
+Acceso:Extremo_>100% + Precio:Atipico_IQR + Tenencia:Freehold,Obra:Usada,4,0.0655,0.066,0.868,0.9924,1.143,0.0082,17.424,0.0749,Accionable (accesibilidad/territorio)
+Acceso:Alto_50_80% + Tenencia:Freehold + Zona:Sur_y_Este,Obra:Usada,4,0.0685,0.0735,0.868,0.932,1.074,0.0047,1.94,0.0735,Trivial / estructural
+Precio:Atipico_IQR,Tenencia:Freehold,2,0.066,0.078,0.7605,0.8462,1.113,0.0067,1.557,0.0734,Informativa
+Acceso:Extremo_>100% + Precio:Atipico_IQR,Tenencia:Freehold,3,0.066,0.078,0.7605,0.8462,1.113,0.0067,1.557,0.0734,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Flat/Maisonette + Tenencia:Leasehold,Obra:Usada,4,0.066,0.069,0.868,0.9565,1.102,0.0061,3.036,0.0727,Accionable (accesibilidad/territorio)
+Acceso:Critico_80_100% + Obra:Usada + Tenencia:Freehold,Zona:Sur_y_Este,4,0.05,0.088,0.392,0.5682,1.449,0.0155,1.408,0.0725,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Obra:Usada + Prop:Semi-Detached,Tenencia:Freehold,4,0.055,0.056,0.7605,0.9821,1.291,0.0124,13.412,0.071,Trivial / estructural
+Acceso:Extremo_>100% + Zona:Midlands,Tenencia:Freehold,3,0.0535,0.054,0.7605,0.9907,1.303,0.0124,25.866,0.0697,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Prop:Semi-Detached,Obra:Usada + Tenencia:Freehold,4,0.055,0.066,0.66,0.8333,1.263,0.0114,2.04,0.0694,Trivial / estructural
+Acceso:Critico_80_100% + Zona:Sur_y_Este,Tenencia:Freehold,3,0.062,0.073,0.7605,0.8493,1.117,0.0065,1.589,0.0692,Accionable (accesibilidad/territorio)
+Acceso:Moderado_<=50% + Prop:Terraced + Zona:Norte_y_Gales,Tenencia:Freehold,4,0.0605,0.0705,0.7605,0.8582,1.128,0.0069,1.688,0.0683,Accionable (accesibilidad/territorio)
+Prop:Semi-Detached + Zona:Midlands,Tenencia:Freehold,3,0.0535,0.0555,0.7605,0.964,1.268,0.0113,6.646,0.0678,Trivial / estructural
+Obra:Usada + Prop:Detached + Zona:Midlands,Tenencia:Freehold,4,0.0505,0.0505,0.7605,1.0,1.315,0.0121,999.0,0.0664,Trivial / estructural
+Prop:Detached + Zona:Midlands,Obra:Usada + Tenencia:Freehold,4,0.0505,0.0585,0.66,0.8632,1.308,0.0119,2.486,0.0661,Trivial / estructural
+Acceso:Alto_50_80% + Zona:Midlands,Tenencia:Freehold,3,0.056,0.0635,0.7605,0.8819,1.16,0.0077,2.028,0.0649,Accionable (accesibilidad/territorio)
+Acceso:Extremo_>100% + Zona:Norte_y_Gales,Tenencia:Freehold,3,0.0515,0.0595,0.7605,0.8655,1.138,0.0063,1.781,0.0586,Accionable (accesibilidad/territorio)
+Obra:Usada + Prop:Detached + Zona:Norte_y_Gales,Tenencia:Freehold,4,0.05,0.0565,0.7605,0.885,1.164,0.007,2.082,0.0582,Trivial / estructural
+Acceso:Critico_80_100% + Obra:Usada + Zona:Sur_y_Este,Tenencia:Freehold,4,0.05,0.059,0.7605,0.8475,1.114,0.0051,1.57,0.0557,Accionable (accesibilidad/territorio)

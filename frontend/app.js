@@ -150,7 +150,7 @@ function updateFormHelpers() {
   if (Number.isFinite(rawPrice) && rawPrice > 0) {
     if (currency === "COP") {
       priceGBP = rawPrice / rate;
-      priceBadge.textContent = "≈ " + moneyGBP(priceGBP) + " GBP";
+      priceBadge.textContent = "≈ " + moneyGBP(priceGBP);
     } else {
       priceGBP = rawPrice;
       priceBadge.textContent = "≈ " + moneyCOP(priceGBP * rate);

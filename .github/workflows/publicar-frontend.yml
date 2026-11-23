@@ -1,9 +1,10 @@
 name: Publicar el simulador en Netlify
 on:
+  workflow_dispatch:
   push:
     branches: [deploy/frontend]
     paths:
-      - 'site/**'
+      - 'frontend/**'
       - 'netlify.toml'
       - '.github/workflows/publicar-frontend.yml'
 permissions: {}

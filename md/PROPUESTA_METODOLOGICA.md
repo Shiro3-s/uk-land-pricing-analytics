@@ -2,13 +2,11 @@
 
 **Accesibilidad de vivienda para jóvenes (18-34) en el Reino Unido: salario, hipoteca y clima**
 
-**Proyecto de Minería de Datos · Avance 1**
+**Proyecto de Minería de Datos · Marco KDD + CRISP-DM**
 
-- **Institución:** UNIMINUTO, Ibagué
-- **Asignatura:** Minería de Datos
-- **Docente:** Esteban Ernesto Morales Castro
-- **Autores:** _(nombres de los integrantes)_
-- **Fecha:** septiembre de 2026
+- **Autores:** Juan Pablo Angel Quitian · Joel Sebastian Bueno Medina
+- **Enfoque:** Minería de datos descriptiva, predictiva, segmentación y patrones frecuentes
+- **Fecha:** 2026
 
 ---
 
@@ -66,10 +64,14 @@ parcial y ligado a la herramienta SAS. Cada fase se reporta con su equivalente e
 
 | Fase | KDD | CRISP-DM | Estado |
 |------|-----|----------|--------|
-| 1. Introducción y objetivos | Selección | Entendimiento del negocio | Completada |
-| 2. Fuentes y tipos de datos | Selección y preprocesamiento I | Entendimiento de los datos | Completada |
-| 3. Limpieza y cruzamiento | Preprocesamiento II | Preparación de los datos | **En curso** |
-| 4. (futura) Análisis y modelado | Minería | Modelado | Pendiente |
+| 1. Introducción, objetivos, hipótesis y Escalera DIKW | Selección | Entendimiento del negocio | ✔ Completada |
+| 2. Fuentes (11,37 M filas), formatos y auditoría | Selección y preprocesamiento I | Entendimiento de los datos | ✔ Completada |
+| 3. Limpieza (MCAR/MAR/MNAR, Tukey IQR, winsorización) y cruce | Preprocesamiento II | Preparación de los datos | ✔ Completada |
+| 4. Transformación (3 Escaladores, One-Hot, VIF, PCA) y EDA (6 figuras) | Transformación y Exploración | Preparación y Exploración | ✔ Completada |
+| 5. Modelado CON Etiqueta (Tipo 1 Regresión y Tipo 2 Clasificación) | Minería Supervisada | Modelado | ✔ Completada |
+| 6. Modelado SIN Etiqueta (Tipo 3 Clustering 11,35M y Tipo 4 Apriori) | Minería No Supervisada | Modelado de Patrones | ✔ Completada |
+| 7. Evaluación Forense (CRISP-DM 5), 3 Umbrales y Presentación Interactiva | Interpretación y Evaluación | Evaluación | ✔ Completada |
+| 8. Subida de BD/CSV a Azure Database for PostgreSQL (Fase 3) | Operacionalización | Despliegue en Azure | ⏭ Lista en `md/GUIA_FASE3_SUBIDA_AZURE.md` |
 
 El proyecto aplica el flujo estándar a las 4 fuentes del
 Reino Unido: `deduplicar → categorías → nulos (MCAR/MAR/MNAR) → outliers (IQR) → cruzar`.
@@ -124,14 +126,11 @@ Kaggle (4 conjuntos: F1-F4), Banco de Inglaterra (CPI).
 - Las hipotecas son un **snapshot 2022**; las tasas anteriores se aproximan con ese corte.
 - Se analizan series en sus rangos reales: el cruce completo abarca **2015-2020**.
 
-## 11. Entregables
+## 11. Entregables Consolidados del Proyecto
 
-- `script/proyecto/` — paquete modular con la lógica (config, carga, limpieza,
-  **diagnóstico de faltantes MCAR/MAR/MNAR e IQR vs z-score**, transformaciones, cruces,
-  indicadores, gráficas, validación, bitácora, pipeline).
-- `libros/*.ipynb` — notebooks reproducibles (carga, limpieza, cruces, hipoteca, clima).
-- `data/integrado/maestro_joven_uk.parquet` — cuadro maestro + tablas planas.
-- `documento_avance1.docx` — documento del avance en normas **APA 7**, exportable a PDF.
-- `md/INFORME_AVANCE1.md` — informe de la fase 3 (diagnóstico por fuente y lectura del cruce).
-- `md/BITACORA_DECISIONES.md` — decisiones de limpieza y cruzamiento.
-- Figuras en `md/figuras/` y, más adelante, este documento en PDF (generado por los autores).
+- `Cuaderno_Maestro_Proyecto_UK.ipynb` y `main_maestro_completo.py` — **Libro Mayor Integral** con todas las fases (1 a 12), EDA completo y explicación individual de cada tabla y gráfica.
+- `Presentacion_Interactiva_Proyecto_UK.html` (`app_presentacion_interactiva.py`) y `Presentacion_Proyecto_UK.pptx` — **Presentación Ejecutiva e Interactiva (Fase 2)** con Simulador de Predicción en Vivo (por opciones y a escrita) conectado a los CSV/BD.
+- `libros/00` a `13` — 14 cuadernos modulares reproducibles numerados en orden.
+- `script/proyecto/` — paquete modular con toda la lógica analítica, auditoría, telemetría y predicción dual.
+- `data/modelos/` y `data/integrado/` — 4 modelos `.joblib` preentrenados, `contrato_prediccion.json`, `esquema_bd.sql` y 17 tablas CSV limpias (`1,83 MB`).
+- `md/MEMORIA_TECNICA.md`, `md/DICCIONARIO_DATOS.md`, `md/BITACORA_DECISIONES.md` y `md/GUIA_FASE3_SUBIDA_AZURE.md` — documentación técnica oficial y guía guardada para la subida a **Azure Database for PostgreSQL**.

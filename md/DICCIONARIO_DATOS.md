@@ -38,11 +38,10 @@ La matriz `data/integrado/matriz_features.parquet` añade el objetivo y las colu
 | `z_precio_mediana` … `z_anos_salario` | float64 | Los 9 rasgos estandarizados (media 0, desv 1) con `StandardScaler` | ~ −2 a +3 | desviaciones | escalado con `ColumnTransformer` dentro de cada pliegue del CV (sin fuga); **elegido en la comparación empírica del libro 06** |
 | `region_*` (9 columnas) | float64 | One-hot de la región con `OneHotEncoder` y `drop="first"` | 0 o 1 | binario | codificación elegida en el libro 06 (R² 0,891 vs −0,051 del ordinal). Con `drop="first"` hay **9** columnas para **10** regiones: la región ausente es la de referencia implícita y los coeficientes de la regresión se pueden interpretar. Sin él, las 10 dummy sumarían siempre 1 (trampa de variables mudas, VIF infinito) |
 
-### 2-bis. Variables propuestas en el análisis avanzado (cuaderno consolidado §9-bis)
+### 2-bis. Variables propuestas en el análisis avanzado (cuaderno consolidado)
 
-No forman parte de la matriz X·y: se **proponen y validan** en la sección 9-bis del
-cuaderno consolidado (nivel *Excepcional* de la rúbrica). Se documentan aquí para que el
-diccionario siga siendo completo, que es lo que exige el ítem 6 del checklist.
+No forman parte de la matriz X·y base: se **proponen y validan** en la etapa exploratoria
+avanzada y se documentan aquí para mantener la completitud del diccionario de datos.
 
 | Columna | Tipo | Descripción | Rango | Unidades | Tratamiento y validación |
 |---|---|---|---|---|---|
@@ -89,8 +88,39 @@ análisis, hay que declarar cuál de los dos se está usando.
 | anomalías climáticas `*_anom` | 05 · Clima y precios | `05_Clima_y_Precios.ipynb` |
 | matriz X·y (z_ + dummies) y comparación de métodos | 06 · Transformación | `06_Transformacion_y_Matriz.ipynb` |
 | EDA (univariado/bivariado, 6 figuras, 3 hallazgos) | 07 · EDA | `07_EDA_Accesibilidad.ipynb` |
-| modelado (RL/KNN/árbol/forest, CV-5, importancia) | 08 · Modelado | `08_Modelado_Accesibilidad.ipynb` |
+| modelado de regresión (RL/KNN/árbol/forest, CV-5, importancia) | 08 · Regresión | `08_Modelado_Accesibilidad.ipynb` |
+| clasificación I sin fuga (`clase`: Alto/Moderado, CART `d=4`) | 09 · Clasificación I | `09_Arbol_Decision_Clasificacion.ipynb` |
+| torneo comparativo (Árbol vs. Naive Bayes vs. KNN) y contrato ganador | 10 · Torneo | `10_Torneo_Clasificadores.ipynb`, `data/modelos/contrato_prediccion.json` |
+| segmentación no supervisada (`cluster`, `segmento_nombre`, `segmento_f1`) | 11 · Clustering | `11_Clustering_Segmentacion.ipynb`, `data/integrado/segmentos_*.csv` |
+| reglas de asociación (`antecedente`, `consecuente`, `soporte`, `confianza`, `lift`, `score`) | 12 · Asociación | `12_Reglas_Asociacion_Apriori.ipynb`, `data/integrado/reglas_asociacion_*.csv` |
+| evaluación forense (umbrales, CV-5 por pliegue y comparativa global) | 13 · Evaluación | `13_Evaluacion_Modelos_y_Umbrales.ipynb`, `data/integrado/evaluacion_*.csv` |
+
+## 5. Artefactos derivados adicionales (Clasificación, Clustering y Asociación)
+
+| Artefacto | Grano / filas | Variables clave | Uso |
+|---|---|---|---|
+| `data/modelos/modelo_ganador_clasificacion.joblib` | Modelo entrenado (`1,35 KB`) | 7 rasgos numéricos sin fuga + 9 dummies `region` | Tipo 2 · Clasificador regional principal (`DecisionTreeClassifier`, `max_depth=4`) |
+| `data/modelos/modelo_regresion_esfuerzo.joblib` | Modelo entrenado (`~1,2 KB`) | 7 rasgos numéricos sin fuga + 9 dummies `region` | Tipo 1A · Regresión continua de esfuerzo salarial (`Ridge`, `R² = 0,909`, `MAE = 4,2 pp`) |
+| `data/modelos/modelo_clasificacion_tasa_f2.joblib` | Modelo entrenado (`~1,8 KB`) | `comisiones_total`, `meses_inicial`, `tipo`, `subtitulo` | Tipo 2B · Clasificador F2 de tasa atípica (> 8,13 %) con 3 umbrales operativos |
+| `data/modelos/modelo_regresion_tasa_f2.joblib` | Modelo entrenado | `comisiones_total`, `meses_inicial`, `tipo`, `subtitulo` | Tipo 1B · Regresión continua de tasa hipotecaria F2 (`RandomForestRegressor`, `R² = 0,964`, `MAE = 0,17 pp`) |
+| `data/modelos/contrato_prediccion.json` | Metadatos JSON | `tipos_de_prediccion_implementados`, `modelos_serializados`, `umbrales_operativos`, `capa_datos_futura_bd` | Contrato técnico integral para futura integración con API y frontend web |
+| `data/modelos/esquema_bd.sql` | DDL SQL estándar | Nivel 1 (17 tablas operativas `1,83 MB` + `historial_predicciones`) y Nivel 2 (`transacciones_f1`) | Esquema relacional listo para **Azure Database for PostgreSQL Flexible Server** (`md/GUIA_FASE3_SUBIDA_AZURE.md`) |
+| `data/integrado/comparativa_regresion_dual.csv` | 8 filas (2 escenarios × 4 regresores) | `escenario`, `modelo`, `r2_media`, `r2_desv`, `rmse`, `mae` | Benchmark comparativo del Tipo 1 (Regresión Continua sin fuga) |
+| `data/integrado/clustering_benchmark_24gb.csv` | Escalas `10k` a `11,37 M` | `n_transacciones`, `silueta_muestral`, `tiempo_s`, `pico_ram_mb`, `rss_proceso_mb`, `pct_presupuesto_ram` | Benchmark real de escalabilidad del clustering frente al límite de 24 GB de RAM |
+| `data/integrado/hipotecas_catalogo_limpio.csv` | 7.796 filas × 14 cols | Catálogo hipotecario limpio F2 | Exportación plana lista para carga directa en base de datos |
+| `data/integrado/precios_ciudad_limpio.csv` | 14.050 filas × 6 cols | Agregado anual por 1.153 ciudades UK | Exportación plana lista para consultas granulares por ciudad en el futuro frontend |
+| `data/integrado/torneo_clasificadores_resumen.csv` | 8 filas (2 escenarios × 4 modelos) | `acc_train`, `acc_test`, `cv5_acc`, `f1_test`, `roc_auc_test`, `brier_score`, `predict_ms`, `peso_kb` | Evidencia empírica del torneo comparativo |
+| `data/integrado/segmentos_territoriales.csv` | 60 filas (región × año) | `cluster`, `segmento_nombre`, `accion_politica`, `esfuerzo` (post-hoc) | Segmentación territorial K-Means ($k=3$) |
+| `data/integrado/segmentos_hipotecas_muestra.csv` | 3 perfiles agregados | `segmento_hipoteca`, `tasa_inicial_media`, `comisiones_media`, `pct_first_time_buyer` | Taxonomía de oferta hipotecaria F2 |
+| `data/integrado/segmentos_transacciones_1m.csv` | 4 perfiles agregados (~1 M ventas) | `segmento_f1`, `n_transacciones`, `precio_medio_gbp`, `pct_freehold`, `pct_flat`, `pct_london` | Clustering en *streaming* (`MiniBatchKMeans`, perfil `local` 1M / `cloud` 11,37M) |
+| `data/integrado/reglas_asociacion_inmobiliario.csv` | 195 reglas ($n=2.000$) | `antecedente`, `consecuente`, `soporte`, `confianza`, `lift`, `score`, `categoria_analitica` | Reglas Apriori sobre compraventas reales F1 |
+| `data/integrado/reglas_asociacion_hipotecas.csv` | 481 reglas ($n=2.999$) | `antecedente`, `consecuente`, `soporte`, `confianza`, `lift`, `score` | Reglas Apriori sobre condiciones crediticias F2 |
+| `data/integrado/evaluacion_umbrales_resumen.csv` | 11 umbrales (0,05–0,80) | `umbral`, `TP_detectados`, `FP_falsas_alarmas`, `precision`, `recall`, `f1`, `youden_J` | Optimización de umbral ante costos asimétricos |
+| `data/integrado/evaluacion_cv5_pliegues.csv` | 90 registros (3 esc. × 6 mod. × 5 folds) | `escenario`, `modelo`, `pliegue`, `accuracy`, `f1`, `recall`, `roc_auc` | Estabilidad pliegue por pliegue (CV-5 en Pipeline) |
+| `data/integrado/comparativa_global_modelos.csv` | 8 familias de modelos | `Algoritmo / Familia`, `Estado`, `Maestro 50/50`, `Hipotecas Atipico 9,8%`, `Veredicto practico` | Semáforo global de viabilidad y desempeño |
+| `data/integrado/telemetria_rendimiento.csv` | 13 etapas analíticas | `etapa`, `categoria`, `perfil`, `filas_procesadas`, `tiempo_s`, `pico_ram_mb`, `limite_ram_mb`, `salida_kb`, `estado` | Telemetría unificada de tiempo y consumo de RAM (incluido clustering 10k/100k/~1M) |
+| `data/integrado/auditoria_fuentes_calidad.csv` | 38 archivos CSV / Parquet | `carpeta`, `archivo`, `formato`, `separador`, `tamano_mb`, `filas`, `columnas`, `nulos_detectados`, `duplicados`, `apertura_ok`, `estado_limpieza` | Auditoría integral de cobertura de fuentes y estado sanitario de limpieza |
 
 ---
 
-*Documento vivo: se regenera/verifica al ejecutar los libros y `script/proyecto/matriz_xy.py`. Última verificación: octubre 2026.*
+*Documento vivo: se regenera y verifica al ejecutar los cuadernos y módulos de `script/proyecto/`.*

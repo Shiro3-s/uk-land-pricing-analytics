@@ -1,0 +1,91 @@
+escenario,modelo,pliegue,accuracy,f1,recall,roc_auc
+maestro_balanceado,Ingenuo (mayoritaria),1,0.5,0.0,0.0,0.5
+maestro_balanceado,Ingenuo (mayoritaria),2,0.5,0.0,0.0,0.5
+maestro_balanceado,Ingenuo (mayoritaria),3,0.5,0.0,0.0,0.5
+maestro_balanceado,Ingenuo (mayoritaria),4,0.5,0.0,0.0,0.5
+maestro_balanceado,Ingenuo (mayoritaria),5,0.5,0.0,0.0,0.5
+maestro_balanceado,Arbol CART (d=4),1,0.8333,0.8,0.6667,0.8333
+maestro_balanceado,Arbol CART (d=4),2,0.9167,0.9231,1.0,0.9028
+maestro_balanceado,Arbol CART (d=4),3,0.75,0.7273,0.6667,0.7222
+maestro_balanceado,Arbol CART (d=4),4,0.6667,0.7143,0.8333,0.7361
+maestro_balanceado,Arbol CART (d=4),5,0.75,0.8,1.0,0.75
+maestro_balanceado,Naive Bayes (GaussianNB),1,0.6667,0.6667,0.6667,0.75
+maestro_balanceado,Naive Bayes (GaussianNB),2,0.8333,0.8333,0.8333,0.8333
+maestro_balanceado,Naive Bayes (GaussianNB),3,0.9167,0.9091,0.8333,0.9167
+maestro_balanceado,Naive Bayes (GaussianNB),4,0.8333,0.8571,1.0,0.75
+maestro_balanceado,Naive Bayes (GaussianNB),5,0.75,0.6667,0.5,0.8056
+maestro_balanceado,KNN escalado (k=5),1,0.8333,0.8,0.6667,0.8611
+maestro_balanceado,KNN escalado (k=5),2,1.0,1.0,1.0,1.0
+maestro_balanceado,KNN escalado (k=5),3,1.0,1.0,1.0,1.0
+maestro_balanceado,KNN escalado (k=5),4,0.8333,0.8571,1.0,0.9444
+maestro_balanceado,KNN escalado (k=5),5,0.8333,0.8333,0.8333,0.9306
+maestro_balanceado,KNN escalado (k=15),1,0.75,0.6667,0.5,0.7639
+maestro_balanceado,KNN escalado (k=15),2,0.9167,0.9091,0.8333,0.9583
+maestro_balanceado,KNN escalado (k=15),3,0.9167,0.9091,0.8333,1.0
+maestro_balanceado,KNN escalado (k=15),4,0.9167,0.9231,1.0,0.9444
+maestro_balanceado,KNN escalado (k=15),5,0.75,0.6667,0.5,0.8056
+maestro_balanceado,Random Forest (ensamble),1,0.75,0.6667,0.5,0.7222
+maestro_balanceado,Random Forest (ensamble),2,0.9167,0.9231,1.0,1.0
+maestro_balanceado,Random Forest (ensamble),3,1.0,1.0,1.0,1.0
+maestro_balanceado,Random Forest (ensamble),4,0.9167,0.9231,1.0,0.9722
+maestro_balanceado,Random Forest (ensamble),5,0.75,0.7692,0.8333,0.8611
+maestro_critico,Ingenuo (mayoritaria),1,0.8333,0.0,0.0,0.5
+maestro_critico,Ingenuo (mayoritaria),2,0.8333,0.0,0.0,0.5
+maestro_critico,Ingenuo (mayoritaria),3,0.8333,0.0,0.0,0.5
+maestro_critico,Ingenuo (mayoritaria),4,0.8333,0.0,0.0,0.5
+maestro_critico,Ingenuo (mayoritaria),5,0.75,0.0,0.0,0.5
+maestro_critico,Arbol CART (d=4),1,0.8333,0.5,0.5,0.925
+maestro_critico,Arbol CART (d=4),2,1.0,1.0,1.0,1.0
+maestro_critico,Arbol CART (d=4),3,0.9167,0.8,1.0,0.95
+maestro_critico,Arbol CART (d=4),4,0.75,0.5714,1.0,0.85
+maestro_critico,Arbol CART (d=4),5,0.8333,0.5,0.3333,0.6667
+maestro_critico,Naive Bayes (GaussianNB),1,0.8333,0.0,0.0,1.0
+maestro_critico,Naive Bayes (GaussianNB),2,0.9167,0.6667,0.5,0.95
+maestro_critico,Naive Bayes (GaussianNB),3,0.75,0.0,0.0,0.85
+maestro_critico,Naive Bayes (GaussianNB),4,0.5833,0.0,0.0,0.55
+maestro_critico,Naive Bayes (GaussianNB),5,0.8333,0.5,0.3333,0.6296
+maestro_critico,KNN escalado (k=5),1,0.9167,0.6667,0.5,1.0
+maestro_critico,KNN escalado (k=5),2,1.0,1.0,1.0,1.0
+maestro_critico,KNN escalado (k=5),3,0.9167,0.6667,0.5,1.0
+maestro_critico,KNN escalado (k=5),4,0.8333,0.6667,1.0,0.95
+maestro_critico,KNN escalado (k=5),5,0.75,0.0,0.0,0.6852
+maestro_critico,KNN escalado (k=15),1,0.8333,0.0,0.0,1.0
+maestro_critico,KNN escalado (k=15),2,0.8333,0.0,0.0,1.0
+maestro_critico,KNN escalado (k=15),3,0.8333,0.0,0.0,1.0
+maestro_critico,KNN escalado (k=15),4,0.8333,0.0,0.0,0.9
+maestro_critico,KNN escalado (k=15),5,0.75,0.0,0.0,0.6852
+maestro_critico,Random Forest (ensamble),1,0.8333,0.5,0.5,0.95
+maestro_critico,Random Forest (ensamble),2,0.9167,0.6667,0.5,1.0
+maestro_critico,Random Forest (ensamble),3,1.0,1.0,1.0,1.0
+maestro_critico,Random Forest (ensamble),4,0.75,0.4,0.5,0.8
+maestro_critico,Random Forest (ensamble),5,0.8333,0.5,0.3333,0.7778
+hipotecas_atipico,Ingenuo (mayoritaria),1,0.9019,0.0,0.0,0.5
+hipotecas_atipico,Ingenuo (mayoritaria),2,0.9025,0.0,0.0,0.5
+hipotecas_atipico,Ingenuo (mayoritaria),3,0.9025,0.0,0.0,0.5
+hipotecas_atipico,Ingenuo (mayoritaria),4,0.9025,0.0,0.0,0.5
+hipotecas_atipico,Ingenuo (mayoritaria),5,0.9019,0.0,0.0,0.5
+hipotecas_atipico,Arbol CART (d=4),1,0.9282,0.4286,0.2745,0.9537
+hipotecas_atipico,Arbol CART (d=4),2,0.9256,0.3895,0.2434,0.9521
+hipotecas_atipico,Arbol CART (d=4),3,0.9288,0.4365,0.2829,0.944
+hipotecas_atipico,Arbol CART (d=4),4,0.9262,0.4103,0.2632,0.946
+hipotecas_atipico,Arbol CART (d=4),5,0.9333,0.4902,0.3268,0.9552
+hipotecas_atipico,Naive Bayes (GaussianNB),1,0.3256,0.2253,1.0,0.6864
+hipotecas_atipico,Naive Bayes (GaussianNB),2,0.3573,0.2328,1.0,0.6779
+hipotecas_atipico,Naive Bayes (GaussianNB),3,0.3419,0.2144,0.9211,0.6269
+hipotecas_atipico,Naive Bayes (GaussianNB),4,0.3419,0.2286,1.0,0.6714
+hipotecas_atipico,Naive Bayes (GaussianNB),5,0.3515,0.2323,1.0,0.7144
+hipotecas_atipico,KNN escalado (k=5),1,0.9532,0.7726,0.8105,0.9629
+hipotecas_atipico,KNN escalado (k=5),2,0.9596,0.7893,0.7763,0.9802
+hipotecas_atipico,KNN escalado (k=5),3,0.9513,0.7654,0.8158,0.9788
+hipotecas_atipico,KNN escalado (k=5),4,0.9468,0.7296,0.7368,0.9603
+hipotecas_atipico,KNN escalado (k=5),5,0.9609,0.8168,0.8889,0.9833
+hipotecas_atipico,KNN escalado (k=15),1,0.9442,0.7129,0.7059,0.9753
+hipotecas_atipico,KNN escalado (k=15),2,0.9474,0.7248,0.7105,0.9779
+hipotecas_atipico,KNN escalado (k=15),3,0.9416,0.7036,0.7105,0.974
+hipotecas_atipico,KNN escalado (k=15),4,0.9442,0.7129,0.7105,0.9747
+hipotecas_atipico,KNN escalado (k=15),5,0.9461,0.7375,0.7712,0.98
+hipotecas_atipico,Random Forest (ensamble),1,0.9301,0.5198,0.3856,0.9711
+hipotecas_atipico,Random Forest (ensamble),2,0.9301,0.4467,0.2895,0.9735
+hipotecas_atipico,Random Forest (ensamble),3,0.9301,0.4631,0.3092,0.9755
+hipotecas_atipico,Random Forest (ensamble),4,0.9333,0.5048,0.3487,0.9728
+hipotecas_atipico,Random Forest (ensamble),5,0.9346,0.5189,0.3595,0.9768

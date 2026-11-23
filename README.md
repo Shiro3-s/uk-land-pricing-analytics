@@ -1,367 +1,129 @@
-# Accesibilidad de vivienda para jóvenes (18-34) en el Reino Unido
+# Accesibilidad de vivienda para jóvenes (18–34) en el Reino Unido
 
-**Proyecto de Minería de Datos · UNIMINUTO Ibagué 2026-2 · Avance 1**
+**Proyecto Integral de Minería de Datos · Ciclo KDD + CRISP-DM (Fases 1 a 12)**  
+**Autores:** Juan Pablo Angel Quitian · Joel Sebastian Bueno Medina
 
-**Propósito.** Estimar **cuántos años de salario necesita un joven (18-34) para comprar
-una vivienda** en cada región del Reino Unido, **qué esfuerzo hipotecario** le exige cada
-una (porción del salario que se va en la cuota) y **qué papel juega el clima** en la
-evolución de los precios.
+**Propósito.** Estimar **cuántos años de salario necesita un joven (18–34) para comprar una vivienda** en cada región del Reino Unido, **qué esfuerzo hipotecario** exige cada mercado, **qué papel juega el clima** en la evolución de precios, **qué algoritmo predictivo conviene adoptar según si es con etiqueta o sin etiqueta y su cantidad de aciertos**, **qué segmentos naturales** estructuran la oferta inmobiliaria e hipotecaria (escalando hasta **11,35 millones de transacciones en *streaming*** bajo un presupuesto de 24 GB de RAM) y **qué patrones co-ocurrentes** revelan las reglas de asociación.
 
-**Qué contiene este repositorio.** 5 fuentes de datos del Reino Unido · 8 cuadernos por
-fase · 1 cuaderno consolidado · 11 módulos de Python · 17 figuras · diccionario de datos ·
-memoria técnica · bitácora de decisiones.
+**Entregables principales y despliegue en producción:**
+- **Simulador Web Público en Vivo (Netlify + Render + Azure PostgreSQL):** https://uk-vivienda-joven.netlify.app/ (soporte **£ GBP y $ COP**, **LTV/TLV**, plazo hasta **480 meses / 40 años**, escritura libre bilingüe **ES/EN**, 3 gráficas claras, visor en vivo de **Azure BD** y descarga **Excel `.xlsx` de 5 hojas**; presentación en https://uk-vivienda-joven.netlify.app/metodologia).
+- **API Backend en Vivo (Render):** https://uk-vivienda-api.onrender.com (`/healthz`, `/api/contexto`, `/api/predecir`, `/api/datos`, `/api/datos/exportar.xlsx`).
+- **Base de Datos en la Nube (Microsoft Azure PostgreSQL):** servidor `pg-actividad-db-uk26` · base de datos `db_actividad_mineria` (`19` tablas, `24.777` filas).
+- **Excel Oficial Multi-Hoja en Azure Blob Storage (`stactividaduk26`):** https://stactividaduk26.blob.core.windows.net/excel-datos/vivienda-uk-azure-datos.xlsx (`5` hojas verificadas `200 OK`).
+- **Libro Mayor Integral explicado tabla por tabla y gráfica por gráfica:** [`Cuaderno_Maestro_Proyecto_UK.ipynb`](Cuaderno_Maestro_Proyecto_UK.ipynb) y su espejo ejecutable [`main_maestro_completo.py`](main_maestro_completo.py).
+- **Presentación Interactiva con Simulador de Predicción en Vivo (a escrita y por opciones) conectado a la BD/CSV:** [`Presentacion_Interactiva_Proyecto_UK.html`](Presentacion_Interactiva_Proyecto_UK.html) (servidor en vivo [`app_presentacion_interactiva.py`](app_presentacion_interactiva.py)) y presentación nativa PowerPoint **[`Presentacion_Proyecto_UK.pptx`](Presentacion_Proyecto_UK.pptx)**.
+- **14 Cuadernos Modulares numerados (`00` a `13`):** en [`libros/`](libros/).
+- **4 Documentos Técnicos Oficiales + Guía de Fase 3 Azure:** en [`md/`](md/) ([`MEMORIA_TECNICA.md`](md/MEMORIA_TECNICA.md), [`DICCIONARIO_DATOS.md`](md/DICCIONARIO_DATOS.md), [`BITACORA_DECISIONES.md`](md/BITACORA_DECISIONES.md), [`PROPUESTA_METODOLOGICA.md`](md/PROPUESTA_METODOLOGICA.md) y [`GUIA_FASE3_SUBIDA_AZURE.md`](md/GUIA_FASE3_SUBIDA_AZURE.md)).
 
-**Alcance actual.** Las 6 fases del ciclo están completadas. El modelado es **tabular**: la
-serie temporal (6 años por región) queda declarada fuera de alcance, con la razón
-documentada.
+---
 
-## Avance por sesión
+## 1. ¿Hasta Qué Fase Llegamos? — Estado del Ciclo KDD + CRISP-DM
 
-| Sesión | Tema | Estado | Evidencia en el repositorio |
-|---|---|---|---|
-| 1 | Introducción y marcos (KDD, CRISP-DM) | ✔ Completada | `README.md`, `md/PROPUESTA_METODOLOGICA.md` |
-| 2 | Fuentes y tipos de datos | ✔ Completada | `libros/01_Carga_4_Fuentes.ipynb` |
-| 3 | Limpieza de datos | ✔ Completada | `libros/02`, `libros/03`, `libros/04`, `libros/05`, `Diagnostico_Limpieza` |
-| 4 | Transformación y reducción | ✔ Completada | `libros/06_Transformacion_y_Matriz.ipynb` |
-| 5 | Análisis exploratorio (EDA) | ✔ Completada | `libros/07_EDA_Accesibilidad.ipynb` |
-| 6 | Cierre de unidad · informe de laboratorio | ✔ Completada | `md/README_LABORATORIO.md`, `Avances/Cuaderno_Avance_1_Completo.ipynb` |
-| 7 | Modelado (anticipo) | ✔ Completada | `libros/08_Modelado_Accesibilidad.ipynb` |
+| Fase | Componente Analítico | Etapa KDD | Fase CRISP-DM | Estado | Evidencia en el Repositorio |
+|---:|---|---|---|---|---|
+| **1** | Problema, objetivos, hipótesis ($H_1, H_2, H_3$), Escalera DIKW y marcos | 1 · Selección | 1 · Comprensión del negocio | **✔ 100 % Completada** | `README.md`, `md/PROPUESTA_METODOLOGICA.md` |
+| **2** | Ingesta de las 5 fuentes UK (`11,37 M` filas), formatos y auditoría (`0` duplicados) | 1 · Selección / Prep. I | 2 · Comprensión de datos | **✔ 100 % Completada** | `libros/00`, `libros/01`, `script/proyecto/auditoria_datos.py` |
+| **3** | Calidad y limpieza científica (`MCAR/MAR/MNAR`, Tukey IQR vs. Z-Score, winsorización) | 2 · Preprocesamiento | 3 · Preparación de datos | **✔ 100 % Completada** | `libros/00_Diagnostico_y_Limpieza_F1.ipynb`, `libros/02`, `diagnostico.py` |
+| **4** | Cruce regional (`60 × 16`), cuota francesa PMT ($90\%$ LTV, 25 años) y clima ($H_3$) | 2 · Preprocesamiento | 3 · Preparación de datos | **✔ 100 % Completada** | `libros/03`, `libros/04`, `libros/05`, `script/proyecto/indicadores.py` |
+| **5** | Transformación: 3 Escaladores, One-Hot (`drop_first`) vs. Ordinal, VIF, Discretización y PCA | 3 · Transformación | 3 · Preparación de datos | **✔ 100 % Completada** | `libros/06_Transformacion_y_Matriz.ipynb`, `script/proyecto/matriz_xy.py` |
+| **6** | **EDA Estadístico Completo:** 3 familias de medidas, **6 gráficas clásicas**, 3 variables derivadas y Checklist | 3–5 · Exploración | 2 · Exploración | **✔ 100 % Completada** | `libros/07_EDA_Accesibilidad.ipynb`, `script/proyecto/eda.py` |
+| **7** | **Predicción CON ETIQUETA · Tipo 1 (Regresión Continua):** Contable ($R^2=1,000$) vs. Sin Fuga (`Ridge` y `RandomForest`) | 4 · Minería (Supervisada) | 4 · Modelado | **✔ 100 % Completada** | `libros/08_Modelado_Accesibilidad.ipynb`, `prediccion_dual.py` |
+| **8** | **Predicción CON ETIQUETA · Tipo 2A (Clasificación I):** Árbol CART (`max_depth=4`), Gini, invarianza y reglas | 4 · Minería (Supervisada) | 4 · Modelado | **✔ 100 % Completada** | `libros/09_Arbol_Decision_Clasificacion.ipynb`, `arbol_clasificacion.py` |
+| **9** | **Predicción CON ETIQUETA · Tipo 2B (Torneo II):** Bayes $2\times 2$, Distancia KNN, CART vs. NB vs. KNN y Ganador | 4–5 · Minería y Selección | 4–5 · Modelado y Evaluación | **✔ 100 % Completada** | `libros/10_Torneo_Clasificadores.ipynb`, `comparacion_clasificadores.py` |
+| **10** | **Modelado SIN ETIQUETA · Tipos 3 y 4:** Clustering (`K-Means`, `Ward`, `11,35M` en *streaming* bajo 24 GB) y `Apriori` / `FP-Growth` | 4 · Minería (No Supervisada) | 4 · Modelado de Patrones | **✔ 100 % Completada** | `libros/11`, `libros/12`, `clustering_mercados.py`, `reglas_asociacion.py` |
+| **11** | **Evaluación Forense (CRISP-DM 5), 3 Umbrales y Presentación Interactiva con Predicción en Vivo** | 5–6 · Evaluación y Conocimiento | 5 · Evaluación | **✔ 100 % Completada** | `libros/13`, `evaluacion_modelos.py`, `Presentacion_Interactiva_Proyecto_UK.html`, `Presentacion_Proyecto_UK.pptx` |
+| **12** | **Despliegue Completo en la Nube:** Azure PostgreSQL (`pg-actividad-db-uk26`) + Render API + Netlify Frontend | 6 · Operacionalización | 6 · Despliegue en Nube | **✔ 100 % En Vivo** | `https://uk-vivienda-joven.netlify.app/`, `https://uk-vivienda-api.onrender.com`, `md/GUIA_FASE3_SUBIDA_AZURE.md` |
 
-> El **informe de laboratorio** exigido al cerrar la unidad está en
-> [`md/README_LABORATORIO.md`](md/README_LABORATORIO.md). Este README, en cambio, es la
-> presentación del proyecto y se actualiza al cerrar cada sesión.
+---
 
-## Los datos que manejamos (nuestro «Excel»)
+## 2. Taxonomía de Predicciones: ¿Con Etiqueta o Sin Etiqueta, de Qué Tipo son y Cuántos Aciertos Logra Cada Método?
 
-Este proyecto no usa hojas de cálculo: usa **CSV y Parquet**, que son el equivalente
-moderno de un Excel pero con tipos de dato explícitos y compresión. La equivalencia para
-entender qué es cada cosa:
+| ¿Con o Sin Etiqueta? | Tipo de Modelo / Predicción | Pregunta que Responde | Etiqueta Objetivo ($y$) | Métodos Comparados | Método Ganador y Cantidad Exacta de Aciertos / Precisión | Cuándo Utilizar Este Método |
+|---|---|---|---|---|---|---|
+| **CON ETIQUETA** *(Supervisado)* | **Tipo 1A · Regresión Continua Regional (sin fuga)** | *«¿Qué porcentaje exacto del salario joven exige la hipoteca en esta región?»* | `esfuerzo` continuo ($y \in [0,416,\; 1,065]$, sin precio ni salario en $X$) | 1. **`Ridge (alpha=1.0)` en Pipeline**<br/>2. `RandomForestRegressor (200)`<br/>3. `KNNRegressor (k=5)`<br/>4. `DecisionTreeRegressor (d=4)`<br/>*(+ Control contable lineal con `anos_salario`: $R^2=1,000$)* | **`Ridge (alpha=1.0, Pipeline StandardScaler)`**<br/>• **$R^2_{\text{CV-5}} = 0,909 \pm 0,037$**<br/>• **Error medio $\text{MAE} = \pm 4,21\text{ pp}$** (`1,22 KB`) | Cuando se requiere estimar el **porcentaje exacto de esfuerzo salarial** en una región. |
+| **CON ETIQUETA** *(Supervisado)* | **Tipo 1B · Regresión Continua Hipotecaria F2** | *«¿Qué tasa inicial exacta (%) tendrá un crédito hipotecario según sus condiciones?»* | `tasa_inicial_pct` continua ($y \in [3,09\%,\; 8,13\%]$ en $n=7.796$) | 1. **`RandomForestRegressor (200, d=10)`**<br/>2. `KNNRegressor (k=5)`<br/>3. `DecisionTreeRegressor (d=6)`<br/>4. `LinearRegression` | **`RandomForestRegressor (200, max_depth=10)`**<br/>• **$R^2_{\text{test}} = 0,964$** (`n_test = 1.949`)<br/>• **Error medio $\text{MAE} = \pm 0,169\text{ pp}$** | Cuando un joven comprador desea estimar la **tasa inicial exacta (%)** de una oferta hipotecaria. |
+| **CON ETIQUETA** *(Supervisado)* | **Tipo 2A · Clasificación Binaria Regional (sin fuga)** | *«¿La región tiene presión hipotecaria Alta o Moderada y bajo qué reglas?»* | `clase_esfuerzo_alto`: $1=\text{Alto} \ge 0,5636$, $0=\text{Moderado}$ (`30/30` balanceado) | 1. **`Árbol CART (max_depth=4)`**<br/>2. `KNN escalado (k=5)` en Pipeline<br/>3. `Random Forest (200)`<br/>4. `Naive Bayes (GaussianNB)`<br/>5. *Control:* `KNN SIN escalar (k=5)` | **`Árbol de Decisión CART (max_depth=4)` [GANADOR `4,82/5,00`]**<br/>• **`17 / 18` aciertos en Test (`94,4 %`, F1=`0,941`)**<br/>• **`47 / 60` en CV-5 (`78,3 %`**, sube a **`48 / 60 = 80,0 %`** con clúster K-Means)<br/>• **`9 / 10` regiones reales acertadas (`90,0 %`)** | **Método principal recomendado:** explica cada veredicto con reglas `SI / ENTONCES`, es invariante a escalado (`assert`), **11× más rápido** y **48× más ligero (`1,35 KB`)** que KNN. (*NB cae a `8/18 = 44,4%`; KNN sin escalar cae a `12/18 = 66,7%`, $-27,7\text{ pp}$*). |
+| **CON ETIQUETA** *(Supervisado)* | **Tipo 2B · Clasificación Hipotecaria F2 + 3 Umbrales Operativos** | *«¿Esta hipoteca tiene riesgo de tasa elevada ($\ge Q_3$) o atípica ($>8,13\%$) y qué alerta activar?»* | `tasa >= 6,62%` (`25 %` pos.) y `es_atipico_tasa > 8,13%` (**`9,77 %` pos. = `190` casos en test $n=1.949$**) | 1. **`Árbol CART (d=4)` + 3 umbrales (`0,05 / 0,30 / 0,40`)**<br/>2. `KNN escalado (k=5)` y `(k=15)`<br/>3. `Random Forest (200)`<br/>4. `Naive Bayes (GaussianNB)`<br/>5. *Control:* `Modelo Ingenuo (Dummy)` | **`Árbol CART (d=4)` con umbral $\tau = 0,30$** (`ROC-AUC = 0,955`)<br/>• En tasa $\ge Q_3$: CART acierta **`1.805 / 1.949` (`92,6 %`)** y KNN `k=5` acierta **`1.842 / 1.949` (`94,5 %`)**.<br/>• En tasa atípica ($>8,13\%$): con $\tau=0,30$ CART detecta **`188 / 190` (`99,0 %` recall)**; con $\tau=0,05$ detecta **`190 / 190` (`100 %`)**; con $\tau=0,40$ logra **`100 %` precisión (`0` FP)**. KNN `k=5` detecta **`158 / 190` (`83,2 %`, F1=`0,825`)**. | Para **alertas de crédito hipotecario**: desenmascara al Modelo Ingenuo (`90,25 %` accuracy con **`0/190` aciertos**) y a Naive Bayes (**`1.247` falsas alarmas**). |
+| **SIN ETIQUETA** *(No Supervisado)* | **Tipo 3 · Agrupamiento / Clustering Multi-escala** | *«¿Qué segmentos naturales de regiones, hipotecas y viviendas existen sin etiquetas?»* | **Ninguna en $X$** (`esfuerzo` se excluye de $X$ y solo valida *post-hoc*) | 1. **`K-Means` ($k=3$, `StandardScaler`)**<br/>2. **`Clustering Jerárquico Ward` ($O(n^2)$)**<br/>3. **`MiniBatchKMeans` en *streaming* PyArrow `float32` ($k=4$)** | **`K-Means (k=3)` + `MiniBatchKMeans` *Streaming* ($k=4$)**<br/>• Separa **`100 %` del núcleo extremo** (London y South East, esfuerzo `0,90`) y mejora a CART CV-5 (`78,3% -> 80,0%`).<br/>• En F2: `silueta = 0,479`.<br/>• En F1: procesa **`11.346.500` ventas en `49,87 MB` de RAM (`0,20 %` de 24 GB)** con `silueta = 0,333`. | Para segmentar mercados territoriales, ofertas bancarias o millones de compraventas sin etiqueta previa. |
+| **SIN ETIQUETA** *(No Supervisado)* | **Tipo 4 · Reglas de Asociación (Patrones Co-ocurrentes)** | *«¿Qué combinaciones de atributos ($A \to B$) disparan el sobre-esfuerzo o reducen la tasa?»* | **Ninguna etiqueta fija** (implicaciones $A \to B$ medidas por soporte, confianza y lift) | 1. **`Apriori` puro con `tidsets` y filtro de trivialidades**<br/>2. **`FP-Growth`** (referencia en 2 barridos sin candidatos) | **`Apriori` con ranking `score = lift × soporte`**<br/>• **`10 / 10` tickets verificados a mano (`100 %` exactitud `assert`)**<br/>• F1: **`195` reglas** (`Detached + Freehold -> Acceso Extremo >100%`, **confianza `68,0 %`, `lift = 2,00`**)<br/>• F2: **`481` reglas** (`Tipo:discounted -> Tasa:Baja_Q1`, **confianza `99,1 %`, `lift = 3,96`**) | Para recomendar o alertar sobre combinaciones de compra y crédito tras filtrar trivialidades legales (`Flat -> Leasehold`). |
 
-| En un Excel | En este proyecto | Qué es |
-|---|---|---|
-| Libro / cuadrante | `.parquet` | `maestro_joven_uk.parquet`: **60 filas × 16 columnas**, una fila por región-año |
-| Hoja de cálculo | `.csv` | `accesibilidad_vivienda_joven_uk_v1.csv` (dataset limpio versionado) |
-| Filas / registros | `.parquet` de F1 | `uk_property_price_limpio.parquet`: **11.369.413 transacciones** |
-| Columnas / campos | esquema tipado | 16 columnas del maestro (`float64`, `int64`, `str`), documentadas en `md/DICCIONARIO_DATOS.md` |
-| Power Query / importador | `script/proyecto/cargar.py` | Carga **defensiva**: cuenta filas y columnas e imprime los tipos inferidos |
-| Fórmulas / macros | `script/proyecto/indicadores.py` | PMT, años de salario, esfuerzo, correlaciones |
-| Filtros y limpieza | `script/proyecto/limpiar.py` + `diagnostico.py` | Duplicados, nulos, atípicos, con bitácora de cada decisión |
+---
 
-### Los cinco archivos que usamos
+## 3. Estructura Limpia y Organizada del Repositorio
 
-| # | Archivo | Formato | Filas | Peso | ¿En el repo? |
-|---|---|---|---|---|---|
-| F1 | `db/uk_property_price.csv` | CSV | 11.369.413 | **2.220 MB** | ❌ local (solo muestra de 2.000 filas) |
-| F1 | `data/limpia/uk_property_price_limpio.parquet` | Parquet | 11.369.413 | 434 MB | ❌ local |
-| F2 | `data/crudo/UK_Mortgage_Rate.csv` | CSV | 7.796 | 0,94 MB | ✔ completo |
-| F3 | `data/crudo/MET_Office_Weather_Data.csv` | CSV | 37.049 | 1,47 MB | ✔ completo |
-| F4 | `data/crudo/Average_UK_houseprices_and_salary.csv` | CSV | 46 | <0,01 MB | ✔ completo |
-| F4b | `data/crudo/Income_by_age_and_gender.csv` | CSV | 12 | <0,01 MB | ✔ completo |
-
-**Por qué F1 no se sube.** 2,2 GB de transacciones es inviable para un repositorio; y para
-el cruce solo necesitamos su **agregado** por región-año (60 filas). El repositorio
-versiona una **muestra de 2.000 filas** para que se pueda reproducir parcialmente, y los
-datos completos se descargan de los enlaces de Kaggle (ver *Descarga de los datos*).
-
-## Fases del proyecto (ciclo KDD + CRISP-DM)
-
-| Fase | KDD | CRISP-DM | Estado |
-|------|-----|----------|--------|
-| 1. Introducción y objetivos | Selección | Comprensión del negocio | Completada |
-| 2. Fuentes y tipos de datos | Selección y preprocesamiento I | Comprensión de datos | Completada |
-| 3. Limpieza y cruzamiento | Preprocesamiento II | Preparación de datos | Completada |
-| 4. Transformación y matriz X·y | Transformación | Preparación de datos | Completada |
-| 5. EDA | Interpretación | Exploración | Completada |
-| 6. Modelado | Minería | Modelado | Completada (tabular; serie temporal pendiente) |
-
-## Metodología (KDD + CRISP-DM)
-
-**Qué metodologías utilizamos.** El proyecto se apoya en **dos marcos de forma
-combinada** (KDD + CRISP-DM), tal como se justifica en `md/PROPUESTA_METODOLOGICA.md`
-y en el `Avances.pdf`:
-
-- **KDD** (Fayyad et al., 1996): el ciclo analítico del descubrimiento — *selección,
-  preprocesamiento, transformación, minería e interpretación*.
-- **CRISP-DM** (Wirth & Hipp, 2000): el ciclo de negocio — *entendimiento del negocio,
-  entendimiento de los datos, preparación, modelado, evaluación y despliegue*.
-- **SEMMA** se descartó: está ligada a la herramienta SAS y cubre solo la parte
-  analítica, sin el ciclo de negocio.
-
-**Por qué estos dos y no uno solo.**
-
-1. **Cobertura del ciclo completo:** KDD aporta el detalle conceptual de las etapas
-   analíticas y CRISP-DM lo enmarca en el negocio; usar uno solo deja un hueco (KDD
-   sin despliegue, CRISP-DM sin el detalle de la teoría).
-2. **Enfoque de negocio:** CRISP-DM enmarca el análisis en el problema de negocio
-   (comprensión del negocio, de los datos, preparación, modelado y evaluación),
-   que es exactamente lo que cubre este repositorio.
-3. **Trazabilidad:** cada decisión se mapea a su etapa KDD y su fase CRISP-DM
-   (columnas de la tabla de fases), una buena práctica de documentación.
-
-**Cómo vamos (estado actual).**
-
-- **Fases 1-3 completas:** pregunta y objetivos, fuentes, tipos de datos, limpieza
-  (MCAR/MAR/MNAR, IQR vs z-score, winsorización) y cruce del cuadro maestro.
-- **Fase 4 (transformación) completa:** matriz X·y (60 × 18) con `StandardScaler` +
-  one-hot (`drop_first`, 9 dummies), y comparación empírica de métodos (escaladores,
-  codificación, discretización, PCA, diagnóstico supervisado CV-5) en el libro 06.
-- **Fase 5 (EDA) completa:** libro 07 con la estructura de un informe EDA
-  (univariado con 6 figuras, bivariado/multivariado, 3 hallazgos evidencia→acción),
-  con las fórmulas nombradas de cada medida y la cuantificación de las cercas de Tukey.
-- **Fase 6 (modelado) completa en alcance tabular:** libro 08 compara regresión
-  lineal, KNN tuneado, árbol y random forest con **CV-5 barajado** y `drop_first` en
-  el one-hot, tras pasar el checklist de 6 ítems de preparación; la **serie temporal**
-  (6 años por región) queda documentada como limitación/futura extensión.
-
-**Resultados del avance (fase 3).**
-
-- Cuadro maestro `maestro_joven_uk`: **60 filas** (10 regiones × 6 años, 2015-2020)
-  sin huecos en precio y salario.
-- Faltantes: la tasa de hipotecas es **MAR** (depende del tipo de producto); el clima
-  es **MCAR** instrumental (falla conjunta de reporte); el sol y el salario histórico
-  son **MNAR** estructurales. No se imputa en esta fase.
-- Outliers de la tasa inicial: **IQR (Tukey) detecta 762 productos (9,77 %)**; z-score
-  con \|z\|>3 detecta 0. Se elige IQR y la tasa se winsoriza (**media 6,11 % → 6,04 %**).
-- Salario joven: **GBP 25.353/año** (factor 0,805 sobre la mediana nacional),
-  regionalizado con ASHE 2021 (ONS).
-- Años de salario para comprar: de **6,2** (North East) a **14,2** (London).
-- Esfuerzo hipotecario 2022: de **43,0 %** (North East) a **100,0 %** (London) del
-  salario; **ninguna región cumple el umbral del 30 %.**
-- Clima: anomalías anuales de lluvia/temperatura/heladas frente a la normal 1931-2020,
-  correlacionadas con la variación de precios por región (`md/figuras/*.png`).
-
-Detalle de decisiones: `md/BITACORA_DECISIONES.md` e `md/INFORME_AVANCE1.md`.
-
-## Problema y objetivos
-
-Los jóvenes compran cada vez menos vivienda. Objetivo: **¿cuánta vivienda puede pagar un
-joven (18-34) en cada ciudad/región con su salario, con hipoteca o préstamo, y el clima
-cómo se asocia con la evolución de precios?**
-
-Indicadores del cruce `maestro_joven_uk` (año × región, 2015-2020):
-
-- `anos_salario` — años completos de salario joven para comprar la vivienda mediana.
-- Esfuerzo hipotecario 2022 — cuota mensual (PMT, 90 % LTV, 25 años, tasa inicial media
-  **winsorizada con IQR**) como % del salario joven mensual (umbral 30 %).
-- Anomalías climáticas — desviación anual de lluvia/temperatura/heladas frente a la
-  normal histórica 1931-2020 y su correlación con la variación de precios.
-
-**Calidad de datos tratada en la fase 3:** clasificación de faltantes por fuente
-(**MCAR/MAR/MNAR** con su evidencia) y decisión de método de outliers (**IQR (Tukey) vs
-z-score**: IQR no exige normalidad y detecta la cola real; z-score con |z|>3 no detecta
-nada en la tasa inicial). Ver `script/proyecto/diagnostico.py`.
-
-## Fuentes de datos
-
-| # | Fuente | Periodo | Archivo | Enlace (Kaggle) |
-|---|--------|---------|---------|-----------------|
-| F1 | Propiedad (Land Registry, geocodificada) | 2015-2026 | `db/*` (en repo solo `_muestra`) | [uk-property-sale-prices-20152026-geo-enriched](https://www.kaggle.com/datasets/mansiaggarwal88/uk-property-sale-prices-20152026-geo-enriched?select=uk_property_price_paid_geo.csv) |
-| F2 | Hipotecas (snapshot 2022) | 2022 | `data/crudo/UK_Mortgage_Rate.csv` | [uk-mortgage-rates-thousands-of-mortgage-products](https://www.kaggle.com/datasets/thedevastator/uk-mortgage-rates-thousands-of-mortgage-products) |
-| F3 | Met Office (36 estaciones) | 1931-2020 | `data/crudo/MET_Office_Weather_Data.csv` | [uk-met-office-weather-data](https://www.kaggle.com/datasets/josephw20/uk-met-office-weather-data) |
-| F4 | Precio medio + salario mediana (GBP 2020) | 1975-2020 | `data/crudo/Average_UK_houseprices_and_salary.csv` | [uk-median-house-prices-and-salary-19752020](https://www.kaggle.com/datasets/samuelcortinhas/uk-median-house-prices-and-salary-19752020) |
-| F4b | Salario por edad y género (brecha 2021) | 2021 | `data/crudo/Income_by_age_and_gender.csv` | (misma fuente F4) |
-
-Referencias: Land Registry Price Paid Data (OGL v3.0), Met Office historic station data,
-Kaggle (transacciones F1, hipotecas F2, clima F3, precios-salario F4), Banco de Inglaterra.
-
-## Estructura del proyecto
-
-```
+```text
 mineria/
-├── main_proyecto.py            # ejecuta el analisis de accesibilidad (11 partes)
-├── main_limpieza.py            # ejecuta la limpieza de F1 (7 fases)
-├── Avances.pdf                 # documento del avance en normas APA 7 (PDF)
-├── Avances/
-│   ├── Avances.pdf             # copia del documento del avance
-│   └── Cuaderno_Avance_1_Completo.ipynb   # cuaderno consolidado de las 6 sesiones
-├── db/                         # F1 origin + muestras _muestra (locales y repo)
+├── frontend/                               # Simulador web público (Netlify: index.html, styles.css, app.js, metodologia.html)
+├── backend/                                # API Flask/Waitress (Render: web_api.py, requirements.txt, render.yaml, exportar_excel_blob.py)
+├── netlify.toml                            # Configuración de publicación Netlify (publish = "frontend" + proxy /api/* -> Render)
+├── Cuaderno_Maestro_Proyecto_UK.ipynb      # LIBRO MAYOR INTEGRAL explicado tabla por tabla y gráfica por gráfica (Fases 1-12)
+├── main_maestro_completo.py                # Espejo ejecutable en Python del Libro Mayor (macOS / Linux / Windows)
+├── Presentacion_Interactiva_Proyecto_UK.html # [FASE 2] Presentación interactiva + Simulador de Predicción (a escrita y por opciones)
+├── Presentacion_Proyecto_UK.pptx           # [FASE 2] Presentación ejecutiva y estadística en Microsoft PowerPoint (.pptx)
+├── app_presentacion_interactiva.py         # [FASE 2] Servidor ligero que conecta la presentación con los CSV / Azure PostgreSQL
+├── main_proyecto.py                        # Pipeline base (4 fuentes -> maestro_joven_uk)
+├── main_limpieza.py                        # Pipeline de limpieza masiva de F1 (11,37 M filas)
+├── README.md                               # Portada ejecutiva, taxonomía Con/Sin Etiqueta y guía de ejecución
+│
+├── libros/                                 # 14 CUADERNOS MODULARES NUMERADOS EN ORDEN (00 a 13)
+│   ├── 00_Diagnostico_y_Limpieza_F1.ipynb
+│   ├── 01_Carga_4_Fuentes.ipynb
+│   ├── 02_Limpieza_4_Datasets.ipynb
+│   ├── 03_Cruces_Affordability_Joven.ipynb
+│   ├── 04_Hipoteca_Joven.ipynb
+│   ├── 05_Clima_y_Precios.ipynb
+│   ├── 06_Transformacion_y_Matriz.ipynb
+│   ├── 07_EDA_Accesibilidad.ipynb
+│   ├── 08_Modelado_Accesibilidad.ipynb
+│   ├── 09_Arbol_Decision_Clasificacion.ipynb
+│   ├── 10_Torneo_Clasificadores.ipynb
+│   ├── 11_Clustering_Segmentacion.ipynb
+│   ├── 12_Reglas_Asociacion_Apriori.ipynb
+│   └── 13_Evaluacion_Modelos_y_Umbrales.ipynb
+│
+├── md/                                     # DOCUMENTACIÓN TÉCNICA OFICIAL Y FIGURAS ACTIVAS
+│   ├── MEMORIA_TECNICA.md                  # Informe Técnico Integral completo (Fases 1-12, fórmulas, tablas y gráficas explicadas)
+│   ├── DICCIONARIO_DATOS.md                # Diccionario completo de las 5 fuentes, matriz X·y y las 17 tablas de Azure PostgreSQL
+│   ├── BITACORA_DECISIONES.md              # Registro auditable de decisiones de limpieza, transformación y modelado
+│   ├── PROPUESTA_METODOLOGICA.md           # Problema, objetivos, hipótesis H1-H3 y marcos KDD + CRISP-DM
+│   ├── GUIA_FASE3_SUBIDA_AZURE.md          # [FASE 3] Guía guardada paso a paso para subir la BD/CSV a Azure y compartir el link
+│   └── figuras/                            # 50 figuras técnicas PNG activas del proyecto
+│
 ├── data/
-│   ├── crudo/                  # F2, F3, F4 y F4b (pequenos, si se suben)
-│   ├── limpia/                 # F1 limpia + limpias por fuente (parquet locales)
-│   └── integrado/              # maestro_joven_uk + hipoteca_2022 + historico
-├── script/
-│   ├── limpieza/               # limpieza de F1 (cuartiles/IQR/MCAR/bitacora)
-│   └── proyecto/               # 4 fuentes -> cruce maestro_joven_uk
-│       ├── config.py           # rutas, reglas, factores regionales, estaciones
-│       ├── cargar.py           # carga defensiva por fuente
-│       ├── limpiar.py          # duplicados -> tipos -> nulos -> outliers
-│       ├── diagnostico.py      # clasificacion MCAR/MAR/MNAR + IQR vs z-score
-│       ├── transformaciones.py # agregados, anomalias, salario joven
-│       ├── cruces.py           # maestro_joven_uk (anio x region)
-│       ├── indicadores.py      # anos_salario, PMT, correlacion clima
-│       ├── graficos.py         # 9 figuras PNG + tabla de fases
-│       ├── validacion.py       # asserts post-cruce
-│       ├── bitacora.py         # md/BITACORA_DECISIONES.md
-│       ├── pipeline.py         # orquestador de 11 partes
-│       ├── matriz_xy.py        # matriz X·y + comparacion empirica de metodos
-│       ├── eda.py              # EDA terminal + 6 figuras eda_*.png
-│       └── modelado.py         # RL/KNN/arbol/forest CV-5
-└── libros/                     # notebooks reproducibles (01-08 + 2 previos)
+│   ├── crudo/                              # F2, F3, F4a y F4b completos intocables
+│   ├── limpia/                             # Parquets limpios y muestras livianas
+│   ├── integrado/                          # Cuadro maestro, matriz X·y y 17 tablas CSV limpias (1,83 MB) para BD
+│   └── modelos/                            # 4 modelos .joblib + contrato_prediccion.json + esquema_bd.sql
+│
+├── db/                                     # Maestro local F1 (11,37 M) y muestras versionadas
+└── script/
+    ├── limpieza/                           # Paquete de limpieza de F1
+    ├── proyecto/                           # 23 módulos Python del ciclo analítico y predicción dual
+    ├── documentacion/                      # Generadores de Presentacion_Proyecto_UK.pptx/.html y Word APA 7
+    └── azure/                              # Scripts de Fase 3 para Azure Database for PostgreSQL (roles, subida y predictor)
 ```
 
-## Instalación
+---
 
-Requisitos: Python 3.10+ (desarrollado con Python 3.14).
+## 4. Comandos Principales (macOS, Linux y Windows)
 
-```powershell
-pip install -r script/requirements/requirements.txt
-```
-
-Extras de Jupyter para ejecutar/exportar los cuadernos:
-
-```powershell
-pip install -r script/requirements/requirements-notebooks.txt
-```
-
-## Ejecución
-
-Todos los comandos desde la raíz del proyecto.
-
-| Tarea | Comando |
+| Tarea | Comando (desde la raíz del repositorio) |
 |---|---|
-| Analisis de accesibilidad (4 fuentes, 11 partes) | `python main_proyecto.py` |
-| Limpieza de F1 (7 fases) | `python main_limpieza.py` |
-| Matriz X·y + comparacion de metodos | `python script/proyecto/matriz_xy.py` |
-| EDA terminal + figuras | `python script/proyecto/eda.py` |
-| Modelado CV-5 | `python script/proyecto/modelado.py` |
-| Ejecutar un cuaderno (in-place) | `python -m jupyter nbconvert --to notebook --execute --inplace "libros/03_Cruces_Affordability_Joven.ipynb" --ExecutePreprocessor.timeout=900` |
-| Exportar un cuaderno a HTML | `python -m jupyter nbconvert --to html --execute "libros/05_Clima_y_Precios.ipynb" --ExecutePreprocessor.timeout=900` |
+| **1. Ejecutar el Libro Mayor completo en terminal** | `python main_maestro_completo.py` (o `--region London`) |
+| **2. Abrir la Presentación Interactiva con Predicción en Vivo (a escrita y por opciones)** | Abrir `Presentacion_Interactiva_Proyecto_UK.html` en el navegador o ejecutar `python app_presentacion_interactiva.py` |
+| **3. Regenerar la Presentación PowerPoint (`.pptx`) y Web (`.html`)** | `python script/documentacion/generar_presentacion_ppt.py` |
+| **4. Predicción Dual por terminal (por opciones o a escrita)** | `python script/azure/predecir_azure.py --region London --metodo todos`<br/>`python script/azure/predecir_azure.py --texto "Quiero comprar en London como First time buyer con comision 999 a 24 meses fijo"` |
+| **5. Fase 3 (cuando decidas subir las 17 tablas CSV a Azure PostgreSQL)** | Seguir [`md/GUIA_FASE3_SUBIDA_AZURE.md`](md/GUIA_FASE3_SUBIDA_AZURE.md): `python script/azure/subir_datos_azure.py` |
 
-### Libros
-
-- `01_Carga_4_Fuentes.ipynb` — contratos, esquemas, ventana de cruce y tabla de fases.
-- `02_Limpieza_4_Datasets.ipynb` — MCAR/MAR/MNAR por fuente, IQR vs z-score y bitácora.
-- `03_Cruces_Affordability_Joven.ipynb` — `maestro_joven_uk` y ciudades.
-- `04_Hipoteca_Joven.ipynb` — esfuerzo hipotecario 2022 por región (tasa winsorizada).
-- `05_Clima_y_Precios.ipynb` — **clima vs precios**: anomalías climáticas frente a la
-  normal 1931-2020 por estación agregadas a región, y correlación de **Pearson** con
-  la variación anual del precio. Fija la hipótesis H3: el clima es contexto, no motor.
-- `06_Transformacion_y_Matriz.ipynb` — matriz X·y + tabla de tipos de dato y temas +
-  comparación empírica de métodos (escaladores, codificación, discretización, PCA y
-  diagnóstico supervisado con CV-5).
-- `07_EDA_Accesibilidad.ipynb` — **EDA**: informe con 6 secciones (contexto, calidad,
-  univariado con 6 figuras matplotlib, bivariado/multivariado, 3 hallazgos
-  evidencia→acción, anexos) + cuantificación de las **cercas de Tukey** (punto 3.7).
-- `08_Modelado_Accesibilidad.ipynb` — **modelado**: regresión lineal, KNN
-  tuneado, árbol y random forest con CV-5 (R²/RMSE/MAE) e importancia de rasgos,
-  precedido del **checklist de 6 ítems de preparación** verificado en ejecución.
-- `Lectura.ipynb` / `Diagnostico_Limpieza.ipynb` — lectura y limpieza de F1 (previos).
-
-### Cuaderno consolidado
-
-`Avances/Cuaderno_Avance_1_Completo.ipynb` (70 celdas) reúne **todo el proyecto en un
-solo documento ejecutable**: las 5 fuentes, la limpieza, el cruce, los indicadores, el
-clima, la transformación, las 14 comparaciones de métodos, el EDA, el modelado, el
-checklist y las limitaciones. **Invoca los módulos** en vez de reescribir el código, de
-modo que ninguna cifra está escrita a mano.
-
-Trae una bandera `REPRODUCIR_PIPELINE`: en `True` re-ejecuta el pipeline completo y
-**verifica con `assert`** que reproduce exactamente el cuadro maestro versionado; en
-`False` (por defecto) usa los artefactos y funciona sin el F1 de 434 MB. Tiempos medidos:
-**≈ 42 s** en modo artefacto, **≈ 31 s** re-ejecutando el pipeline completo.
-
-### Cambios recientes
-
-- **Cuaderno consolidado del Avance 1** (`Avances/Cuaderno_Avance_1_Completo.ipynb`):
-  un cuaderno de 70 celdas que ejecuta las 6 sesiones de punta a punta. Invoca los módulos
-  del proyecto en lugar de duplicar el código, embebe las 17 figuras, y trae la bandera
-  `REPRODUCIR_PIPELINE` que **verifica con `assert`** que la re-ejecución del pipeline
-  reproduce el cuadro maestro versionado. Incluye la comprobación medida de por qué el
-  barajado importa: sin él cada pliegue ve solo **2 regiones**; barajado, entre **5 y 9**.
-- **Corrección metodológica del modelado** (dos cambios con efecto medido):
-  - **CV-5 barajado.** El cuadro maestro está ordenado por región-año, así que
-    `cv=5` sin barajar evaluaba cada modelo sobre una región distinta. Con
-    `KFold(5, shuffle=True, random_state=42)` el KNN sube de **0,638 a 0,844**, el
-    árbol de **0,900 a 0,963** y el bosque de **0,943 a 0,980**.
-  - **`drop="first"` en el one-hot.** Las 10 columnas dummy de región sumaban
-    siempre 1 (trampa de variables mudas, VIF infinito). Con 9 columnas la región
-    de referencia es implícita y **los coeficientes de la regresión se vuelven
-    interpretables** (London +0,0002 frente a todos en 0,0000-0,0001).
-    La matriz X·y pasa de 60 × 19 a **60 × 18**.
-  - Se documenta que las comisiones se suman **fuera** de la fórmula PMT
-    (`comisiones/n` lineal): es una aproximación, no un recargo compuesto.
-- **Rigor estadístico en el libro 07 (EDA)**: se añadió la especificación exacta de los
-  datos (el maestro **60 × 16**, las hipotecas **7.796 × 14**, unidades y periodo), las
-  fórmulas con nombre de cada medida (media, mediana, desviación **muestral** de Bessel,
-  asimetría de **Fisher-Pearson**, curtosis **excedente**, IQR, **Pearson** y recta de
-  mínimos cuadrados), las justificaciones de cada elección (por qué mediana y no media,
-  por qué **Tukey** y no z-score, por qué Pearson y no Spearman) y el punto **3.7**, que
-  cuantifica las cercas de Tukey sobre el esfuerzo (IQR 0,284; cercas 0,053 y 1,189;
-  **0 atípicos globales**, 1 en London por el IQR regional con n = 6).
-- **Libro 05 restaurado** (antes `Prueba_05_Clima_y_Precios.ipynb`), lo que completa la
-  secuencia 01-08: ahora es un capítulo de pleno derecho del cruce climático. Incorpora
-  la especificación de datos (F3: 37.049 registros, 36 estaciones, 1931-2020), la
-  fórmula de la **anomalía simple** (valor − normal 1931-2020) con la justificación de
-  por qué **no** es un z-score, el criterio de agregado (promedio, no suma), la fórmula
-  del **Pearson** con su guía de umbrales y una lectura honesta de la H3: |r| de 0,15 a
-  0,40 equivale a explicar del 2 % al 16 % de la varianza del precio anual.
-- **Checklist de 6 ítems en el libro 08**: verificación ejecutada y reproducible de
-  tipos, nulos justificados, duplicados, categorías consistentes, escala/codificación
-  (con la razón por qué el escalado es imprescindible en KNN y neutro en árboles) y
-  diccionario de datos. Resultado: **6 de 6 ítems se cumplen**.
-- **Libro 6 completado** con la tabla de tipos de dato y temas (16 columnas: dtype +
-  tema + rol, verificada en vivo) en la sección 2, cerrando la fase 4 (transformación).
-- **Libro 7 nuevo (`07_EDA_Accesibilidad.ipynb`)**: EDA formal con la estructura de un
-  informe; 6 figuras (histograma, boxplot, barras, dispersión+recta, heatmap,
-  matriz de dispersión) y 3 hallazgos. Espejo en terminal: `script/proyecto/eda.py`
-  (exporta las figuras a `md/figuras/eda_*.png`).
-- **Libro 8 (`08_Modelado_Accesibilidad.ipynb`)**: compara RL (R² 1,000), random
-  forest (0,980), árbol (0,963) y KNN tuneado (0,844) con **CV-5 barajado** y semilla
-  42; importancia de rasgos (permutación RF: `anos_salario` 0,580, `precio_mediana`
-  0,314). Espejo: `script/proyecto/modelado.py`. La serie temporal queda como
-  limitación documentada.
-- **Diccionario de datos** (`md/DICCIONARIO_DATOS.md`): las 16 columnas del maestro y
-  las derivadas en formato tabla (nombre, tipo, descripción, rango, unidades,
-  tratamiento) con trazabilidad libro por libro.
-- `script/proyecto/matriz_xy.py` con la sección `[7] Comparacion empirica
-  de metodos` (espejo en terminal del notebook 06).
-
-## Salidas
-
-- `data/integrado/maestro_joven_uk.parquet` — cuadro año × región (2015-2020) y tablas
-  planas CSV.
-- `data/integrado/matriz_features.parquet` — matriz X·y (60 × 18 + identificadores).
-- `data/integrado/accesibilidad_vivienda_joven_uk_v1.csv` — **dataset limpio versionado**
-  del cuadro maestro (60 × 16). Conserva los 28 nulos documentados a propósito.
-- `Avances.pdf` — **documento del avance en normas APA 7** (portada, resumen, método,
-  resultados, referencias).
-- `md/INFORME_AVANCE1.md` — informe de la fase 3 (limpieza + cruzamiento).
-- `md/PROPUESTA_METODOLOGICA.md` — propuesta editable (los autores generan el PDF).
-- `md/DICCIONARIO_DATOS.md` — diccionario de datos del cuadro maestro (formato tabla).
-- `md/MEMORIA_TECNICA.md` — **memoria técnica**: qué datos usamos y por qué, la cadena de
-  transformación, los fundamentos estadísticos, matemáticos y de ingeniería, las 14
-  comparaciones de alternativas y las limitaciones declaradas.
-- `md/BITACORA_DECISIONES.md` — decisiones de limpieza y cruce.
-- `md/figuras/*.png` — 9 figuras del analisis + 2 de la limpieza F1 + 6 del EDA
-  (`eda_*.png`) (+ tabla de fases).
-
-**Sobre los datos (muestras):** el repositorio **no sube los archivos grandes completos**
-(F1: el CSV de 2,22 GB y el parquet limpio de 434 MB son locales). En `db/` y
-`data/limpia/` solo se sube **una muestra con sufijo `_muestra`** (primeras 2.000 filas)
-de cada dataset, para que el repositorio sea liviano y el análisis sea reproducible en
-forma parcial. Las fuentes F2-F4 son pequeñas (archivos Kaggle < 1,5 MB) y se incluyen
-completas en `data/crudo/`. **Los datasets completos se descargan de los enlaces** de la
-sección de fuentes: F1, F2, F3 y F4 (ver más abajo), y `main_limpieza.py` regenera la
-versión limpia de F1 a partir del CSV original.
-
-### Descarga de los datos completos
-
-| Dataset | Muestra en el repo | Descarga completa |
-|---|---|---|
-| F1 transacciones (11,4 M filas, CSV 2,22 GB) | `db/uk_property_price_muestra.csv` | [Kaggle: uk-property-sale-prices-20152026-geo-enriched](https://www.kaggle.com/datasets/mansiaggarwal88/uk-property-sale-prices-20152026-geo-enriched?select=uk_property_price_paid_geo.csv) |
-| F1 pre-limpieza | `db/uk_property_semiorganizado_muestra.csv` | (se genera con `main_limpieza.py` desde el CSV de Kaggle) |
-| F2 hipotecas 2022 | completa en `data/crudo/` | [Kaggle: uk-mortgage-rates](https://www.kaggle.com/datasets/thedevastator/uk-mortgage-rates-thousands-of-mortgage-products) |
-| F3 Met Office 1931-2020 | completa en `data/crudo/` | [Kaggle: uk-met-office-weather-data](https://www.kaggle.com/datasets/josephw20/uk-met-office-weather-data) |
-| F4 precios + salario 1975-2020 | completa en `data/crudo/` | [Kaggle: uk-median-house-prices-and-salary-19752020](https://www.kaggle.com/datasets/samuelcortinhas/uk-median-house-prices-and-salary-19752020) |
-
-> Todos los archivos con extensión `_muestra` son **muestras** (primeras 2.000 filas), no
-> los datos completos.
+---
 
 ## Referencias
 
-- F1 transacciones (Kaggle, 11,4 M): [uk-property-sale-prices-20152026-geo-enriched](https://www.kaggle.com/datasets/mansiaggarwal88/uk-property-sale-prices-20152026-geo-enriched?select=uk_property_price_paid_geo.csv)
-- F2 hipotecas (Kaggle): [uk-mortgage-rates-thousands-of-mortgage-products](https://www.kaggle.com/datasets/thedevastator/uk-mortgage-rates-thousands-of-mortgage-products)
-- F3 clima (Kaggle): [uk-met-office-weather-data](https://www.kaggle.com/datasets/josephw20/uk-met-office-weather-data)
-- F4 precios/salario (Kaggle): [uk-median-house-prices-and-salary-19752020](https://www.kaggle.com/datasets/samuelcortinhas/uk-median-house-prices-and-salary-19752020)
-- Met Office: [Historic station data](https://www.metoffice.gov.uk/research/climate/maps-and-data/historic-station-data)
-- Land Registry: [Price Paid Data](https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads)
+- Land Registry Price Paid Data (OGL v3.0): [uk-property-sale-prices-20152026-geo-enriched](https://www.kaggle.com/datasets/mansiaggarwal88/uk-property-sale-prices-20152026-geo-enriched?select=uk_property_price_paid_geo.csv)
+- Oferta hipotecaria UK 2022: [uk-mortgage-rates-thousands-of-mortgage-products](https://www.kaggle.com/datasets/thedevastator/uk-mortgage-rates-thousands-of-mortgage-products)
+- Met Office Historic Station Data: [uk-met-office-weather-data](https://www.kaggle.com/datasets/josephw20/uk-met-office-weather-data)
+- Precios y salarios históricos UK (1975–2020): [uk-median-house-prices-and-salary-19752020](https://www.kaggle.com/datasets/samuelcortinhas/uk-median-house-prices-and-salary-19752020)
+- Fayyad, U., Piatetsky-Shapiro, G., & Smyth, P. (1996). *From Data Mining to Knowledge Discovery in Databases*. AI Magazine.
+- Wirth, R., & Hipp, J. (2000). *CRISP-DM: Towards a standard process model for data mining*.
+- Agrawal, R., & Srikant, R. (1994). *Fast algorithms for mining association rules* (Apriori).
+- Han, J., Pei, J., & Yin, Y. (2000). *Mining frequent patterns without candidate generation* (FP-Growth).

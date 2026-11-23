@@ -5,28 +5,31 @@ Análisis de cuántos años de salario cuesta comprar, qué esfuerzo hipotecario
 región y qué papel juega el clima en la evolución de los precios.
 
 Este documento reúne, con su justificación, **qué datos usamos, cómo los transformamos y
-por qué cada decisión estadística y de ingeniería se tomó así**. Está organizado según los
-seis temas del temario para que se pueda seguir en clase tema por tema, pero todo el
-contenido es del proyecto: nuestras fuentes, nuestras cifras y nuestras decisiones.
+por qué cada decisión estadística y de ingeniería se tomó así**. Está organizado por las
+etapas del ciclo KDD + CRISP-DM y las familias de minería cubiertas por el proyecto:
+nuestras fuentes, nuestras cifras y nuestras decisiones.
 
 ---
 
-## Mapa: los seis temas y dónde vive cada uno en el repositorio
+## Mapa: etapas analíticas y dónde vive cada una en el repositorio
 
-| Tema | Qué se trabaja | Dónde está en el repositorio |
+| Etapa | Qué se trabaja | Dónde está en el repositorio |
 |---|---|---|
-| **1. Introducción y marcos** | KDD, CRISP-DM y por qué descartamos SEMMA; tipo de tarea de minería | `README.md`, `md/PROPUESTA_METODOLOGICA.md` |
+| **1. Introducción y marcos** | KDD, CRISP-DM y por qué descartamos SEMMA; tipos de tarea de minería | `README.md`, `md/PROPUESTA_METODOLOGICA.md` |
 | **2. Fuentes y tipos de datos** | Las 5 fuentes, formatos, tipos inferidos, trampas de CSV | `libros/01_Carga_4_Fuentes.ipynb`, `script/proyecto/cargar.py` |
 | **3. Limpieza de datos** | Nulos MCAR/MAR/MNAR, duplicados, atípicos por IQR, winsorización | `libros/02_Limpieza_4_Datasets.ipynb`, `Diagnostico_Limpieza.ipynb`, `script/proyecto/diagnostico.py`, `script/limpieza/` |
 | **4. Transformación y reducción** | Escalado, one-hot, VIF, discretización, PCA y la matriz X·y | `libros/06_Transformacion_y_Matriz.ipynb`, `script/proyecto/matriz_xy.py` |
 | **5. Análisis exploratorio** | Univariado, bivariado, multivariado, figuras y hallazgos | `libros/07_EDA_Accesibilidad.ipynb`, `script/proyecto/eda.py` |
-| **6. Cierre y entrega** | Checklist de 6 ítems, diccionario de datos, dataset versionado | `libros/08_Modelado_Accesibilidad.ipynb`, `md/DICCIONARIO_DATOS.md`, este documento |
+| **6. Regresión y verificación** | Checklist de 6 ítems, diccionario de datos, regresión CV-5 | `libros/08_Modelado_Accesibilidad.ipynb`, `md/DICCIONARIO_DATOS.md`, `script/proyecto/modelado.py` |
+| **7. Clasificación y Torneo** | Árbol CART anti-fuga vs. Naive Bayes vs. KNN y selección del ganador | `libros/09`, `libros/10`, `arbol_clasificacion.py`, `comparacion_clasificadores.py` |
+| **8. Clustering (K-Means + Ward)** | Segmentación regional, hipotecaria y 1M transacciones en *streaming* | `libros/11_Clustering_Segmentacion.ipynb`, `script/proyecto/clustering_mercados.py` |
+| **9. Reglas de Asociación** | Apriori en Python puro + comparativa FP-Growth sobre F1 y F2 | `libros/12_Reglas_Asociacion_Apriori.ipynb`, `script/proyecto/reglas_asociacion.py` |
+| **10. Evaluación Forense y Umbrales** | Desbalance, modelo ingenuo, CV-5 en Pipeline, ROC/PR, costos asimétricos y ranking global | `libros/13_Evaluacion_Modelos_y_Umbrales.ipynb`, `script/proyecto/evaluacion_modelos.py` |
 
-> **Nota de alcance.** Los libros 03, 04 y 05 (cruces, hipoteca y clima) son material
-> propio del proyecto que no corresponde a un tema suelto del temario: son el *puente*
-> entre la limpieza y la transformación. El libro 08 (modelado) es el **anticipo** del
-> bloque de árboles de decisión que se anuncia después del cierre de la unidad, es decir
-> vamos una sesión por delante de la clase.
+> **Nota de arquitectura.** Los libros 03, 04 y 05 (cruces, hipoteca y clima) actúan como
+> *puente* analítico entre la limpieza y la transformación. Los libros 08 a 12 cubren el
+> espectro completo del modelado supervisado y no supervisado, dejando artefactos livianos
+> en `data/modelos/` y `data/integrado/` preparados para una futura etapa de despliegue web.
 
 ---
 
@@ -38,10 +41,11 @@ contenido es del proyecto: nuestras fuentes, nuestras cifras y nuestras decision
 Reino Unido con su salario, con hipoteca o préstamo, y el clima cómo se asocia con la
 evolución de los precios?
 
-Por el tipo de salida que produce, nuestro problema es de **regresión** (predecir una
-magnitud continua: el esfuerzo hipotecario) con una fuerte base **descriptiva** (el EDA
-tiene tanto peso analítico como el modelo). No es clasificación, ni clustering, ni
-descubrimiento de reglas de asociación.
+El proyecto cubre de forma integrada **cuatro familias complementarias de minería de datos**:
+1. **Análisis descriptivo y regresión** (cuantificar y modelar el esfuerzo hipotecario continuo).
+2. **Clasificación supervisada comparativa** (predecir sin fuga si el esfuerzo es `Alto` o `Moderado`, eligiendo entre Árbol de Decisión, Naive Bayes y KNN).
+3. **Clustering no supervisado** (segmentar mercados regionales, productos hipotecarios y hasta 1 millón+ de transacciones F1 en *streaming* con K-Means / MiniBatchKMeans y Jerárquico Ward).
+4. **Reglas de asociación** (descubrir patrones co-ocurrentes $A \to B$ con Apriori sobre compraventas reales y condiciones crediticias).
 
 ## 1.2 Por qué KDD + CRISP-DM y por qué no SEMMA
 
@@ -222,7 +226,7 @@ atípico, las conservamos y les ponemos un tope, guardando además una bandera:
 |---|---|---|
 | `price` máximo | 900.000.000 | **725.500** |
 | Filas eliminadas | — | **0** |
-| Tasa de anguish media | 6,113 % | **6,043 %** |
+| Tasa inicial media | 6,113 % | **6,043 %** |
 
 **Por qué recortar y no borrar.** El precio extremo en una venta es información ("una
 vivienda de lujo en Londres"), no un error de dedo; y el indicador que construimos
@@ -405,7 +409,7 @@ asociación casi perfecta en estos 60 puntos. Pero eso **no** significa que "el 
 produce el esfuerzo": ambos comparten denominador (el salario) y la cuota es una función
 del precio. Para sostener causalidad haría falta un diseño que aislara el efecto.
 
-Por eso our hipótesis se escribe con cuidado: el clima "**se asocia débilmente**" con los
+Por eso nuestra hipótesis se escribe con cuidado: el clima "**se asocia débilmente**" con los
 precios, no "**causa**" una menor subida.
 
 ## 5.5 La hipótesis H3 (clima): el clima es contexto, no motor
@@ -464,11 +468,13 @@ detiene** con un mensaje claro, en vez de producir un resultado silenciosamente 
 
 | Entregable | Dónde |
 |---|---|
-| Cuadernos ejecutables (01-08) | `libros/` |
-| Dataset limpio versionado | `data/integrado/accesibilidad_vivienda_joven_uk_v1.csv` (60 × 16) |
-| Diccionario de datos | `md/DICCIONARIO_DATOS.md` |
-| Bitácora de decisiones | `md/BITACORA_DECISIONES.md` |
-| Memoria técnica (este documento) | `md/MEMORIA_TECNICA.md` |
+| **Libro Mayor Integral** (Fases 1–12, cada tabla y gráfica explicada) | `Cuaderno_Maestro_Proyecto_UK.ipynb` y `main_maestro_completo.py` |
+| **Presentación Interactiva + Simulador de Predicción (Escrita y Opciones) + PPTX** | `Presentacion_Interactiva_Proyecto_UK.html`, `app_presentacion_interactiva.py`, `Presentacion_Proyecto_UK.pptx` |
+| **14 Cuadernos Modulares numerados (`00` a `13`)** | `libros/00_Diagnostico_y_Limpieza_F1.ipynb` a `libros/13_Evaluacion_Modelos_y_Umbrales.ipynb` |
+| **Dataset limpio versionado y 17 tablas CSV (`1,83 MB`)** | `data/integrado/accesibilidad_vivienda_joven_uk_v1.csv` y `data/integrado/*.csv` |
+| **4 Modelos preentrenados (`.joblib`), Contrato JSON y Esquema SQL** | `data/modelos/` |
+| **Guía guardada de Fase 3 para Subida y Enlace Compartible en Azure** | `md/GUIA_FASE3_SUBIDA_AZURE.md` y `script/azure/` |
+| **Diccionario de datos, Bitácora y Memoria Técnica** | `md/DICCIONARIO_DATOS.md`, `md/BITACORA_DECISIONES.md`, `md/MEMORIA_TECNICA.md` |
 
 > El CSV versionado conserva 28 nulos documentados (18 `sol_anom` + 10
 > `precio_var_pct`). **Es intencional**: el maestro es fiel al dato (la imputación a 0
@@ -528,8 +534,65 @@ Cada decisión del proyecto se tomó **midiendo**, no suponiendo. Este es el res
 | 10 | Respuesta del clima | Variación % vs nivel del precio | el nivel es artefacto de latitud | **Variación** |
 | 11 | Modelo | RL / bosque / árbol / KNN tuneado | 1,000 / 0,980 / 0,963 / 0,844 | **RL** (parsimonia) |
 | 12 | Imputación | Media vs constante 0 | imputar la media inventa dato climático | **Constante 0** (solo 2 col.) |
-| 13 | Formato del objetivo | Continuo vs 5 tramos | el modelo usa el valor continuo | **Continuo** |
-| 14 | Validación | `cv=5` vs KFold barajado | KNN 0,638 vs 0,844 | **Barajado** |
+| 13 | Formato del objetivo | Continuo vs tramos / mediana | Regresión continua + clasificación binaria por mediana (30/30 sin fuga) | **Complementarios** |
+| 14 | Validación | `cv=5` vs KFold barajado vs temporal | KNN 0,638 vs 0,844; temporal con `lag1` = 1,000 | **Barajado + temporal** |
+| 15 | Clasificador principal | Árbol CART (`d=4`) vs Naive Bayes vs KNN | Puntaje multicriterio **4,82** vs 3,29 vs 3,11; 11× más rápido y 48× más ligero que KNN | **Árbol CART (`d=4`)** |
+| 16 | Escalado en KNN | `StandardScaler` en Pipeline vs crudo | Acc Test maestro **0,944 vs 0,667** (−27,7 pp sin escalar) | **Pipeline escalado** |
+| 17 | Clustering a escala | K-Means/Ward directo vs *streaming* `MiniBatchKMeans` | Ward $O(n^2)$ sobre 1M exigiría ~7,45 TB; *streaming* 1M usa **45,83 MB** constantes | **Perfil dual `local`/`cloud`** |
+| 18 | Asociación | Apriori puro (`tidsets`) vs FP-Growth | Apriori auditable en 23,58 MB; FP-Growth recomendado para millones densos | **Apriori auditable** |
+
+---
+
+# 7. Clasificación Comparativa y Selección del Modelo Ganador (Libros 09 y 10)
+
+- **Control anti-fuga (`arbol_clasificacion.py`):** al construir el problema binario `Alto` vs. `Moderado` (mediana `0,5636`, 30/30), se excluyen `precio_mediana`, `precio_medio`, `salario_joven_region`, `factor_regional` y `anos_salario`. El Árbol CART (`max_depth=4`) logra `train = 0,976`, `test = 0,944`, `CV-5 = 0,783` y se demuestra con `assert` su invarianza exacta frente a `Crudo`, `StandardScaler`, `MinMaxScaler` y `RobustScaler`.
+- **Torneo (`comparacion_clasificadores.py`):**
+  - *Nivel 1 (Cuadro Maestro, $n=60$, split 70/30 idéntico):* Árbol `0,944` (`CV-5 = 0,783`), KNN escalado `0,944` (`CV-5 = 0,900`, pero sin escalar cae a `0,667`), Naive Bayes `0,444` (`CV-5 = 0,800`).
+  - *Nivel 2 (Catálogo Hipotecario F2, $n=7.796$, tasa $\ge Q_3 = 6,62\,\%$):* KNN `0,945` (`predict = 80,45 ms`, `83,95 KB`), Árbol `0,926` (`AUC = 0,943`, `Brier = 0,065`, `predict = 7,27 ms`, `1,73 KB`), Naive Bayes `0,485` (`Brier = 0,505`).
+- **Decisión definitiva:** **Árbol de Decisión (`max_depth=4`)** obtiene **4,82 / 5,00** por su balance entre precisión, explicabilidad directa para usuarios finales, latencia sub-10 ms y peso de `1,35 KB` (`data/modelos/modelo_ganador_clasificacion.joblib` + `contrato_prediccion.json`).
+
+---
+
+# 8. Clustering No Supervisado con Perfil Dual `local` / `cloud` (Libro 11)
+
+Controlado por `MINERIA_MODO` (`local` por defecto, `--modo cloud` en servidor) con telemetría `tracemalloc` y exclusión estricta de `esfuerzo` en $X$:
+
+1. **Mercados Regionales ($n=60$, K-Means $k=3$ + Ward completo):** revela 3 segmentos validados post-hoc (esfuerzo medio `0,50 → 0,60 → 0,90`; % Alto `20 % → 50 % → 100 %`). Enriquecer el Árbol CART con el clúster dentro de cada pliegue CV-5 eleva su desempeño de **`0,783` a `0,800`**.
+2. **Catálogo Hipotecario F2 ($n=3.000$ local / $7.796$ cloud + Ward $n=60$):** `silueta = 0,464`, distinguiendo productos de 300 meses, oferta competitiva con 40,6 % de *First time buyer* y crédito costoso (39,5 % atípico).
+3. **Gran Escala F1 en *Streaming* (`MiniBatchKMeans`, `float32`, proyección de 7 columnas PyArrow):** comparativa `10k` (`silueta = 0,272`, `40,95 MB`), `100k` (`0,295`, `45,83 MB`) y **`998.058` transacciones (~1M)** (`silueta = 0,297`, `26,54 s`, **`45,83 MB` constantes**). En perfil `cloud` recorre los 11,37 millones completos con igual memoria constante.
+
+---
+
+# 9. Reglas de Asociación — Apriori y Comparativa FP-Growth (Libro 12)
+
+Motor **Apriori** en Python puro + `pandas` con índice invertido (`tidsets`), poda nivel por nivel ($k=1 \dots 4$), verificación manual con `assert` sobre 10 compraventas reales y consumo de **`23,58 MB`**:
+- **F1 Inmobiliario ($n=2.000$):** `171` itemsets, `195` reglas; separando trivialidades legales (`Flat -> Leasehold`), lidera `Prop:Detached + Tenencia:Freehold -> Acceso:Extremo_>100%` (`soporte = 0,166`, `confianza = 0,680`, `lift = 2,00`).
+- **F2 Hipotecario ($n=3.000$ local / $7.796$ cloud):** `269` itemsets, `481` reglas; lidera `Tipo:discounted -> Tasa:Baja_Q1` (`soporte = 0,151`, `confianza = 0,991`, `lift = 3,96`).
+
+---
+
+# 10. Evaluación Forense, Desbalance y Optimización de Umbrales (Libro 13)
+
+- **Trampa del *accuracy* y modelo ingenuo (`evaluacion_modelos.py`):** en tasas hipotecarias atípicas (`9,77 %` positivos, $n=7.796$), predecir siempre la mayoría logra `90,25 %` de *accuracy* con `Recall = 0,000` (0/190); en esfuerzo crítico ($\ge 0,80$, `18,3 %`), logra `83,33 %` con `Recall = 0,000`.
+- **Optimización de umbral sobre `predict_proba` (Árbol CART `d=4`, `ROC-AUC = 0,955`):**
+  - Umbral `0,50`: `59/190` atípicas detectadas (`Precision = 1,000`, `Recall = 0,311`, `F1 = 0,474`).
+  - Umbral **`0,30` (`equilibrado_f1`)**: **`188/190` atípicas detectadas (`Precision = 0,451`, `Recall = 0,990`, `F1 = 0,619`, `Youden J = 0,859`)**.
+  - Umbral `0,05` (`alerta_temprana`): `190/190` (`Recall = 1,000`, `246` FP); umbral `0,40` (`alta_precision`): `Precision = 1,000` (`0` FP).
+- **Comparativa global y simulador real de 10 regiones:** Árbol CART (`d=4`), KNN escalado (`k=5`) y Random Forest aciertan **9/10 regiones** en su perfil real mediano; KNN `k=5` logra el máximo `F1` en tasas atípicas (`0,825`, `CV-5 F1 = 0,775 ± 0,029`), mientras `GaussianNB` colapsa (`1.247` FP, `Precision = 0,132`). Los 3 umbrales y los 10 perfiles regionales se incorporan en `data/modelos/contrato_prediccion.json`.
+
+---
+
+# 11. Auditoría Integral de Datos (38+ CSV/Parquet), Telemetría de Rendimiento y Taxonomía de Predicciones (Con/Sin Etiqueta)
+
+- **Cobertura y sanidad (`auditoria_datos.py`):** se verificaron todos los archivos CSV y Parquet del repositorio (`0` errores de apertura con autodetección `,`/`;`). Las 5 fuentes reales (`4/4` en `data/crudo/` + `db/uk_property_price.csv` 11,37 M) se utilizan al 100 %; los 5 CSV auxiliares de `db/` tienen el **100,00 % de sus `transaction_id` ya contenidos dentro de `uk_property_price_limpio.parquet`**. Todas las salidas en `data/limpia/` y `data/integrado/` tienen **0 duplicados**, límites IQR cumplidos y paridad exacta `maestro_joven_uk.parquet` vs. `accesibilidad_vivienda_joven_uk_v1.csv` (`5,82e-11`).
+- **Telemetría unificada (`telemetria_proyecto.py`, perfil `local`):** **13/13 etapas en `OK`** bajo el límite local de `220 MB` (tiempo acumulado `153,40 s`, pico máximo `137,80 MB`). En perfil `local_24gb`, el clustering en *streaming* procesa las **11.346.500 transacciones reales de F1** usando apenas **`49,87 MB` de RAM (`0,20 %` del presupuesto de 24 GB)**.
+- **Taxonomía y Cantidad de Aciertos por Método (Con Etiqueta vs. Sin Etiqueta):**
+  1. **CON ETIQUETA · Tipo 1A (Regresión Continua Regional sin fuga):** gana **`Ridge (alpha=1.0)`** con **$R^2_{\text{CV-5}} = 0,909 \pm 0,037$ y $\text{MAE} = \pm 4,21\text{ pp}$** (superando a `RandomForestRegressor` `0,761`, `KNNRegressor` `0,759` y `DecisionTreeRegressor` `0,706`).
+  2. **CON ETIQUETA · Tipo 1B (Regresión Continua Hipotecaria F2):** gana **`RandomForestRegressor (200, d=10)`** con **$R^2_{\text{test}} = 0,964$ y $\text{MAE} = \pm 0,169\text{ pp}$** (superando a `KNN` `0,941`, `Árbol` `0,899` y `Regresión Lineal` `0,632`).
+  3. **CON ETIQUETA · Tipo 2A (Clasificación Binaria Regional sin fuga):** gana **`Árbol de Decisión CART (max_depth=4)`** (`4,82 / 5,00`) acertando **`17/18` en Test (`94,4 %`, F1=`0,941`)**, **`47/60` en CV-5 (`78,3 %`**, sube a **`48/60 = 80,0 %`** con clúster K-Means) y **`9/10` regiones reales (`90,0 %`)** con reglas explicables, frente a `KNN escalado k=5` (`17/18` Test, `54/60` CV-5 = `90,0 %`, retador pero 11× más lento y 48× más pesado), `Naive Bayes` (`8/18 = 44,4 %`, descartado) y `KNN sin escalar` (`12/18 = 66,7 %, -27,7 pp`).
+  4. **CON ETIQUETA · Tipo 2B (Clasificación Hipotecaria F2 + 3 Umbrales):** en tasa elevada ($\ge 6,62\%$) CART acierta **`1.805/1.949` (`92,6 %`)** y KNN `k=5` acierta **`1.842/1.949` (`94,5 %`)**. En tasa atípica ($>8,13\%$, `190` casos reales en `n_test = 1.949`), el Modelo Ingenuo saca `90,25 %` de accuracy con **`0/190` aciertos (`0 %` recall)**, mientras CART con umbral `0,30` detecta **`188/190` (`99,0 %` recall)**, con umbral `0,05` detecta **`190/190` (`100 %`)** y con umbral `0,40` logra **`100 %` de precisión (`0` falsas alarmas)**.
+  5. **SIN ETIQUETA · Tipo 3 (Clustering Multi-escala):** `K-Means` ($k=3$) + `Ward` + `MiniBatchKMeans` en *streaming* (`11,35M` ventas en `49,87 MB` de RAM, `silueta = 0,333`).
+  6. **SIN ETIQUETA · Tipo 4 (Reglas de Asociación):** `Apriori` puro (`10/10` tickets verificados a mano con `assert`, `195` reglas F1 con `lift = 2,00` y `481` reglas F2 con `confianza = 99,1 %` y `lift = 3,96`).
 
 ---
 
@@ -550,13 +613,17 @@ Todas las medidas y criterios matemáticos que usa el pipeline, con su fórmula.
 | **Pearson**: `r = Σ(xᵢ−x̄)(yᵢ−ȳ) / ((n−1)·sₓ·sᵧ)` | Correlaciones |
 | **Mínimos cuadrados**: `ŷ = β₀ + β₁·x`, `β₁ = r·sᵧ/sₓ` | Recta del EDA, RL |
 | **VIF**: `1 / (1 − R²ⱼ)` | Multicolinealidad |
-| **Variación porcentual**: `(x_t − x_{t−1}) / x_{t−1}·100` | `precio_var_pct` |
-| **Deflactor**: `nominal(año) / 1,137` | Precios a GBP 2020 |
-| **Anomalía climática**: `valor(año) − normal(1931-2020,estación)` | `*_anom` |
+| **Impureza Gini**: `G = 1 − Σ pₖ²` | Árbol de Decisión CART |
+| **Teorema de Bayes**: `P(A|E) = P(E|A)·P(A) / P(E)` | Naive Bayes (`GaussianNB`) |
+| **Distancia Euclidiana**: `d(u,v) = √(Σ (uⱼ − vⱼ)²)` | KNN y K-Means |
+| **Brier Score**: `BS = (1/n)·Σ(pᵢ − yᵢ)²` | Calibración probabilística |
+| **Inercia K-Means**: `J = Σ_c Σ_{x∈C_c} ||x − μ_c||²` | Método del codo |
+| **Coeficiente de Silueta**: `s(i) = (b(i) − a(i)) / max(a(i), b(i))` | Calidad de clústeres |
+| **Soporte / Confianza / Lift**: `sup(A∪B)`, `sup(A∪B)/sup(A)`, `conf/sup(B)` | Reglas de Asociación Apriori |
+| **Puntaje compuesto**: `score = Lift × Soporte` | Priorización de reglas |
 | **Años de salario**: `precio_mediana / salario_joven_region` | `anos_salario` |
 | **Esfuerzo**: `PMT / (salario_joven/12)` | Objetivo `y` |
-| **Sturges (bins)**: `k = 1 + log₂(n)` | Histogramas (n=60 → 6,9) |
-| **R²** (validación): media de los 5 pliegues | Modelado |
+| **R² / Accuracy / F1 / ROC-AUC** | Evaluación de modelos |
 
 ---
 
@@ -564,29 +631,13 @@ Todas las medidas y criterios matemáticos que usa el pipeline, con su fórmula.
 
 Con lo hecho hasta aquí, estas son las limitaciones **conocidas y documentadas**:
 
-1. **Fuga conceptual en el objetivo.** El esfuerzo comparte fórmula con
-   `anos_salario` y `precio_mediana`, así que X contiene transformaciones algebraicas de
-   y. Por eso el R² de la RL es 1,000: el problema es casi determinista. Es una
-   limitación del diseño del indicador, no del modelo.
-2. **Muestra pequeña.** 60 filas (10 regiones × 6 años). Todo es descriptivo o
-   comparativo empírico; **no** hay estadística inferencial (ni intervalos de confianza,
-   ni pruebas de hipótesis de negocio más allá del Shapiro-Wilk diagnóstico). Con
-   n=50 pares, un |r|=0,40 tiene margen de error amplio.
-3. **Sin serie temporal.** 6 años por región no alcanzan para un ARIMA/SARIMA
-   confiable; el modelado es **tabular**.
-4. **Comisiones aproximadas.** Se suman fuera de la fórmula PMT (prorrateo lineal), no
-   como recargo compuesto. Diferencia pequeña (GBP 3,72/mes) pero es una aproximación.
-5. **Cobertura geográfica.** Solo las 10 regiones de Inglaterra y Gales: F1 no cubre
-   Escocia ni Irlanda del Norte. El total nacional sí incluye las 36 estaciones.
-6. **Tasa única.** El modelo usa la tasa media winsorizada de toda la oferta 2022; el
-   desglose por tipo de producto existe en el libro 04 como diagnóstico, no como
-   rasgo.
-7. **Salario joven estimado.** El factor 0,805 viene de bandas 18-21/22-29/30-39
-   (la banda 30-39 cubre 30-34 por decimales), y los factores regionales son de
-   referencia ASHE 2021. Son una **aproximación**, no una estadística por ciudad.
+1. **Fuga conceptual en regresión vs. control en clasificación.** En regresión tabular (Libro 08), `anos_salario` comparte estructura aritmética con `esfuerzo` (`R² = 1,000`). En clasificación (Libros 09–10) esta fuga se elimina por completo excluyendo precio y salario de $X$.
+2. **Muestra pequeña a nivel macro-regional.** El cuadro maestro tiene 60 filas (10 regiones × 6 años); para superar esa restricción en potencia estadística y escalabilidad se incorporaron pruebas sobre F2 (`7.796` hipotecas) y F1 en *streaming* (`998.058` a `11,37 M` transacciones).
+3. **Sin serie temporal ARIMA.** 6 años por región no bastan para pronóstico ARIMA; se evaluó validación temporal *out-of-time* (2015–2018 → 2019–2020) con y sin rezago $t-1$.
+4. **Comisiones aproximadas.** Prorrateo lineal (`comisiones / n`, GBP 3,72/mes), documentado como aproximación conservadora.
+5. **Cobertura geográfica.** Las 10 regiones de Inglaterra y Gales en el cruce principal (Escocia e Irlanda del Norte figuran solo en anomalías climáticas nacionales).
+6. **Supuestos algorítmicos.** `GaussianNB` sufre mala calibración ante no-normalidad; KNN es sensible a escala y costoso en `predict()`; K-Means asume clústeres aproximadamente esféricos y Ward exige muestreo por su complejidad $O(n^2)$; Apriori mide co-ocurrencia, no causalidad.
 
 ---
 
-*Documento generado como parte del proyecto. Las cifras provienen de la ejecución real
-del pipeline (`python main_proyecto.py`, `matriz_xy.py`, `eda.py`, `modelado.py`) con
-semilla 42. Nada de este proyecto se publica en GitHub: es un avance académico local.*
+*Documento técnico reproducible generado desde los scripts en `script/proyecto/` con semilla fija (`SEED = 42`).*

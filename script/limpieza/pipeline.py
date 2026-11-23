@@ -1,6 +1,6 @@
-"""Orquestador del pipeline de limpieza: clases y flujo de las 7 fases.
+"""Orquestador del pipeline de limpieza: flujo estructurado de las 7 fases.
 
-Clase con estado real (A4): encapsula df, df_limpio y la bitacora durante la corrida.
+Orquestador con estado: encapsula df, df_limpio y la bitacora durante la corrida.
 El orden importa: duplicados -> categorias -> nulos -> outliers -> validar.
 """
 from __future__ import annotations

@@ -1,14 +1,20 @@
 """Graficas listas para exponer (matplotlib). Cada funcion devuelve una Figure.
 
-Separacion de responsabilidad A2/A3: la viz vive aqui, no en los notebooks.
+Separacion de responsabilidades: la generacion de figuras vive en este modulo.
 """
 from __future__ import annotations
 
 from io import BytesIO
+import os
 from pathlib import Path
+import sys
 
-import numpy as np
+import matplotlib
+
+if "ipykernel" not in sys.modules and not os.environ.get("MPLBACKEND"):
+    matplotlib.use("Agg", force=False)
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from IPython.display import Image, display
 

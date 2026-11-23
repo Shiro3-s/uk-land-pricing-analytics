@@ -1,1 +1,0 @@
-"""Paquete de scripts del proyecto UK Property."""

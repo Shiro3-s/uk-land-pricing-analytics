@@ -1,6 +1,0 @@
-# UK Property · extras de Jupyter para ejecutar y exportar los cuadernos
-# Instalación:  pip install -r script/requirements/requirements-notebooks.txt
--r requirements.txt
-nbformat>=5.9
-ipykernel>=6.29
-nbconvert[execute]>=7.16
